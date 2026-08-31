@@ -1620,31 +1620,6 @@
       `).join('');
     }
 
-    function filterCoursesTable() {
-      const search = (document.getElementById('course-search-input')?.value || '').toLowerCase();
-      const status = document.getElementById('course-status-filter')?.value || 'all';
-      let combined = getCombinedPrograms();
-
-      if (currentProgramFilter !== 'all') {
-        combined = combined.filter(p => p.itemType === currentProgramFilter);
-      }
-
-      if (status !== 'all') {
-        combined = combined.filter(p => p.status === status);
-      }
-
-      if (search) {
-        combined = combined.filter(p => 
-          (p.title || '').toLowerCase().includes(search) || 
-          (p.description || '').toLowerCase().includes(search) ||
-          (p.category || '').toLowerCase().includes(search)
-        );
-      }
-
-      renderCoursesCards(combined);
-      renderCoursesTable(combined);
-    }
-
     async function initApp() {
       allCourses = getCourses();
       allCombos = getBusinessCombos();
@@ -1792,6 +1767,7 @@
         );
       }
 
+      renderCoursesCards(combined);
       renderCoursesTable(combined);
     }
 
