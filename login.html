@@ -316,10 +316,30 @@
   <!-- SCRIPTS -->
   <script src="supabase-client.js"></script>
   <script>
-    // Mostrar Panel CRUD solo si es Administrador
-    if (localStorage.getItem('123_is_admin') === 'true') {
+    // Mostrar Panel CRUD solo si es Administrador (Nivel 4)
+    if (localStorage.getItem('123_is_admin') === 'true' && Number(localStorage.getItem('123_user_nivel')) === 4) {
       document.querySelectorAll('.admin-only-link').forEach(el => el.classList.remove('hidden'));
     }
+
+    // Comprobar si el usuario fue redirigido por acceso restringido
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('restricted') === 'true') {
+        const formContainer = document.querySelector('form');
+        if (formContainer) {
+          const banner = document.createElement('div');
+          banner.className = 'mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-start gap-3 shadow-sm';
+          banner.innerHTML = `
+            <span class="material-symbols-outlined text-rose-600 text-xl shrink-0 mt-0.5">lock</span>
+            <div>
+              <strong class="block text-sm font-bold text-rose-800">Zona Restringida</strong>
+              El Panel CRUD está reservado exclusivamente para la cuenta de Administrador. Por favor inicia sesión con tus credenciales de Administrador.
+            </div>
+          `;
+          formContainer.parentNode.insertBefore(banner, formContainer);
+        }
+      }
+    });
 
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
@@ -374,8 +394,9 @@
             localStorage.setItem('123_admin_email', user.email);
             window.location.href = "admin.html";
           } else if (Number(user.nivel) === 3) {
-            localStorage.setItem('123_is_admin', 'true');
-            window.location.href = "admin.html?tab=articles";
+            localStorage.setItem('123_is_admin', 'false');
+            alert(`¡Bienvenido docente ${user.nombre}! Redirigiendo a artículos técnicos.`);
+            window.location.href = "articulos.html";
           } else if (Number(user.nivel) === 2) {
             localStorage.setItem('123_is_admin', 'false');
             alert(`¡Bienvenido alumno/a ${user.nombre}! Redirigiendo a tus cursos.`);
