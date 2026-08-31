@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Artículos & Guías Técnicas - 123AcademiaTech</title>
+  
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "sans": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          },
+          boxShadow: {
+            "luxury": "0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04)",
+            "luxury-hover": "0 20px 40px -10px rgba(255, 107, 0, 0.15)"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col selection:bg-secondary selection:text-white antialiased">
+
+  <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
+    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        </div>
+        <div>
+          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <!-- Inicio with Dropdown -->
+        <div class="relative group">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Inicio</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="index.html?audience=general" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">person</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
+                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                </div>
+              </a>
+              <a href="index.html?audience=business" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
+                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo with Dropdown (ACTIVO) -->
+        <div class="relative group">
+          <a href="articulos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">
+            <span>Catálogo</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">school</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
+                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                </div>
+              </a>
+              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Herramientas & Productos</p>
+                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+              <a href="articulos.html" class="flex items-center gap-2.5 p-3 rounded-xl bg-purple-50 text-purple-700 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">article</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-purple-800">Artículos & Guías Técnicas</p>
+                  <p class="text-[11px] text-purple-600">Tutoriales de reparación y diagnóstico</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
+        <a href="admin.html" class="admin-only-link hidden inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-secondary">tune</span>
+          <span>Panel CRUD</span>
+        </a>
+        <a href="contacto.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="hidden sm:flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-primary hover:text-secondary transition-all flex items-center gap-1.5 border border-slate-200/80" title="Ver Carrito & Cotizaciones">
+          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+          <span class="text-xs font-headline font-bold">Carrito</span>
+          <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
+        </button>
+
+        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Iniciar Sesión</a>
+        <a href="cursos.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg transition-all">Ver Cursos</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex items-center gap-2 lg:hidden">
+        <button onclick="openCartDrawer()" class="relative p-2 text-slate-700 hover:text-secondary">
+          <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+          <span class="cart-badge-count hidden absolute top-0 right-0 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
+        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">school</span>
+          Cursos Técnicos Presenciales
+        </a>
+        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
+          Herramientas & Productos
+        </a>
+        <a href="articulos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-purple-50 text-purple-700 font-headline font-bold text-xs">
+          <span class="material-symbols-outlined text-sm text-purple-700">article</span>
+          Artículos & Guías Técnicas
+        </a>
+      </div>
+      <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
+      <a href="admin.html" class="admin-only-link hidden block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
+      </a>
+      <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="openCartDrawer()" class="w-full py-2.5 rounded-xl border border-secondary text-secondary font-headline font-bold text-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">shopping_cart</span> Ver Carrito / Cotizador
+        </button>
+        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Iniciar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-container-max mx-auto w-full px-6 md:px-12 py-10 space-y-12">
+
+    <!-- PAGE HERO & BANNER -->
+    <section class="bg-gradient-to-br from-primary via-[#0E2554] to-primary-dark rounded-3xl p-8 md:p-12 text-white shadow-luxury relative overflow-hidden">
+      <div class="max-w-3xl space-y-4 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-secondary text-xs font-headline font-bold">
+          <span class="material-symbols-outlined text-sm">auto_stories</span>
+          BLOG TÉCNICO & PROCEDIMIENTOS DE LABORATORIO
+        </div>
+        <h1 class="font-headline font-black text-3xl sm:text-4xl md:text-5xl text-white leading-tight">
+          ARTÍCULOS, GUÍAS & TUTORIALES TÉCNICOS
+        </h1>
+        <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+          Descubre metodologías de diagnóstico profesional, resolución de cortocircuitos, optimización en Excel, segmentación de redes y micro-soldadura escritas directamente por los docentes de 123AcademiaTech.
+        </p>
+      </div>
+      <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+        <span class="material-symbols-outlined text-[300px]">article</span>
+      </div>
+    </section>
+
+    <!-- SEARCH & CATEGORY FILTER CONTROLS -->
+    <section class="bg-white rounded-3xl p-6 md:p-8 shadow-luxury border border-slate-100 space-y-6">
+      <div class="flex flex-col lg:flex-row gap-4 justify-between items-stretch lg:items-center">
+        
+        <!-- Search input -->
+        <div class="relative flex-grow max-w-xl">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+          <input 
+            id="article-search-input" 
+            type="text" 
+            placeholder="Buscar por título, componente, autor o palabra clave..." 
+            oninput="handleArticleSearch()"
+            class="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white text-sm focus:border-purple-600 focus:ring-purple-600 transition-all shadow-sm"
+          />
+        </div>
+
+        <!-- Counter & Quick Status -->
+        <div class="flex items-center gap-3 text-xs font-headline font-semibold text-slate-500">
+          <span id="article-total-count" class="px-3 py-1.5 rounded-xl bg-purple-50 text-purple-700 border border-purple-200/60 font-bold">3 Guías Disponibles</span>
+          <span class="hidden sm:inline text-slate-300">|</span>
+          <span class="hidden sm:inline">100% Contenido Gratuito & Práctico</span>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categories-container">
+        <button onclick="filterByCategory('all')" id="cat-pill-all" class="cat-pill active px-4 py-2 rounded-xl text-xs font-headline font-bold bg-purple-700 text-white shadow-sm transition-all whitespace-nowrap">
+          Todos los Artículos
+        </button>
+        <button onclick="filterByCategory('Reparación & Diagnóstico')" id="cat-pill-rep" class="cat-pill px-4 py-2 rounded-xl text-xs font-headline font-semibold bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition-all whitespace-nowrap">
+          Reparación & Diagnóstico
+        </button>
+        <button onclick="filterByCategory('Ofimática & Productividad')" id="cat-pill-ofi" class="cat-pill px-4 py-2 rounded-xl text-xs font-headline font-semibold bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition-all whitespace-nowrap">
+          Ofimática & Productividad
+        </button>
+        <button onclick="filterByCategory('Redes & Telecomunicaciones')" id="cat-pill-red" class="cat-pill px-4 py-2 rounded-xl text-xs font-headline font-semibold bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition-all whitespace-nowrap">
+          Redes & Telecomunicaciones
+        </button>
+        <button onclick="filterByCategory('Micro-soldadura SMD')" id="cat-pill-smd" class="cat-pill px-4 py-2 rounded-xl text-xs font-headline font-semibold bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-purple-700 transition-all whitespace-nowrap">
+          Micro-soldadura SMD
+        </button>
+      </div>
+    </section>
+
+    <!-- ARTICLES GRID -->
+    <section>
+      <div id="articles-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="articles-empty-state" class="hidden text-center py-16 bg-white rounded-3xl border border-slate-100 p-8 shadow-luxury space-y-4">
+        <div class="w-16 h-16 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mx-auto">
+          <span class="material-symbols-outlined text-3xl">menu_book</span>
+        </div>
+        <h3 class="font-headline font-bold text-base text-primary">No se encontraron artículos con ese criterio</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">Intenta buscar con otra palabra clave o selecciona "Todos los Artículos".</p>
+        <button onclick="filterByCategory('all')" class="px-5 py-2.5 rounded-xl bg-purple-700 text-white font-headline font-bold text-xs shadow-md">
+          Restablecer Filtros
+        </button>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="bg-gradient-to-r from-secondary to-[#C74B00] rounded-3xl p-8 md:p-12 text-white shadow-luxury flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 text-center md:text-left">
+        <h3 class="font-headline font-black text-2xl md:text-3xl text-white">¿Quieres llevar esta teoría a la práctica en laboratorio?</h3>
+        <p class="text-orange-100 text-xs md:text-sm max-w-xl">
+          Matricúlate en nuestros cursos técnicos presenciales con bancos de trabajo individuales, instrumental completo y certificación curricular.
+        </p>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="cursos.html" class="px-6 py-3.5 rounded-xl bg-white text-secondary hover:bg-orange-50 font-headline font-bold text-xs shadow-lg transition-all">
+          EXPLORAR CURSOS PRESENCIALES
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-gradient-to-r from-primary via-[#0E2554] to-[#C74B00] text-white mt-16 pt-16 pb-12 border-t border-white/10">
+    <div class="max-w-container-max mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        <!-- Col 1 -->
+        <div class="space-y-4 col-span-2 md:col-span-1">
+          <a href="index.html" class="flex items-center gap-2 group shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shadow-sm shrink-0">
+              <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+            </div>
+            <div>
+              <span class="font-headline font-extrabold text-lg tracking-tight text-white">123Academia<span class="text-secondary">Tech</span></span>
+              <p class="text-[9.5px] text-slate-300 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+            </div>
+          </a>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Laboratorios de formación técnica presencial y venta de instrumental especializado para técnicos y profesionales.
+          </p>
+        </div>
+
+        <!-- Col 2 -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Catálogo de Instrumental</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="productos.html" class="hover:text-white transition-colors">Herramientas Manuales</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Estaciones SMD</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Multímetros y Osciloscopios</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Insumos y Flux</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Programas Técnicos</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Reparación de Celulares</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Mantenimiento de Laptops</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Redes & Telecomunicaciones</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Ofimática Avanzada</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Sede & Contacto</h4>
+          <p class="text-xs text-slate-300">Av. Tecnológica 123, Edificio TecnoPro, Piso 4.</p>
+          <p class="text-xs text-slate-300 font-semibold">WhatsApp: +1 (800) 123-TECH</p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">share</span>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">mail</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 text-center text-xs text-slate-400">
+        <p>© 2026 123AcademiaTech. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================= -->
+  <!-- MODAL: LECTOR DE ARTÍCULO COMPLETO                     -->
+  <!-- ======================================================= -->
+  <div id="article-reader-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="fixed inset-0" onclick="closeArticleReader()"></div>
+    <div class="relative bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-10 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto z-10">
+      
+      <!-- Header -->
+      <div class="flex items-start justify-between border-b border-slate-100 pb-4 gap-4">
+        <div>
+          <span id="reader-category" class="px-3 py-1 rounded-md bg-purple-50 text-purple-700 border border-purple-200/60 font-headline font-bold text-xs inline-block mb-1"></span>
+          <h2 id="reader-title" class="font-headline font-black text-xl sm:text-2xl md:text-3xl text-primary leading-tight"></h2>
+          <div class="flex flex-wrap items-center gap-4 mt-2 text-xs text-slate-500">
+            <span class="flex items-center gap-1 font-semibold text-slate-700">
+              <span class="material-symbols-outlined text-sm text-purple-600">person</span>
+              <span id="reader-author"></span>
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-slate-400">calendar_month</span>
+              <span id="reader-date"></span>
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-secondary">visibility</span>
+              <span id="reader-views"></span>
+            </span>
+          </div>
+        </div>
+        <button onclick="closeArticleReader()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center shrink-0 transition-colors">
+          <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+      </div>
+
+      <!-- Image Banner -->
+      <div class="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden bg-slate-100 shadow-sm">
+        <img id="reader-image" src="" alt="Artículo" class="w-full h-full object-cover"/>
+      </div>
+
+      <!-- Resumen Lead -->
+      <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-100">
+        <p id="reader-resumen" class="font-medium text-purple-950 text-sm md:text-base leading-relaxed italic"></p>
+      </div>
+
+      <!-- Full Body Content -->
+      <div class="prose max-w-none text-slate-700 text-sm md:text-base leading-relaxed space-y-4">
+        <div id="reader-content"></div>
+      </div>
+
+      <!-- CTA In-Article -->
+      <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50 p-6 rounded-2xl">
+        <div class="space-y-1 text-center sm:text-left">
+          <h4 class="font-headline font-bold text-sm text-primary">¿Te interesa profundizar en este tema?</h4>
+          <p class="text-xs text-slate-500">Tenemos cursos presenciales prácticos con instrumental de laboratorio.</p>
+        </div>
+        <a href="cursos.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md transition-all shrink-0">
+          Ver Cursos Relacionados
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
+            <p class="text-[11px] text-slate-500">Talleres, Combos B2B y Herramientas</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+          </button>
+          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-grow space-y-4">
+        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+          </div>
+          <p class="font-headline font-bold text-sm text-slate-600">El cotizador está vacío</p>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega cursos individuales o combos empresariales para armar tu paquete.</p>
+        </div>
+        <div id="cart-items-container" class="space-y-3"></div>
+      </div>
+
+      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-slate-500">
+            <span>Subtotal Estimado:</span>
+            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
+            <span class="font-headline font-bold text-sm text-primary">TOTAL ESTIMADO:</span>
+            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">chat</span>
+            SOLICITAR INSCRIPCIÓN / COTIZAR WHATSAPP
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="supabase-client.js"></script>
+  <script src="articles-data.js"></script>
+  <script src="cart-data.js"></script>
+  <script>
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let articlesList = [];
+
+    async function initArticlesPage() {
+      // Mostrar Panel CRUD solo si es Administrador
+      if (localStorage.getItem('123_is_admin') === 'true') {
+        document.querySelectorAll('.admin-only-link').forEach(el => el.classList.remove('hidden'));
+      }
+
+      articlesList = getCachedArticles();
+      renderArticles();
+      updateCartBadge();
+
+      // Cargar en vivo desde Supabase
+      try {
+        const fresh = await fetchArticlesFromDB();
+        if (fresh && fresh.length > 0) {
+          articlesList = fresh;
+          renderArticles();
+        }
+      } catch (e) {}
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function handleArticleSearch() {
+      searchQuery = (document.getElementById('article-search-input')?.value || '').toLowerCase().trim();
+      renderArticles();
+    }
+
+    function filterByCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.classList.remove('bg-purple-700', 'text-white', 'shadow-sm');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+
+      const activeBtn = event ? event.currentTarget : document.getElementById('cat-pill-all');
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+        activeBtn.classList.add('bg-purple-700', 'text-white', 'shadow-sm');
+      }
+
+      renderArticles();
+    }
+
+    function renderArticles() {
+      const grid = document.getElementById('articles-grid');
+      const emptyState = document.getElementById('articles-empty-state');
+      const counter = document.getElementById('article-total-count');
+      if (!grid) return;
+
+      const filtered = articlesList.filter(a => {
+        if (a.status && a.status !== 'published') return false;
+        const matchesCat = (activeCategory === 'all') || (a.category === activeCategory);
+        const matchesSearch = !searchQuery || 
+          (a.title || '').toLowerCase().includes(searchQuery) ||
+          (a.resumen || '').toLowerCase().includes(searchQuery) ||
+          (a.autor || '').toLowerCase().includes(searchQuery) ||
+          (a.category || '').toLowerCase().includes(searchQuery);
+        return matchesCat && matchesSearch;
+      });
+
+      if (counter) {
+        counter.innerText = `${filtered.length} Guía${filtered.length === 1 ? '' : 's'} Disponible${filtered.length === 1 ? '' : 's'}`;
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState?.classList.remove('hidden');
+        return;
+      }
+
+      emptyState?.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(a => `
+        <article class="bg-white rounded-3xl overflow-hidden shadow-luxury hover:shadow-luxury-hover border border-slate-100 transition-all duration-300 flex flex-col group hover:-translate-y-1">
+          <!-- Thumbnail -->
+          <div class="relative h-52 overflow-hidden bg-slate-100 cursor-pointer" onclick="openArticleReader('${a.id}')">
+            <img src="${a.imagen}" alt="${a.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+            <span class="absolute top-3 left-3 bg-white/95 backdrop-blur-md text-purple-800 font-headline font-bold text-[11px] py-1 px-3 rounded-full shadow-sm">
+              ${a.category}
+            </span>
+          </div>
+
+          <!-- Body -->
+          <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                <span class="flex items-center gap-1 font-semibold text-slate-600">
+                  <span class="material-symbols-outlined text-xs text-purple-600">person</span>
+                  ${a.autor}
+                </span>
+                <span>•</span>
+                <span>${a.created_at || 'Reciente'}</span>
+              </div>
+              <h3 onclick="openArticleReader('${a.id}')" class="font-headline font-bold text-lg text-primary group-hover:text-purple-700 transition-colors leading-snug cursor-pointer line-clamp-2">
+                ${a.title}
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                ${a.resumen}
+              </p>
+            </div>
+
+            <!-- Footer Action -->
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                <span class="material-symbols-outlined text-xs text-secondary">visibility</span>
+                ${a.vistas || 0} lecturas
+              </span>
+              <button onclick="openArticleReader('${a.id}')" class="font-headline font-bold text-xs text-purple-700 hover:text-purple-900 inline-flex items-center gap-1 group/link">
+                <span>Leer Guía</span>
+                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function openArticleReader(id) {
+      const a = articlesList.find(item => item.id === id);
+      if (!a) return;
+
+      document.getElementById('reader-category').innerText = a.category;
+      document.getElementById('reader-title').innerText = a.title;
+      document.getElementById('reader-author').innerText = a.autor;
+      document.getElementById('reader-date').innerText = a.created_at || 'Agosto 2026';
+      document.getElementById('reader-views').innerText = `${(a.vistas || 0) + 1} lecturas`;
+      document.getElementById('reader-image').src = a.imagen;
+      document.getElementById('reader-resumen').innerText = a.resumen;
+
+      // Content paragraph formatting
+      const paragraphs = (a.contenido || a.resumen).split('\n').filter(Boolean);
+      document.getElementById('reader-content').innerHTML = paragraphs.map(p => `<p class="leading-relaxed mb-3">${p}</p>`).join('');
+
+      const modal = document.getElementById('article-reader-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // Incrementar vistas en Supabase
+      if (typeof incrementArticleViewsInDB === 'function') {
+        incrementArticleViewsInDB(id);
+      }
+    }
+
+    function closeArticleReader() {
+      const modal = document.getElementById('article-reader-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.addEventListener('DOMContentLoaded', initArticlesPage);
+  </script>
+</body>
+</html>
