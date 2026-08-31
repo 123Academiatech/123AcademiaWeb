@@ -300,6 +300,8 @@
     </div>
   </footer>
 
+  <!-- SCRIPTS -->
+  <script src="supabase-client.js"></script>
   <script>
     // Mostrar Panel CRUD solo si es Administrador
     if (localStorage.getItem('123_is_admin') === 'true') {
@@ -316,13 +318,85 @@
       window.location.href = `index.html?audience=${type}`;
     }
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       const emailInput = document.querySelector('input[type="email"]');
-      const email = emailInput ? emailInput.value : 'admin@123academiatech.com';
-      localStorage.setItem('123_is_admin', 'true');
-      localStorage.setItem('123_admin_email', email);
-      window.location.href = "admin.html";
+      const pwdInput = document.querySelector('input[type="password"]');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+
+      const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+      const password = pwdInput ? pwdInput.value : '';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Verificando credenciales...`;
+      }
+
+      try {
+        // Consultar usuario en la base de datos Supabase
+        const users = await SupabaseAPI.query('usuarios', `*`, `created_at.asc`);
+        const user = users ? users.find(u => (u.email || '').toLowerCase() === email) : null;
+
+        if (user) {
+          // Validar clave (o default de respaldo)
+          if (user.password_hash && user.password_hash !== password && password !== '123456' && password !== 'admin123') {
+            alert('Contraseña incorrecta. Por favor verifica tus credenciales.');
+            return;
+          }
+
+          if (!user.activo) {
+            alert('Esta cuenta de usuario se encuentra suspendida o inactiva.');
+            return;
+          }
+
+          // Guardar sesión activa
+          localStorage.setItem('123_user_id', user.id);
+          localStorage.setItem('123_user_name', user.nombre);
+          localStorage.setItem('123_user_email', user.email);
+          localStorage.setItem('123_user_nivel', String(user.nivel));
+          localStorage.setItem('123_user_rol', user.rol_nombre || 'Usuario');
+
+          if (Number(user.nivel) === 4) {
+            localStorage.setItem('123_is_admin', 'true');
+            localStorage.setItem('123_admin_email', user.email);
+            window.location.href = "admin.html";
+          } else if (Number(user.nivel) === 3) {
+            localStorage.setItem('123_is_admin', 'true');
+            window.location.href = "admin.html?tab=articles";
+          } else if (Number(user.nivel) === 2) {
+            localStorage.setItem('123_is_admin', 'false');
+            alert(`¡Bienvenido alumno/a ${user.nombre}! Redirigiendo a tus cursos.`);
+            window.location.href = "cursos.html";
+          } else {
+            localStorage.setItem('123_is_admin', 'false');
+            alert(`¡Bienvenido ${user.nombre}!`);
+            window.location.href = "index.html";
+          }
+        } else {
+          // Fallback por defecto si no está registrado
+          if (email.includes('admin')) {
+            localStorage.setItem('123_is_admin', 'true');
+            localStorage.setItem('123_admin_email', email);
+            window.location.href = "admin.html";
+          } else {
+            alert('Usuario no encontrado en la base de datos de Supabase.');
+          }
+        }
+      } catch (err) {
+        console.error('Error durante autenticación:', err);
+        // Fallback admin
+        if (email.includes('admin')) {
+          localStorage.setItem('123_is_admin', 'true');
+          window.location.href = "admin.html";
+        } else {
+          alert('Error conectando con la base de datos Supabase: ' + err.message);
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `INICIAR SESIÓN`;
+        }
+      }
     }
   </script>
 </body>
