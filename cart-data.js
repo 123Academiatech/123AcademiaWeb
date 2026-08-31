@@ -203,7 +203,7 @@ function checkoutViaWhatsApp() {
   const subtotal = getCartSubtotal();
   msg += `%0A*TOTAL ESTIMADO:* $${subtotal.toFixed(2)} USD%0A%0APor favor contáctenme para coordinar detalles de pago, entrega o inicio de clases.`;
   
-  window.open(`https://wa.me/584129640005?text=${msg}`, '_blank');
+  window.open(`https://wa.me/584122012501?text=${msg}`, '_blank');
 }
 
 function transferCartToContactForm() {
