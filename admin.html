@@ -690,13 +690,25 @@
       
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 class="font-headline font-bold text-2xl text-primary">Gestor de Usuarios & Roles de 4 Niveles</h2>
-          <p class="text-xs text-slate-500">Jerarquía: 1-Visitante, 2-Alumno, 3-Docente, 4-Administrador.</p>
+          <div class="flex items-center gap-2 mb-1">
+            <h2 class="font-headline font-bold text-2xl text-primary">Gestor de Usuarios & Roles de 4 Niveles</h2>
+            <span id="supabase-status-indicator" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Supabase DB Activa</span>
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">Jerarquía: 1-Visitante, 2-Alumno, 3-Docente, 4-Administrador (Conectado a Supabase).</p>
         </div>
-        <button onclick="openUserModal()" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs shadow-md flex items-center gap-1.5 transition-all">
-          <span class="material-symbols-outlined text-base">person_add</span>
-          <span>+ NUEVO USUARIO</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="refreshUsersFromDB()" class="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-headline font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm" title="Sincronizar con Supabase">
+            <span class="material-symbols-outlined text-base text-secondary">sync</span>
+            <span>SINCRONIZAR</span>
+          </button>
+          <button onclick="openUserModal()" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs shadow-md flex items-center gap-1.5 transition-all">
+            <span class="material-symbols-outlined text-base">person_add</span>
+            <span>+ NUEVO USUARIO</span>
+          </button>
+        </div>
       </div>
 
       <!-- FILTRO DE NIVELES -->
@@ -1334,9 +1346,14 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Avatar / Foto (URL o PC)</label>
-            <input id="input-user-avatar" type="text" placeholder="https://images.unsplash.com/..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Contraseña de Acceso</label>
+            <input id="input-user-password" type="password" placeholder="Mínimo 6 caracteres (Opcional en edición)" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
           </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Avatar / Foto de Perfil (URL o Foto)</label>
+          <input id="input-user-avatar" type="text" placeholder="https://images.unsplash.com/..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
         </div>
 
         <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
@@ -1355,6 +1372,7 @@
   </footer>
 
   <!-- SCRIPTS -->
+  <script src="supabase-client.js"></script>
   <script src="courses-data.js"></script>
   <script src="products-data.js"></script>
   <script src="articles-data.js"></script>
@@ -1452,12 +1470,12 @@
       filterCoursesTable();
     }
 
-    function initApp() {
+    async function initApp() {
       allCourses = getCourses();
       allCombos = getBusinessCombos();
       allProducts = getProducts();
       allArticles = getArticles();
-      allUsers = getUsers();
+      allUsers = getCachedUsers();
 
       updateDashboardMetrics();
       filterCoursesTable();
@@ -1465,6 +1483,9 @@
       filterArticlesTable();
       filterUsersTable();
       updateCartBadge();
+
+      // Cargar y sincronizar con la base de datos Supabase en vivo
+      refreshUsersFromDB();
 
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
@@ -2067,14 +2088,37 @@
     }
 
     // =======================================================
-    // MÓDULO DE USUARIOS & ROLES CON 4 NIVELES (CRUD)
+    // MÓDULO DE USUARIOS & ROLES CON 4 NIVELES (CRUD SUPABASE)
     // =======================================================
+    async function refreshUsersFromDB() {
+      const indicator = document.getElementById('supabase-status-indicator');
+      if (indicator) {
+        indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span><span>Conectando a Supabase...</span>`;
+      }
+
+      try {
+        allUsers = await fetchUsersFromDB();
+        if (indicator) {
+          indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>Supabase Cloud DB Conectada (${allUsers.length} Usuarios)</span>`;
+        }
+      } catch (err) {
+        console.warn('Error al sincronizar con Supabase:', err);
+        allUsers = getCachedUsers();
+        if (indicator) {
+          indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span><span>Modo Local / Offline (${allUsers.length} Usuarios)</span>`;
+        }
+      }
+
+      filterUsersTable();
+      updateDashboardMetrics();
+    }
+
     function renderUsersTable(users) {
       const tbody = document.getElementById('users-tbody');
       if (!tbody) return;
 
       if (users.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-slate-400 font-medium">No se encontraron usuarios registrados en esta categoría.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-slate-400 font-medium">No se encontraron usuarios registrados en esta categoría en Supabase.</td></tr>`;
         return;
       }
 
@@ -2086,7 +2130,7 @@
               <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80'}" alt="${u.name}" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0 border border-slate-200"/>
               <div>
                 <h4 class="font-headline font-bold text-slate-800 text-sm leading-snug">${u.name}</h4>
-                <span class="text-[11px] text-slate-400">Registrado: ${u.created_at || 'Reciente'}</span>
+                <span class="text-[11px] text-slate-400">ID: ${u.id.substring(0, 8)}... | ${u.created_at || 'Reciente'}</span>
               </div>
             </td>
             <td class="py-4 px-6 text-xs text-slate-600">
@@ -2099,21 +2143,21 @@
                   <span class="material-symbols-outlined text-sm">${lvl.icon}</span>
                   <span>Nivel ${u.nivel}: ${lvl.name}</span>
                 </span>
-                <button onclick="quickCycleUserLevel('${u.id}')" class="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-secondary" title="Cambiar nivel jerárquico">
+                <button onclick="quickCycleUserLevel('${u.id}', ${u.nivel})" class="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-secondary transition-colors" title="Cambiar nivel jerárquico en Supabase">
                   <span class="material-symbols-outlined text-sm">swap_vert</span>
                 </button>
               </div>
             </td>
             <td class="py-4 px-6 text-center">
-              <button onclick="toggleUserStatus('${u.id}')" class="px-3 py-1 rounded-full text-xs font-bold transition-colors ${u.status === 'active' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}">
+              <button onclick="toggleUserStatus('${u.id}', '${u.status}')" class="px-3 py-1 rounded-full text-xs font-bold transition-colors ${u.status === 'active' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}" title="Haga clic para alternar estado en Supabase">
                 ${u.status === 'active' ? 'Activo' : 'Inactivo'}
               </button>
             </td>
             <td class="py-4 px-6 text-right space-x-1.5">
-              <button onclick="openUserModal('${u.id}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar Usuario">
+              <button onclick="openUserModal('${u.id}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar en Supabase">
                 <span class="material-symbols-outlined text-base">edit</span>
               </button>
-              <button onclick="deleteUser('${u.id}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar Usuario">
+              <button onclick="deleteUser('${u.id}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar de Supabase">
                 <span class="material-symbols-outlined text-base">delete</span>
               </button>
             </td>
@@ -2150,36 +2194,32 @@
       renderUsersTable(filtered);
     }
 
-    function quickCycleUserLevel(id) {
-      allUsers = allUsers.map(u => {
-        if (u.id === id) {
-          const nextLvl = (Number(u.nivel) % 4) + 1;
-          u.nivel = nextLvl;
-          u.rol_nombre = USER_LEVELS[nextLvl]?.name || 'Visitante';
+    async function quickCycleUserLevel(id, currentLevel) {
+      try {
+        await cycleUserLevelInDB(id, currentLevel);
+        await refreshUsersFromDB();
+      } catch (err) {
+        alert('Error al actualizar nivel en Supabase: ' + err.message);
+      }
+    }
+
+    async function toggleUserStatus(id, currentStatus) {
+      try {
+        await toggleUserStatusInDB(id, currentStatus);
+        await refreshUsersFromDB();
+      } catch (err) {
+        alert('Error al alternar estado en Supabase: ' + err.message);
+      }
+    }
+
+    async function deleteUser(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar permanentemente este usuario de la base de datos Supabase?')) {
+        try {
+          await deleteUserInDB(id);
+          await refreshUsersFromDB();
+        } catch (err) {
+          alert('Error al eliminar usuario en Supabase: ' + err.message);
         }
-        return u;
-      });
-      saveUsers(allUsers);
-      filterUsersTable();
-      updateDashboardMetrics();
-    }
-
-    function toggleUserStatus(id) {
-      allUsers = allUsers.map(u => {
-        if (u.id === id) u.status = u.status === 'active' ? 'inactive' : 'active';
-        return u;
-      });
-      saveUsers(allUsers);
-      filterUsersTable();
-      updateDashboardMetrics();
-    }
-
-    function deleteUser(id) {
-      if (confirm('¿Estás seguro de que deseas eliminar este usuario del sistema?')) {
-        allUsers = allUsers.filter(u => u.id !== id);
-        saveUsers(allUsers);
-        filterUsersTable();
-        updateDashboardMetrics();
       }
     }
 
@@ -2191,7 +2231,7 @@
       if (id) {
         const u = allUsers.find(item => item.id === id);
         if (u) {
-          document.getElementById('user-modal-title').innerText = 'Editar Datos de Usuario';
+          document.getElementById('user-modal-title').innerText = 'Editar Datos de Usuario en Supabase';
           document.getElementById('user-id').value = u.id;
           document.getElementById('input-user-name').value = u.name;
           document.getElementById('input-user-email').value = u.email;
@@ -2199,12 +2239,16 @@
           document.getElementById('input-user-level').value = String(u.nivel);
           document.getElementById('input-user-status').value = u.status || 'active';
           document.getElementById('input-user-avatar').value = u.avatar || '';
+          const pwdInput = document.getElementById('input-user-password');
+          if (pwdInput) pwdInput.value = '';
         }
       } else {
-        document.getElementById('user-modal-title').innerText = 'Registrar Nuevo Usuario';
+        document.getElementById('user-modal-title').innerText = 'Registrar Nuevo Usuario en Supabase';
         document.getElementById('user-id').value = '';
         document.getElementById('input-user-level').value = '1';
         document.getElementById('input-user-status').value = 'active';
+        const pwdInput = document.getElementById('input-user-password');
+        if (pwdInput) pwdInput.value = '';
       }
 
       modal.classList.remove('hidden');
@@ -2217,13 +2261,21 @@
       modal.classList.remove('flex');
     }
 
-    function handleSaveUser(e) {
+    async function handleSaveUser(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Guardando...`;
+      }
+
       const id = document.getElementById('user-id').value;
       const lvlNum = Number(document.getElementById('input-user-level').value);
+      const pwdVal = document.getElementById('input-user-password')?.value;
 
       const userData = {
-        id: id || `usr-${Date.now()}`,
+        id: id || undefined,
         name: document.getElementById('input-user-name').value,
         email: document.getElementById('input-user-email').value,
         phone: document.getElementById('input-user-phone').value,
@@ -2231,19 +2283,25 @@
         rol_nombre: USER_LEVELS[lvlNum]?.name || 'Visitante',
         avatar: document.getElementById('input-user-avatar').value || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
         status: document.getElementById('input-user-status').value,
-        created_at: id ? (allUsers.find(u => u.id === id)?.created_at || '2026-08-31') : new Date().toISOString().split('T')[0]
+        password: pwdVal || undefined
       };
 
-      if (id) {
-        allUsers = allUsers.map(u => u.id === id ? userData : u);
-      } else {
-        allUsers.unshift(userData);
+      try {
+        if (id) {
+          await updateUserInDB(id, userData);
+        } else {
+          await createUserInDB(userData);
+        }
+        closeUserModal();
+        await refreshUsersFromDB();
+      } catch (err) {
+        alert('Error al guardar en Supabase: ' + err.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
       }
-
-      saveUsers(allUsers);
-      closeUserModal();
-      filterUsersTable();
-      updateDashboardMetrics();
     }
 
     // =======================================================
