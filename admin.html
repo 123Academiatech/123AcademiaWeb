@@ -4,21 +4,7 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Panel de Control & Gestor CRUD - 123AcademiaTech</title>
-  <script>
-    // Control de acceso: solo administradores (Nivel 4) y docentes (Nivel 3)
-    const isAdmin = localStorage.getItem('123_is_admin') === 'true';
-    const userNivel = Number(localStorage.getItem('123_user_nivel')) || 0;
-    if (!isAdmin && userNivel < 3) {
-      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
-      if (isLocal) {
-        localStorage.setItem('123_is_admin', 'true');
-        localStorage.setItem('123_user_nivel', '4');
-        localStorage.setItem('123_admin_email', 'admin@123academiatech.com');
-      } else {
-        window.location.replace('login.html');
-      }
-    }
-  </script>
+  
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
