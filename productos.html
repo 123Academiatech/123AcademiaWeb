@@ -136,7 +136,7 @@
         </div>
 
         <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
-        <a href="admin.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+        <a href="admin.html" class="admin-only-link hidden inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
           <span class="material-symbols-outlined text-base text-secondary">tune</span>
           <span>Panel CRUD</span>
         </a>
@@ -197,7 +197,7 @@
         </a>
       </div>
       <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
-      <a href="admin.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
+      <a href="admin.html" class="admin-only-link hidden block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
         <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
       </a>
       <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
@@ -633,6 +633,17 @@
         await fetchProductsFromDB();
         renderProducts();
       } catch (e) {}
+    });
+  </script>
+
+  <script>
+    // admin_check_script_v2
+    document.addEventListener('DOMContentLoaded', () => {
+      const isAdmin = localStorage.getItem('123_is_admin') === 'true';
+      const userNivel = Number(localStorage.getItem('123_user_nivel')) || 0;
+      if (isAdmin && userNivel === 4) {
+        document.querySelectorAll('.admin-only-link').forEach(el => el.classList.remove('hidden'));
+      }
     });
   </script>
 </body>
