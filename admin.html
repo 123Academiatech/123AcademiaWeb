@@ -1484,13 +1484,46 @@
       filterUsersTable();
       updateCartBadge();
 
-      // Cargar y sincronizar con la base de datos Supabase en vivo
-      refreshUsersFromDB();
+      // Cargar y sincronizar todas las tablas desde Supabase en vivo
+      syncAllFromSupabase();
 
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
       if (['courses', 'products', 'articles', 'users'].includes(tabParam)) {
         switchTab(tabParam);
+      }
+    }
+
+    async function syncAllFromSupabase() {
+      const indicator = document.getElementById('supabase-status-indicator');
+      if (indicator) {
+        indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span><span>Sincronizando DB...</span>`;
+      }
+
+      try {
+        const [cData, pData, aData, uData] = await Promise.all([
+          fetchCoursesFromDB(),
+          fetchProductsFromDB(),
+          fetchArticlesFromDB(),
+          fetchUsersFromDB()
+        ]);
+
+        if (cData) { allCourses = cData.courses; allCombos = cData.combos; }
+        if (pData) allProducts = pData;
+        if (aData) allArticles = aData;
+        if (uData) allUsers = uData;
+
+        if (indicator) {
+          indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>Supabase Cloud DB Activa</span>`;
+        }
+
+        filterCoursesTable();
+        renderProductsTable(allProducts);
+        filterArticlesTable();
+        filterUsersTable();
+        updateDashboardMetrics();
+      } catch (e) {
+        console.warn('Error en sincronización global de Supabase:', e);
       }
     }
 
@@ -1764,6 +1797,87 @@
       modal.classList.add('flex');
     }
 
+    function closeCourseModal() {
+      const modal = document.getElementById('course-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function handleSaveCourse(e) {
+      e.preventDefault();
+      const id = document.getElementById('course-id').value;
+      const itemType = document.getElementById('course-item-type').value;
+      const courseImg = document.getElementById('input-course-image').value;
+
+      if (!courseImg) {
+        alert('Por favor selecciona una imagen para el programa desde tu PC.');
+        return;
+      }
+
+      const isCombo = (itemType === 'combo');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const origHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Guardando en Supabase...`;
+      }
+
+      try {
+        if (isCombo) {
+          const rawIncludes = document.getElementById('input-combo-includes')?.value || '';
+          const includesArr = rawIncludes ? rawIncludes.split(',').map(s => s.trim()).filter(Boolean) : ['Capacitación Práctica', 'Asesoría'];
+
+          const comboData = {
+            id: id || undefined,
+            title: document.getElementById('input-course-title').value,
+            category: document.getElementById('input-course-category').value,
+            badge: document.getElementById('input-course-badge').value || 'Combo Grupal',
+            description: document.getElementById('input-course-desc').value,
+            duration: document.getElementById('input-course-duration').value,
+            price: document.getElementById('input-course-price').value,
+            groupSize: document.getElementById('input-course-extra')?.value || 'Grupal',
+            includes: includesArr,
+            image: courseImg,
+            status: document.getElementById('input-course-status').checked ? 'active' : 'inactive'
+          };
+
+          if (id) await updateCourseInDB(id, comboData, true);
+          else await createCourseInDB(comboData, true);
+        } else {
+          const courseData = {
+            id: id || undefined,
+            title: document.getElementById('input-course-title').value,
+            category: document.getElementById('input-course-category').value,
+            badge: document.getElementById('input-course-badge').value || 'Presencial',
+            description: document.getElementById('input-course-desc').value,
+            duration: document.getElementById('input-course-duration').value,
+            price: document.getElementById('input-course-price').value,
+            spots: document.getElementById('input-course-extra')?.value || 'Cupos Disponibles',
+            image: courseImg,
+            status: document.getElementById('input-course-status').checked ? 'active' : 'inactive'
+          };
+
+          if (id) await updateCourseInDB(id, courseData, false);
+          else await createCourseInDB(courseData, false);
+        }
+
+        const data = await fetchCoursesFromDB();
+        allCourses = data.courses;
+        allCombos = data.combos;
+
+        closeCourseModal();
+        filterCoursesTable();
+        updateDashboardMetrics();
+      } catch (err) {
+        alert('Error al guardar curso en Supabase: ' + err.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origHtml;
+        }
+      }
+    }
+
     function renderProductsTable(products) {
       const tbody = document.getElementById('products-tbody');
       if (!tbody) return;
@@ -1841,13 +1955,17 @@
       updateDashboardMetrics();
     }
 
-    function deleteProduct(id) {
-      if (confirm('¿Estás seguro de que deseas eliminar este producto del inventario?')) {
-        allProducts = allProducts.filter(p => p.id !== id);
-        saveProducts(allProducts);
-        filterProductsTable();
-        updateDashboardMetrics();
-        closeCardSheet();
+    async function deleteProduct(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar permanentemente este producto de la base de datos Supabase?')) {
+        try {
+          await deleteProductInDB(id);
+          allProducts = await fetchProductsFromDB();
+          filterProductsTable();
+          updateDashboardMetrics();
+          closeCardSheet();
+        } catch (err) {
+          alert('Error al eliminar producto en Supabase: ' + err.message);
+        }
       }
     }
 
@@ -1859,7 +1977,7 @@
       if (productId) {
         const p = allProducts.find(item => item.id === productId);
         if (p) {
-          document.getElementById('product-modal-title').innerText = 'Editar Producto & Stock';
+          document.getElementById('product-modal-title').innerText = 'Editar Producto & Stock en Supabase';
           document.getElementById('product-id').value = p.id;
           document.getElementById('input-prod-name').value = p.name;
           document.getElementById('input-prod-brand').value = p.brand || '';
@@ -1879,7 +1997,7 @@
         }
       } else {
         removeSelectedImage('product');
-        document.getElementById('product-modal-title').innerText = 'Agregar Nuevo Producto / Herramienta';
+        document.getElementById('product-modal-title').innerText = 'Agregar Nuevo Producto en Supabase';
         document.getElementById('product-id').value = '';
         document.getElementById('input-prod-stock').value = 'Disponible en Sede';
       }
@@ -1894,7 +2012,7 @@
       modal.classList.remove('flex');
     }
 
-    function handleSaveProduct(e) {
+    async function handleSaveProduct(e) {
       e.preventDefault();
       const id = document.getElementById('product-id').value;
       const prodImg = document.getElementById('input-prod-image').value;
@@ -1904,31 +2022,46 @@
         return;
       }
       const specsRaw = document.getElementById('input-prod-specs').value;
-      const specsArray = specsRaw ? specsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const specsArray = specsRaw ? specsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Garantía oficial', 'Uso profesional en taller'];
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const origHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Guardando en Supabase...`;
+      }
 
       const productData = {
-        id: id || `prod-${Date.now()}`,
+        id: id || undefined,
         name: document.getElementById('input-prod-name').value,
         brand: document.getElementById('input-prod-brand').value || 'Oficial',
         category: document.getElementById('input-prod-category').value,
         price: document.getElementById('input-prod-price').value,
         stock: document.getElementById('input-prod-stock').value,
         badge: document.getElementById('input-prod-badge').value || 'Recomendado',
-        image: document.getElementById('input-prod-image').value,
+        image: prodImg,
         description: document.getElementById('input-prod-desc').value,
-        specs: specsArray.length > 0 ? specsArray : ['Garantía oficial', 'Uso profesional en taller']
+        specs: specsArray
       };
 
-      if (id) {
-        allProducts = allProducts.map(p => p.id === id ? productData : p);
-      } else {
-        allProducts.unshift(productData);
+      try {
+        if (id) {
+          await updateProductInDB(id, productData);
+        } else {
+          await createProductInDB(productData);
+        }
+        allProducts = await fetchProductsFromDB();
+        closeProductModal();
+        filterProductsTable();
+        updateDashboardMetrics();
+      } catch (err) {
+        alert('Error al guardar producto en Supabase: ' + err.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origHtml;
+        }
       }
-
-      saveProducts(allProducts);
-      closeProductModal();
-      filterProductsTable();
-      updateDashboardMetrics();
     }
 
     // ==========================================
@@ -1939,7 +2072,7 @@
       if (!tbody) return;
 
       if (articles.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-slate-400 font-medium">No se encontraron artículos registrados.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-slate-400 font-medium">No se encontraron artículos registrados en Supabase.</td></tr>`;
         return;
       }
 
@@ -1960,15 +2093,15 @@
             ${a.vistas || 0} lecturas
           </td>
           <td class="py-4 px-6 text-center">
-            <button onclick="toggleArticleStatus('${a.id}')" class="px-3 py-1 rounded-full text-xs font-bold transition-colors ${a.status === 'published' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
+            <button onclick="toggleArticleStatus('${a.id}', '${a.status}')" class="px-3 py-1 rounded-full text-xs font-bold transition-colors ${a.status === 'published' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}" title="Alternar publicación en Supabase">
               ${a.status === 'published' ? 'Publicado' : 'Borrador'}
             </button>
           </td>
           <td class="py-4 px-6 text-right space-x-1.5">
-            <button onclick="openArticleModal('${a.id}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar Artículo">
+            <button onclick="openArticleModal('${a.id}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar en Supabase">
               <span class="material-symbols-outlined text-base">edit</span>
             </button>
-            <button onclick="deleteArticle('${a.id}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar Artículo">
+            <button onclick="deleteArticle('${a.id}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar de Supabase">
               <span class="material-symbols-outlined text-base">delete</span>
             </button>
           </td>
@@ -1992,22 +2125,27 @@
       renderArticlesTable(filtered);
     }
 
-    function toggleArticleStatus(id) {
-      allArticles = allArticles.map(a => {
-        if (a.id === id) a.status = a.status === 'published' ? 'draft' : 'published';
-        return a;
-      });
-      saveArticles(allArticles);
-      filterArticlesTable();
-      updateDashboardMetrics();
-    }
-
-    function deleteArticle(id) {
-      if (confirm('¿Estás seguro de que deseas eliminar este artículo?')) {
-        allArticles = allArticles.filter(a => a.id !== id);
-        saveArticles(allArticles);
+    async function toggleArticleStatus(id, currentStatus) {
+      try {
+        await toggleArticleStatusInDB(id, currentStatus);
+        allArticles = await fetchArticlesFromDB();
         filterArticlesTable();
         updateDashboardMetrics();
+      } catch (err) {
+        alert('Error al alternar estado del artículo en Supabase: ' + err.message);
+      }
+    }
+
+    async function deleteArticle(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar permanentemente este artículo de la base de datos Supabase?')) {
+        try {
+          await deleteArticleInDB(id);
+          allArticles = await fetchArticlesFromDB();
+          filterArticlesTable();
+          updateDashboardMetrics();
+        } catch (err) {
+          alert('Error al eliminar artículo en Supabase: ' + err.message);
+        }
       }
     }
 
@@ -2019,7 +2157,7 @@
       if (id) {
         const a = allArticles.find(item => item.id === id);
         if (a) {
-          document.getElementById('article-modal-title').innerText = 'Editar Artículo / Guía';
+          document.getElementById('article-modal-title').innerText = 'Editar Artículo / Guía en Supabase';
           document.getElementById('article-id').value = a.id;
           document.getElementById('input-article-title').value = a.title;
           document.getElementById('input-article-category').value = a.category;
@@ -2037,7 +2175,7 @@
         }
       } else {
         removeSelectedImage('article');
-        document.getElementById('article-modal-title').innerText = 'Agregar Nuevo Artículo';
+        document.getElementById('article-modal-title').innerText = 'Agregar Nuevo Artículo en Supabase';
         document.getElementById('article-id').value = '';
         document.getElementById('input-article-author').value = 'Equipo Docente 123AcademiaTech';
         document.getElementById('input-article-status').value = 'published';
@@ -2053,38 +2191,48 @@
       modal.classList.remove('flex');
     }
 
-    function handleSaveArticle(e) {
+    async function handleSaveArticle(e) {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Guardando en Supabase...`;
+      }
+
       const id = document.getElementById('article-id').value;
       const img = document.getElementById('input-article-image').value || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80';
-
       const title = document.getElementById('input-article-title').value;
-      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
       const articleData = {
-        id: id || `art-${Date.now()}`,
+        id: id || undefined,
         title: title,
-        slug: slug,
         category: document.getElementById('input-article-category').value,
         autor: document.getElementById('input-article-author').value,
         status: document.getElementById('input-article-status').value,
         imagen: img,
         resumen: document.getElementById('input-article-resumen').value,
-        contenido: document.getElementById('input-article-content').value,
-        vistas: id ? (allArticles.find(a => a.id === id)?.vistas || 1) : 0,
-        created_at: new Date().toISOString().split('T')[0]
+        contenido: document.getElementById('input-article-content').value || document.getElementById('input-article-resumen').value
       };
 
-      if (id) {
-        allArticles = allArticles.map(a => a.id === id ? articleData : a);
-      } else {
-        allArticles.unshift(articleData);
+      try {
+        if (id) {
+          await updateArticleInDB(id, articleData);
+        } else {
+          await createArticleInDB(articleData);
+        }
+        allArticles = await fetchArticlesFromDB();
+        closeArticleModal();
+        filterArticlesTable();
+        updateDashboardMetrics();
+      } catch (err) {
+        alert('Error al guardar artículo en Supabase: ' + err.message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHtml;
+        }
       }
-
-      saveArticles(allArticles);
-      closeArticleModal();
-      filterArticlesTable();
-      updateDashboardMetrics();
     }
 
     // =======================================================
