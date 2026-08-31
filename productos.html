@@ -98,7 +98,7 @@
 
         <!-- Catálogo with Dropdown (ACTIVO) -->
         <div class="relative group">
-          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">
+          <a href="productos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">
             <span>Catálogo</span>
             <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
           </a>
@@ -120,6 +120,15 @@
                 <div>
                   <p class="font-headline font-bold text-xs text-secondary">Herramientas & Productos</p>
                   <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+              <a href="articulos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-purple-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">article</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-purple-700 transition-colors">Artículos & Guías Técnicas</p>
+                  <p class="text-[11px] text-slate-500">Tutoriales de reparación y diagnóstico</p>
                 </div>
               </a>
             </div>
@@ -181,6 +190,10 @@
         <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-white text-secondary font-headline font-bold text-xs shadow-sm">
           <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
           Herramientas & Productos
+        </a>
+        <a href="articulos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-purple-700">article</span>
+          Artículos & Guías Técnicas
         </a>
       </div>
       <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
@@ -452,6 +465,7 @@
   </footer>
 
   <!-- SCRIPTS -->
+  <script src="supabase-client.js"></script>
   <script src="products-data.js"></script>
   <script src="cart-data.js"></script>
   <script>
@@ -609,12 +623,16 @@
       window.location.href = `index.html?audience=${type}`;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       // Mostrar Panel CRUD solo si es Administrador
       if (localStorage.getItem('123_is_admin') === 'true') {
         document.querySelectorAll('.admin-only-link').forEach(el => el.classList.remove('hidden'));
       }
       renderProducts();
+      try {
+        await fetchProductsFromDB();
+        renderProducts();
+      } catch (e) {}
     });
   </script>
 </body>
