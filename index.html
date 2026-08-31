@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Academia TecnoPro - Formación Técnica Presencial de Excelencia</title>
+  
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "sans": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          },
+          boxShadow: {
+            "luxury": "0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04)",
+            "luxury-hover": "0 20px 40px -10px rgba(255, 107, 0, 0.15)"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col selection:bg-secondary selection:text-white antialiased">
+
+  <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
+    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Logo (Margen compacto gap-2) -->
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        </div>
+        <div>
+          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <!-- Inicio with Dropdown (ACTIVO) -->
+        <div class="relative group">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">
+            <span>Inicio</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="index.html?audience=general" onclick="event.preventDefault(); selectAudience('general');" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">person</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
+                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                </div>
+              </a>
+              <a href="index.html?audience=business" onclick="event.preventDefault(); selectAudience('business');" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
+                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo with Dropdown -->
+        <div class="relative group">
+          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Catálogo</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">school</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
+                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                </div>
+              </a>
+              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Herramientas & Productos</p>
+                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
+        <a href="admin.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-secondary">tune</span>
+          <span>Panel CRUD</span>
+        </a>
+        <a href="contacto.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Action Buttons with Shopping Cart & Quote Generator -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- Cart Drawer Trigger Button -->
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-primary hover:text-secondary transition-all flex items-center gap-1.5 border border-slate-200/80" title="Ver Carrito & Cotizaciones">
+          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+          <span class="text-xs font-headline font-bold">Carrito</span>
+          <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
+        </button>
+
+        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Iniciar Sesión</a>
+        <a href="cursos.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg transition-all">Inscribirme</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex items-center gap-2 lg:hidden">
+        <button onclick="openCartDrawer()" class="relative p-2 text-slate-700 hover:text-secondary">
+          <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+          <span class="cart-badge-count hidden absolute top-0 right-0 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Modalidad de Inicio</span>
+        <a href="index.html?audience=general" onclick="event.preventDefault(); selectAudience('general'); toggleMobileMenu();" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-white text-secondary font-headline font-bold text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Público General
+        </a>
+        <a href="index.html?audience=business" onclick="event.preventDefault(); selectAudience('business'); toggleMobileMenu();" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          Emprendimientos y Negocios
+        </a>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
+        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">school</span>
+          Cursos Técnicos Presenciales
+        </a>
+        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
+          Herramientas & Productos
+        </a>
+      </div>
+      <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
+      <a href="admin.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
+      </a>
+      <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="openCartDrawer()" class="w-full py-2.5 rounded-xl border border-secondary text-secondary font-headline font-bold text-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">shopping_cart</span> Ver Carrito / Cotizador
+        </button>
+        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Iniciar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-container-max mx-auto w-full px-6 md:px-12 py-10 space-y-16">
+
+    <!-- HERO SECTION -->
+    <section class="bg-white rounded-3xl p-8 md:p-12 shadow-luxury border border-slate-100 relative overflow-hidden">
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left: Text content -->
+        <div class="lg:col-span-7 space-y-6">
+          <div id="hero-badge-container" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/60 text-secondary text-xs font-headline font-bold">
+            <span id="hero-badge-icon" class="material-symbols-outlined text-sm">verified</span>
+            <span id="hero-badge-text">TALLERES 100% PRÁCTICOS & PRESENCIALES</span>
+          </div>
+          <h1 id="hero-title" class="font-headline font-black text-3xl sm:text-4xl md:text-5xl text-primary leading-tight tracking-tight">
+            ACELERACIÓN TÉCNICA Y FORMACIÓN PROFESIONAL.
+          </h1>
+          <p id="hero-desc" class="text-slate-600 text-base md:text-lg leading-relaxed">
+            Domina las habilidades más demandadas en el mercado laboral y empresarial: Ofimática Ejecutiva, Reparación de Computadoras y Laptops, Reparación de Celulares, Redes e Impresoras con bancos de trabajo individuales, instrumental profesional y certificación curricular.
+          </p>
+          
+          <div id="hero-actions" class="flex flex-wrap items-center gap-4 pt-2">
+            <a id="hero-btn-primary" href="cursos.html" class="px-8 py-4 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-base shadow-lg shadow-secondary/20 hover:scale-[1.02] transition-all flex items-center gap-2">
+              <span id="hero-btn-primary-text">VER CURSOS DISPONIBLES</span>
+              <span class="material-symbols-outlined text-lg">arrow_forward</span>
+            </a>
+            <a id="hero-btn-secondary" href="nosotros.html" class="px-6 py-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-primary font-headline font-semibold text-base transition-colors">
+              Conocer Instalaciones
+            </a>
+          </div>
+
+          <!-- Mini trust badges -->
+          <div id="hero-trust-badges" class="pt-6 border-t border-slate-100 flex flex-wrap items-center gap-6 text-xs text-slate-500 font-medium">
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Certificado Oficial</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Cupos Limitados por Turno</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Equipos Reales de Taller</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> 80% Práctica / 20% Teoría</span>
+          </div>
+        </div>
+
+        <!-- Right: Tech Visual / Video Showcase (Loop sin audio) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100/90 bg-slate-900 group">
+            <video 
+              id="hero-video" 
+              src="assets/videos/Quiero_que_hagas_un_video_de_t.mp4" 
+              poster="assets/images/Salon-tecnico.jpg"
+              autoplay 
+              loop 
+              muted 
+              playsinline
+              class="w-full h-80 sm:h-96 object-cover pointer-events-none"
+            ></video>
+
+            <div class="absolute bottom-4 left-4 right-4 z-10 p-3 rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white pointer-events-none">
+              <p class="font-headline font-bold text-sm tracking-wide">Instalaciones & Talleres Presenciales</p>
+              <p class="text-[11px] text-slate-200">Prácticas reales en laboratorios con instrumental técnico de última generación.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUE PROPOSITION BAR (3 CAPSULES DYNAMIQUES) -->
+    <section id="value-prop-container" class="grid md:grid-cols-3 gap-6">
+      <!-- Inyectado por JS según Público General o Negocios -->
+    </section>
+
+    <!-- FEATURED CATALOG SECTION (CURSOS GENERALES O COMBOS EMPRESARIALES) -->
+    <section id="courses-section" class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span id="catalog-tag" class="text-secondary font-headline font-bold text-xs tracking-wider uppercase">Oferta Académica Presencial 2026</span>
+          <h2 id="catalog-title" class="font-headline font-extrabold text-2xl md:text-3xl text-primary mt-1">
+            NUESTROS PROGRAMAS TÉCNICOS DESTACADOS
+          </h2>
+          <p id="catalog-desc" class="text-slate-500 text-sm mt-1">Talleres presenciales intensivos con cupos limitados y bancos de trabajo individuales.</p>
+        </div>
+        <a id="catalog-view-all" href="cursos.html" class="inline-flex items-center gap-2 font-headline font-bold text-sm text-secondary hover:text-secondary-hover shrink-0">
+          <span>Explorar catálogo completo</span>
+          <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+      </div>
+
+      <!-- Course or Combos Cards Container (Rendered dynamically) -->
+      <div id="courses-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- CORPORATE & BUSINESS B2B SPOTLIGHT SECTION -->
+    <section id="corporate-spotlight" class="bg-gradient-to-br from-primary via-[#0B1B3D] to-[#050C1D] text-white rounded-3xl p-8 md:p-12 shadow-luxury relative overflow-hidden">
+      <div class="grid lg:grid-cols-12 gap-8 items-center relative z-10">
+        <div class="lg:col-span-8 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-secondary font-headline font-bold text-xs">
+            <span class="material-symbols-outlined text-sm">corporate_fare</span>
+            DIVISIÓN EMPRESARIAL & B2B
+          </div>
+          <h3 id="spotlight-title" class="font-headline font-bold text-2xl sm:text-3xl text-white">
+            Capacitación Corporativa y Formación para Empresas
+          </h3>
+          <p id="spotlight-desc" class="text-slate-300 text-sm md:text-base leading-relaxed max-w-2xl">
+            Impulsa la productividad técnica y tecnológica de tu equipo de trabajo. Diseñamos planes cerrados a medida para empresas, soporte técnico in-company, mantenimiento de infraestructura de redes y ofimática ejecutiva avanzada.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a href="contacto.html" class="px-6 py-3 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-sm shadow-md transition-all">
+              Solicitar Cotización Empresarial
+            </a>
+            <a href="nosotros.html" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-headline font-semibold text-sm transition-all">
+              Ver Instalaciones y Capacidad
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-4 grid grid-cols-2 gap-4 text-center">
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+            <span class="font-headline font-black text-2xl text-secondary">+50</span>
+            <p class="text-[11px] text-slate-300 font-semibold uppercase mt-1">Empresas Capacitadas</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+            <span class="font-headline font-black text-2xl text-secondary">100%</span>
+            <p class="text-[11px] text-slate-300 font-semibold uppercase mt-1">Adaptable a Medida</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+            <span class="font-headline font-black text-2xl text-secondary">4</span>
+            <p class="text-[11px] text-slate-300 font-semibold uppercase mt-1">Laboratorios Pro</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+            <span class="font-headline font-black text-2xl text-secondary">98%</span>
+            <p class="text-[11px] text-slate-300 font-semibold uppercase mt-1">Satisfacción</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS & IMPACT SECTION -->
+    <section class="bg-white rounded-3xl p-8 md:p-10 shadow-luxury border border-slate-100 text-center space-y-6">
+      <div>
+        <span id="skills-tag" class="text-secondary font-headline font-bold text-xs tracking-wider uppercase">Competencias Técnicas</span>
+        <h3 id="skills-title" class="font-headline font-extrabold text-xl md:text-2xl text-primary mt-1">HABILIDADES A DESARROLLAR</h3>
+        <p id="skills-desc" class="text-slate-500 text-xs md:text-sm mt-1">Destrezas reales que adquirirás en nuestros bancos de entrenamiento técnico.</p>
+      </div>
+      <div id="skills-chips-container" class="flex flex-wrap justify-center items-center gap-4 pt-2">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER (STANDARDIZED LUXURY FULL WIDTH) -->
+  <footer class="w-full bg-gradient-to-r from-primary via-[#0E2554] to-[#C74B00] text-white mt-16 pt-16 pb-12 border-t border-white/10">
+    <div class="max-w-container-max mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        <!-- Col 1: Identidad & Sede -->
+        <div class="space-y-4 col-span-2 md:col-span-1">
+          <a href="index.html" class="flex items-center gap-2 group shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shadow-sm shrink-0">
+              <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+            </div>
+            <div>
+              <span class="font-headline font-extrabold text-lg tracking-tight text-white">123Academia<span class="text-secondary">Tech</span></span>
+              <p class="text-[9.5px] text-slate-300 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+            </div>
+          </a>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Laboratorios de formación técnica presencial y venta de instrumental especializado para técnicos y profesionales.
+          </p>
+        </div>
+
+        <!-- Col 2: Catálogo de Instrumental -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Catálogo de Instrumental</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="productos.html" class="hover:text-white transition-colors">Herramientas Manuales</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Estaciones SMD</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Multímetros y Osciloscopios</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Insumos y Flux</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Programas Técnicos -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Programas Técnicos</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Reparación de Celulares</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Mantenimiento de Laptops</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Redes & Telecomunicaciones</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Ofimática Avanzada</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Sede & Contacto -->
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Sede & Contacto</h4>
+          <p class="text-xs text-slate-300">Av. Tecnológica 123, Edificio TecnoPro, Piso 4.</p>
+          <p class="text-xs text-slate-300 font-semibold">WhatsApp: +1 (800) 123-TECH</p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">share</span>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">mail</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 text-center text-xs text-slate-400">
+        <p>© 2026 123AcademiaTech. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/?text=Hola%20quiero%20información%20sobre%20los%20cursos%20presenciales%20de%20123AcademiaTech" target="_blank" class="fixed bottom-6 right-6 z-50 group flex items-center">
+    <div class="relative w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+      <span class="material-symbols-outlined text-3xl">chat</span>
+      <span class="absolute -top-1 -right-1 w-5 h-5 bg-secondary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white animate-bounce">1</span>
+    </div>
+    <span class="hidden group-hover:block mr-3 bg-white text-slate-800 text-xs font-headline font-bold py-2 px-3 rounded-xl shadow-lg border border-slate-100">
+      ¡Escríbenos por WhatsApp!
+    </span>
+  </a>
+
+  <!-- ======================================================= -->
+  <!-- MODAL: FICHA TÉCNICA & DESCRIPCIÓN DETALLADA (INICIO)  -->
+  <!-- ======================================================= -->
+  <div id="course-detail-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="fixed inset-0" onclick="closeCourseModal()"></div>
+    <div class="relative bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto z-10">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-100 pb-4 gap-4">
+        <div>
+          <span id="modal-course-category" class="text-[11px] font-headline font-bold text-secondary uppercase tracking-wider block">TALLER TÉCNICO PRESENCIAL</span>
+          <h3 id="modal-course-title" class="font-headline font-black text-xl sm:text-2xl text-primary mt-0.5 leading-snug"></h3>
+        </div>
+        <button onclick="closeCourseModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center shrink-0 transition-colors">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Presentation Image Banner -->
+      <div class="relative h-48 sm:h-56 w-full rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-100">
+        <img id="modal-course-image" src="" alt="Curso o Combo" class="w-full h-full object-cover"/>
+        <span id="modal-course-badge" class="absolute top-3 left-3 bg-white/95 backdrop-blur-md text-primary font-headline font-bold text-xs py-1 px-3 rounded-full shadow-sm"></span>
+        <span id="modal-course-spots" class="absolute bottom-3 right-3 bg-primary/95 text-white font-semibold text-xs py-1 px-3 rounded-lg shadow-sm"></span>
+      </div>
+
+      <!-- Quick Metrics Highlights (3 Boxes) -->
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 text-center sm:text-left">
+          <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Inversión</span>
+          <p id="modal-course-price" class="font-headline font-black text-lg sm:text-xl text-secondary mt-0.5"></p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 text-center sm:text-left">
+          <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Carga Horaria</span>
+          <p id="modal-course-duration" class="font-headline font-bold text-xs text-primary mt-1 truncate"></p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 text-center sm:text-left">
+          <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Modalidad</span>
+          <p class="font-headline font-bold text-xs text-emerald-600 mt-1">100% Presencial</p>
+        </div>
+      </div>
+
+      <!-- Detailed Description -->
+      <div class="space-y-2">
+        <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400">Descripción del Programa</h4>
+        <p id="modal-course-desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50/70 p-4 rounded-2xl border border-slate-100"></p>
+      </div>
+
+      <!-- Dynamic Inclusions / Modules list -->
+      <div id="modal-course-inclusions-container" class="space-y-2.5"></div>
+
+      <!-- Action Buttons Footer -->
+      <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-end gap-3">
+        <button onclick="closeCourseModal()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-headline font-semibold text-xs transition-colors">
+          Cerrar
+        </button>
+        <button id="modal-course-btn-add-cart" class="px-4 py-2.5 rounded-xl bg-orange-100 hover:bg-orange-200 text-secondary font-headline font-bold text-xs flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+          + AÑADIR A COTIZADOR
+        </button>
+        <a id="modal-course-btn-action" href="#" class="px-6 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md transition-all">
+          CONTINUAR A CONTACTO
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
+  <!-- ======================================================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <!-- Cart Header -->
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
+            <p class="text-[11px] text-slate-500">Talleres, Combos B2B y Herramientas</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+          </button>
+          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Items Scroll Area -->
+      <div class="p-6 overflow-y-auto flex-grow space-y-4">
+        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+          </div>
+          <p class="font-headline font-bold text-sm text-slate-600">El cotizador está vacío</p>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega cursos individuales o combos empresariales para armar tu paquete.</p>
+        </div>
+
+        <div id="cart-items-container" class="space-y-3"></div>
+      </div>
+
+      <!-- Cart Footer / Summary & Actions -->
+      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-slate-500">
+            <span>Subtotal Estimado:</span>
+            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Modalidad:</span>
+            <span class="text-emerald-600 font-semibold">100% Presencial en Laboratorios</span>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
+            <span class="font-headline font-bold text-sm text-primary">TOTAL ESTIMADO:</span>
+            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">chat</span>
+            SOLICITAR INSCRIPCIÓN / COTIZAR WHATSAPP
+          </button>
+          
+          <button onclick="transferCartToContactForm()" class="w-full py-3 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs flex items-center justify-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-base">mail</span>
+            ENVIAR A FORMULARIO DE CONTACTO
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="courses-data.js"></script>
+  <script src="cart-data.js"></script>
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('audience', type);
+      window.history.pushState({}, '', newUrl);
+
+      switchAudience(type);
+    }
+
+    function switchAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      const isBusiness = (type === 'business');
+
+      // 1. Hero Section
+      const heroBadgeContainer = document.getElementById('hero-badge-container');
+      const heroBadgeText = document.getElementById('hero-badge-text');
+      const heroBadgeIcon = document.getElementById('hero-badge-icon');
+      const heroTitle = document.getElementById('hero-title');
+      const heroDesc = document.getElementById('hero-desc');
+      const heroBtnPrimary = document.getElementById('hero-btn-primary');
+      const heroBtnPrimaryText = document.getElementById('hero-btn-primary-text');
+      const heroBtnSecondary = document.getElementById('hero-btn-secondary');
+      const heroTrustBadges = document.getElementById('hero-trust-badges');
+      const heroImage = document.getElementById('hero-image');
+      const heroImageTitle = document.getElementById('hero-image-title');
+      const heroImageDesc = document.getElementById('hero-image-desc');
+
+      if (isBusiness) {
+        if (heroBadgeContainer) heroBadgeContainer.className = "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/70 text-primary text-xs font-headline font-bold";
+        if (heroBadgeIcon) heroBadgeIcon.innerText = "corporate_fare";
+        if (heroBadgeText) heroBadgeText.innerText = "PLANES CORPORATIVOS & COMBOS EMPRESARIALES B2B";
+        if (heroTitle) heroTitle.innerText = "CAPACITACIÓN EMPRESARIAL & COMBOS TÉCNICOS PARA NEGOCIOS.";
+        if (heroDesc) heroDesc.innerText = "Impulsa la autonomía, productividad y rentabilidad de tu empresa. Entrenamos a tu equipo en diagnóstico de computadoras, soporte de redes, ofimática ejecutiva e impresoras con paquetes grupales bonificados por número de colaboradores.";
+        if (heroBtnPrimary) heroBtnPrimary.href = "#courses-section";
+        if (heroBtnPrimaryText) heroBtnPrimaryText.innerText = "VER COMBOS EMPRESARIALES";
+        if (heroBtnSecondary) {
+          heroBtnSecondary.innerText = "Cotizar Plan a Medida";
+          heroBtnSecondary.href = "contacto.html?subject=corporativo";
+        }
+        if (heroTrustBadges) {
+          heroTrustBadges.innerHTML = `
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Facturación Fiscal & Deducción</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Combos Grupales Bonificados</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Horarios In-Company o en Sede</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Retorno de Inversión Garantizado</span>
+          `;
+        }
+        if (heroImage) heroImage.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80";
+        if (heroImageTitle) heroImageTitle.innerText = "División Corporativa & Laboratorios VIP";
+        if (heroImageDesc) heroImageDesc.innerText = "Capacitación técnica in-company y en instalaciones privadas con instrumental de alta gama.";
+      } else {
+        if (heroBadgeContainer) heroBadgeContainer.className = "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/60 text-secondary text-xs font-headline font-bold";
+        if (heroBadgeIcon) heroBadgeIcon.innerText = "verified";
+        if (heroBadgeText) heroBadgeText.innerText = "TALLERES 100% PRÁCTICOS & PRESENCIALES";
+        if (heroTitle) heroTitle.innerText = "ACELERACIÓN TÉCNICA Y FORMACIÓN PROFESIONAL.";
+        if (heroDesc) heroDesc.innerText = "Domina las habilidades más demandadas en el mercado laboral y empresarial: Ofimática Ejecutiva, Reparación de Computadoras y Laptops, Reparación de Celulares, Redes e Impresoras con bancos de trabajo individuales, instrumental profesional y certificación curricular.";
+        if (heroBtnPrimary) heroBtnPrimary.href = "cursos.html";
+        if (heroBtnPrimaryText) heroBtnPrimaryText.innerText = "VER CURSOS DISPONIBLES";
+        if (heroBtnSecondary) {
+          heroBtnSecondary.innerText = "Conocer Instalaciones";
+          heroBtnSecondary.href = "nosotros.html";
+        }
+        if (heroTrustBadges) {
+          heroTrustBadges.innerHTML = `
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Certificado Oficial</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Cupos Limitados por Turno</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Equipos Reales de Taller</span>
+            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> 80% Práctica / 20% Teoría</span>
+          `;
+        }
+        if (heroImage) heroImage.src = "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80";
+        if (heroImageTitle) heroImageTitle.innerText = "Laboratorios de Alta Tecnología";
+        if (heroImageDesc) heroImageDesc.innerText = "Prácticas intensivas en bancos individuales de trabajo con instrumental de precisión.";
+      }
+
+      // 2. Value Proposition Bar
+      renderValueProps(isBusiness);
+
+      // 3. Catalog / Programs Section (Cursos Individuales vs Combos Empresariales)
+      renderCatalogSection(isBusiness);
+
+      // 4. Skills / Impact Section
+      renderSkillsSection(isBusiness);
+    }
+
+    function renderValueProps(isBusiness) {
+      const container = document.getElementById('value-prop-container');
+      if (!container) return;
+
+      if (isBusiness) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-6 shadow-luxury border border-slate-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-secondary">trending_up</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-primary text-base">Ahorro en Soporte & Autonomía IT</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">Elimina la dependencia y costo de terceros. Tu propio personal resolverá fallas de computadoras, redes, ofimática e impresoras de inmediato.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-luxury border border-slate-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-secondary">groups</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-primary text-base">Combos Grupales Bonificados</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">Paquetes todo-en-uno por número de personas (grupos de 3 a 10 colaboradores) con tarifas preferenciales y fechas exclusivas.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-luxury border border-slate-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center text-white shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-white">workspace_premium</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-primary text-base">Certificación & Deducción Fiscal</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">Diplomas empresariales oficiales con facturación fiscal de capacitación y reportes de rendimiento y competencias para Recursos Humanos.</p>
+            </div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-6 shadow-luxury border border-slate-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-secondary">build</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-primary text-base">Talleres 100% Prácticos</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">80% Práctica y 20% Teoría. Diagnóstico y reparación directa en placas y equipos electrónicos reales desde el primer día.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-luxury border border-slate-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-secondary">workspace_premium</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-primary text-base">Certificación Técnica Oficial</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">Certificados avalados por el sector tecnológico para inserción laboral rápida o para emprender tu propio taller de servicio técnico.</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-luxury border border-slate-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center text-white shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-white">support_agent</span>
+            </div>
+            <div>
+              <h3 class="font-headline font-bold text-primary text-base">Soporte & Equipamiento Pro</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">Mesas individuales con microscopios trinoculares, osciloscopios, estaciones de calor y asesoría técnica de instructores expertos.</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function renderCatalogSection(isBusiness) {
+      const tag = document.getElementById('catalog-tag');
+      const title = document.getElementById('catalog-title');
+      const desc = document.getElementById('catalog-desc');
+      const viewAll = document.getElementById('catalog-view-all');
+      const container = document.getElementById('courses-grid');
+
+      if (!container) return;
+
+      if (isBusiness) {
+        if (tag) tag.innerText = "Planes Grupales & Paquetes Empresariales 2026";
+        if (title) title.innerText = "COMBOS DE CAPACITACIÓN PARA EMPRENDIMIENTOS Y EMPRESAS";
+        if (desc) desc.innerText = "Paquetes técnicos todo-en-uno cotizados por número de participantes para maximizar el presupuesto y productividad de tu negocio.";
+        if (viewAll) {
+          viewAll.href = "contacto.html?subject=combos_empresariales";
+          viewAll.innerHTML = `<span>Solicitar cotización personalizada</span><span class="material-symbols-outlined text-base">arrow_forward</span>`;
+        }
+
+        const combos = getBusinessCombos().filter(c => c.status === 'active');
+        container.innerHTML = combos.map(c => `
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-luxury flex flex-col group hover:-translate-y-1.5 hover:border-secondary/50 transition-all duration-300">
+            <div onclick="openCourseModal('${c.id}', 'combo')" class="relative h-48 overflow-hidden cursor-pointer">
+              <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-black/20"></div>
+              <span class="absolute top-3 left-3 bg-secondary text-white font-headline font-bold text-[11px] py-1 px-3 rounded-full shadow-md flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-xs">groups</span>
+                ${c.badge}
+              </span>
+              <div class="absolute bottom-3 left-3 right-3 text-white">
+                <span class="text-[10px] font-headline font-bold uppercase tracking-wider text-orange-200">${c.groupSize}</span>
+              </div>
+            </div>
+            <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+              <div class="space-y-2.5">
+                <h3 onclick="openCourseModal('${c.id}', 'combo')" class="font-headline font-bold text-base text-primary leading-snug group-hover:text-secondary transition-colors cursor-pointer">
+                  ${c.title}
+                </h3>
+                <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                  ${c.description}
+                </p>
+                <button onclick="openCourseModal('${c.id}', 'combo')" class="text-xs font-headline font-semibold text-secondary hover:underline flex items-center gap-1">
+                  <span>Ver Ficha & Módulos</span>
+                  <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </button>
+                <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 space-y-1.5">
+                  <span class="text-[10px] font-headline font-bold text-primary uppercase tracking-wide block">Módulos del Combo:</span>
+                  ${(c.includes || []).map(inc => `
+                    <div class="flex items-center gap-1.5 text-[11px] text-slate-600">
+                      <span class="material-symbols-outlined text-secondary text-sm shrink-0">check_circle</span>
+                      <span>${inc}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+              <div class="pt-4 border-t border-slate-100 space-y-2">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Inversión Combo</span>
+                    <p class="font-headline font-extrabold text-secondary text-lg">${c.price}</p>
+                    <span class="text-[9.5px] text-slate-500 block font-medium -mt-0.5">${c.unitPriceDetail}</span>
+                  </div>
+                  <button onclick="openCourseModal('${c.id}', 'combo')" class="px-4 py-2.5 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs transition-colors shadow-sm text-center">
+                    COTIZAR COMBO
+                  </button>
+                </div>
+                <button onclick="addToCart({ id: '${c.id}', title: '${c.title}', price: '${c.price}', type: 'combo', image: '${c.image}', badge: '${c.badge}' })" class="w-full py-1 text-center text-xs text-slate-500 hover:text-secondary font-semibold flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                  + Añadir al Cotizador
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        if (tag) tag.innerText = "Oferta Académica Presencial 2026";
+        if (title) title.innerText = "NUESTROS PROGRAMAS TÉCNICOS DESTACADOS";
+        if (desc) desc.innerText = "Talleres presenciales intensivos con cupos limitados y bancos de trabajo individuales.";
+        if (viewAll) {
+          viewAll.href = "cursos.html";
+          viewAll.innerHTML = `<span>Explorar catálogo completo</span><span class="material-symbols-outlined text-base">arrow_forward</span>`;
+        }
+
+        const courses = getCourses().filter(c => c.status === 'active');
+        container.innerHTML = courses.map(c => `
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-luxury flex flex-col group hover:-translate-y-1.5 transition-all duration-300">
+            <div onclick="openCourseModal('${c.id}', 'course')" class="relative h-48 overflow-hidden cursor-pointer">
+              <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-primary font-headline font-bold text-[11px] py-1 px-3 rounded-full shadow-sm flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                ${c.badge || 'Presencial'}
+              </span>
+            </div>
+            <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+              <div>
+                <div class="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-1.5">
+                  <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm text-secondary">schedule</span> ${c.duration || 'Presencial'}</span>
+                  <span class="text-secondary font-bold">${c.spots || 'Cupos Disponibles'}</span>
+                </div>
+                <h3 onclick="openCourseModal('${c.id}', 'course')" class="font-headline font-bold text-base text-primary leading-snug group-hover:text-secondary transition-colors cursor-pointer">
+                  ${c.title}
+                </h3>
+                <p class="text-xs text-slate-500 mt-2 leading-relaxed line-clamp-3">
+                  ${c.description}
+                </p>
+                <button onclick="openCourseModal('${c.id}', 'course')" class="text-xs font-headline font-semibold text-secondary hover:underline flex items-center gap-1 pt-2">
+                  <span>Ver Ficha & Temario</span>
+                  <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </button>
+              </div>
+              <div class="pt-4 border-t border-slate-100 space-y-2">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Inversión Individual</span>
+                    <p class="font-headline font-extrabold text-secondary text-base">${c.price}</p>
+                  </div>
+                  <button onclick="openCourseModal('${c.id}', 'course')" class="px-4 py-2 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md transition-all">
+                    INSCRIBIRME
+                  </button>
+                </div>
+                <button onclick="addToCart({ id: '${c.id}', title: '${c.title}', price: '${c.price}', type: 'curso', image: '${c.image}', badge: '${c.badge}' })" class="w-full py-1 text-center text-xs text-slate-500 hover:text-secondary font-semibold flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                  + Añadir al Cotizador
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function openCourseModal(id, type = 'course') {
+      let item = null;
+      const isCombo = (type === 'combo');
+
+      if (isCombo) {
+        item = getBusinessCombos().find(c => c.id === id);
+      } else {
+        item = getCourses().find(c => c.id === id);
+      }
+
+      if (!item) return;
+
+      const catElement = document.getElementById('modal-course-category');
+      if (catElement) {
+        catElement.innerText = isCombo ? 'COMBO EMPRESARIAL B2B • CAPACITACIÓN GRUPAL' : (item.category ? `TALLER • ${item.category.toUpperCase()}` : 'TALLER TÉCNICO PRESENCIAL');
+      }
+
+      document.getElementById('modal-course-title').innerText = item.title;
+      document.getElementById('modal-course-image').src = item.image;
+      document.getElementById('modal-course-badge').innerText = item.badge || (isCombo ? 'Capacitación Grupal' : 'Presencial Especializado');
+      document.getElementById('modal-course-spots').innerText = item.spots || item.groupSize || 'Cupos en Sede';
+      document.getElementById('modal-course-price').innerText = item.price;
+      document.getElementById('modal-course-duration').innerText = item.duration;
+      document.getElementById('modal-course-desc').innerText = item.description;
+
+      const incContainer = document.getElementById('modal-course-inclusions-container');
+      if (incContainer) {
+        if (isCombo && item.includes && item.includes.length > 0) {
+          incContainer.innerHTML = `
+            <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400">Módulos & Especialidades del Combo</h4>
+            <div class="space-y-2 text-xs text-slate-700">
+              ${item.includes.map(inc => `
+                <div class="flex items-center gap-2 p-2.5 rounded-xl bg-orange-50/60 border border-orange-100 font-semibold">
+                  <span class="material-symbols-outlined text-secondary text-base shrink-0">check_circle</span>
+                  <span>${inc}</span>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          incContainer.innerHTML = `
+            <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400">Lo que incluye tu formación en taller</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                <span class="material-symbols-outlined text-secondary text-base">workspace_premium</span>
+                <span class="font-semibold">Certificado curricular avalado</span>
+              </div>
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                <span class="material-symbols-outlined text-secondary text-base">precision_manufacturing</span>
+                <span class="font-semibold">Banco de trabajo e instrumental propio</span>
+              </div>
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                <span class="material-symbols-outlined text-secondary text-base">build_circle</span>
+                <span class="font-semibold">Prácticas directas con equipos reales</span>
+              </div>
+              <div class="flex items-center gap-2 p-2.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                <span class="material-symbols-outlined text-secondary text-base">support_agent</span>
+                <span class="font-semibold">Docente especialista en laboratorio</span>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      const actionBtn = document.getElementById('modal-course-btn-action');
+      if (actionBtn) {
+        if (isCombo) {
+          actionBtn.innerText = 'COTIZAR COMBO EMPRESARIAL';
+          actionBtn.href = `contacto.html?combo=${encodeURIComponent(item.title)}&type=combo`;
+        } else {
+          actionBtn.innerText = 'INSCRIBIRME / RESERVAR CUPO';
+          actionBtn.href = `contacto.html?course=${encodeURIComponent(item.title)}&type=course`;
+        }
+      }
+
+      const addCartBtn = document.getElementById('modal-course-btn-add-cart');
+      if (addCartBtn) {
+        addCartBtn.onclick = () => {
+          addToCart({
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            type: isCombo ? 'combo' : 'curso',
+            image: item.image,
+            badge: item.badge
+          });
+          closeCourseModal();
+        };
+      }
+
+      const modal = document.getElementById('course-detail-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeCourseModal() {
+      const modal = document.getElementById('course-detail-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function renderSkillsSection(isBusiness) {
+      const tag = document.getElementById('skills-tag');
+      const title = document.getElementById('skills-title');
+      const desc = document.getElementById('skills-desc');
+      const container = document.getElementById('skills-chips-container');
+
+      if (!container) return;
+
+      if (isBusiness) {
+        if (tag) tag.innerText = "Impacto Empresarial & ROI";
+        if (title) title.innerText = "COMPETENCIAS & BENEFICIOS PARA TU NEGOCIO";
+        if (desc) desc.innerText = "Habilidades estratégicas que aumentarán la productividad técnica y reducirán los gastos de tu empresa.";
+        container.innerHTML = `
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">savings</span>
+            Ahorro en Facturación de Servicios IT Externos
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">table_chart</span>
+            Automatización de Procesos con Excel & Dashboards
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">lan</span>
+            Cero Caídas de Sistema en Redes y Servidores
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">desktop_windows</span>
+            Mantenimiento Preventivo de Flota de Computadoras
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">support_agent</span>
+            Gestión Ágil de Incidentes y Soporte In-House
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">trending_up</span>
+            Retorno Rápido de Inversión en Capacitación
+          </div>
+        `;
+      } else {
+        if (tag) tag.innerText = "Competencias Técnicas";
+        if (title) title.innerText = "HABILIDADES A DESARROLLAR";
+        if (desc) desc.innerText = "Destrezas reales que adquirirás en nuestros bancos de entrenamiento técnico.";
+        container.innerHTML = `
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">troubleshoot</span>
+            Diagnóstico Electrónico & Detección de Cortos
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">precision_manufacturing</span>
+            Micro-soldadura SMD & Reballing
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">lan</span>
+            Arquitectura de Redes & Servidores VLAN
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">terminal</span>
+            Fallas de Software & Flashing BIOS
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">print</span>
+            Mantenimiento de Impresoras Láser e Inyección
+          </div>
+          <div class="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200/70 text-slate-700 font-headline font-semibold text-xs shadow-sm hover:border-secondary transition-colors">
+            <span class="material-symbols-outlined text-secondary text-lg">handyman</span>
+            Manejo de Instrumental y Herramientas Pro
+          </div>
+        `;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const audienceParam = urlParams.get('audience');
+      const pref = audienceParam || localStorage.getItem('audience_preference') || 'general';
+      switchAudience(pref);
+
+      const heroVideo = document.getElementById('hero-video');
+      if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.loop = true;
+        heroVideo.play().catch(() => {});
+      }
+    });
+  </script>
+</body>
+</html>

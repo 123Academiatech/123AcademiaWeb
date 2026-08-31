@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Panel CRUD - TecnoPro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "inverse-surface": "#2d3133",
+                            "error": "#ba1a1a",
+                            "on-surface-variant": "#45464e",
+                            "on-secondary-fixed": "#351000",
+                            "surface-tint": "#505e83",
+                            "on-background": "#191c1e",
+                            "primary-fixed-dim": "#b7c6f1",
+                            "inverse-primary": "#b7c6f1",
+                            "on-error-container": "#93000a",
+                            "surface": "#f7f9fb",
+                            "on-primary-fixed-variant": "#38466a",
+                            "on-primary": "#ffffff",
+                            "outline-variant": "#c5c6cf",
+                            "surface-container-lowest": "#ffffff",
+                            "on-tertiary": "#ffffff",
+                            "surface-dim": "#d8dadc",
+                            "tertiary-fixed-dim": "#f4ba95",
+                            "tertiary-fixed": "#ffdcc7",
+                            "surface-variant": "#e0e3e5",
+                            "surface-container-high": "#e6e8ea",
+                            "surface-container-highest": "#e0e3e5",
+                            "primary-container": "#0b1b3d",
+                            "on-primary-fixed": "#0a1a3c",
+                            "surface-bright": "#f7f9fb",
+                            "secondary": "#a04100",
+                            "on-tertiary-fixed-variant": "#653d21",
+                            "on-tertiary-container": "#ab7a59",
+                            "on-secondary": "#ffffff",
+                            "primary": "#00020a",
+                            "on-secondary-container": "#572000",
+                            "on-error": "#ffffff",
+                            "tertiary": "#040100",
+                            "secondary-container": "#fe6b00",
+                            "on-surface": "#191c1e",
+                            "outline": "#75777f",
+                            "on-secondary-fixed-variant": "#7a3000",
+                            "surface-container-low": "#f2f4f6",
+                            "surface-container": "#eceef0",
+                            "primary-fixed": "#dae2ff",
+                            "tertiary-container": "#321400",
+                            "secondary-fixed-dim": "#ffb693",
+                            "error-container": "#ffdad6",
+                            "on-primary-container": "#7684ac",
+                            "on-tertiary-fixed": "#311300",
+                            "background": "#f7f9fb",
+                            "secondary-fixed": "#ffdbcc",
+                            "inverse-on-surface": "#eff1f3"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px",
+                            "24": "24px",
+                            "16": "16px"
+                    },
+                    "spacing": {
+                            "unit": "8px",
+                            "section-gap": "80px",
+                            "container-max": "1280px",
+                            "gutter": "24px",
+                            "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                            "display-lg-mobile": [
+                                    "Montserrat"
+                            ],
+                            "display-lg": [
+                                    "Montserrat"
+                            ],
+                            "label-sm": [
+                                    "Inter"
+                            ],
+                            "headline-md": [
+                                    "Montserrat"
+                            ],
+                            "body-md": [
+                                    "Inter"
+                            ],
+                            "label-bold": [
+                                    "Inter"
+                            ],
+                            "headline-sm": [
+                                    "Montserrat"
+                            ],
+                            "body-lg": [
+                                    "Inter"
+                            ]
+                    },
+                    "fontSize": {
+                            "display-lg-mobile": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "1.2",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "display-lg": [
+                                    "48px",
+                                    {
+                                            "lineHeight": "1.1",
+                                            "letterSpacing": "-0.02em",
+                                            "fontWeight": "700"
+                                    }
+                            ],
+                            "label-sm": [
+                                    "12px",
+                                    {
+                                            "lineHeight": "1.2",
+                                            "fontWeight": "500"
+                                    }
+                            ],
+                            "headline-md": [
+                                    "32px",
+                                    {
+                                            "lineHeight": "1.2",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "body-md": [
+                                    "16px",
+                                    {
+                                            "lineHeight": "1.5",
+                                            "fontWeight": "400"
+                                    }
+                            ],
+                            "label-bold": [
+                                    "14px",
+                                    {
+                                            "lineHeight": "1.2",
+                                            "letterSpacing": "0.05em",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "headline-sm": [
+                                    "24px",
+                                    {
+                                            "lineHeight": "1.3",
+                                            "fontWeight": "600"
+                                    }
+                            ],
+                            "body-lg": [
+                                    "18px",
+                                    {
+                                            "lineHeight": "1.6",
+                                            "fontWeight": "400"
+                                    }
+                            ]
+                    }
+            },
+                }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .shadow-soft {
+            box-shadow: 0px 4px 20px rgba(11, 27, 61, 0.05);
+        }
+        .shadow-heavy {
+            box-shadow: 0px 10px 30px rgba(11, 27, 61, 0.08);
+        }
+        
+        /* Toggle Switch Styles */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0B1B3D; /* Primary container */
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0B1B3D;
+        }
+        .toggle-checkbox:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
+        /* Bottom Sheet Animation */
+        .bottom-sheet {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .bottom-sheet.open {
+            transform: translateY(0);
+        }
+        .overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased pb-24">
+<!-- Top Navigation (Desktop) - Hidden on Mobile -->
+<nav class="hidden md:flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20 bg-white/70 dark:bg-primary-container/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0px_4px_20px_rgba(11,27,61,0.05)] sticky top-0 z-50">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+            TecnoPro
+        </div>
+<ul class="flex space-x-6">
+<li><a class="font-label-bold text-label-bold text-on-surface-variant/60 dark:text-outline hover:text-primary transition-colors duration-300" href="#">Inicio</a></li>
+<li><a class="font-label-bold text-label-bold text-on-surface-variant/60 dark:text-outline hover:text-primary transition-colors duration-300" href="#">Cursos</a></li>
+<li><a class="font-label-bold text-label-bold text-on-surface-variant/60 dark:text-outline hover:text-primary transition-colors duration-300" href="#">Certificaciones</a></li>
+<li><a class="font-label-bold text-label-bold text-primary dark:text-primary-fixed border-b-2 border-secondary font-bold hover:bg-surface-container-low transition-colors duration-300" href="#">Panel CRUD</a></li>
+<li><a class="font-label-bold text-label-bold text-on-surface-variant/60 dark:text-outline hover:text-primary transition-colors duration-300" href="#">Contacto</a></li>
+</ul>
+<button class="bg-primary-container text-white px-6 py-2 rounded-16 font-label-bold text-label-bold hover:bg-opacity-90 transition-opacity">
+            Inscribirme
+        </button>
+</nav>
+<!-- Mobile Header -->
+<header class="md:hidden flex items-center justify-between p-margin-mobile bg-white shadow-soft sticky top-0 z-40">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary-container">Panel Gestión</h1>
+<button class="text-primary-container">
+<span class="material-symbols-outlined" style="font-size: 28px;">menu</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-gutter pt-6 pb-section-gap">
+<!-- Search and Filter (Mobile Adapted) -->
+<div class="mb-6 sticky top-[72px] z-30 bg-background/95 backdrop-blur py-2">
+<div class="relative w-full">
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-16 focus:border-primary-container focus:ring-4 focus:ring-primary-container/20 transition-all font-body-md text-body-md" placeholder="Buscar curso..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-3.5 text-outline">search</span>
+<button class="absolute right-3 top-3.5 text-primary-container" onclick="toggleFilters()">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+<!-- Expandable Filters -->
+<div class="hidden mt-3 p-4 bg-white rounded-16 shadow-heavy border border-outline-variant/30" id="filterPanel">
+<h3 class="font-label-bold text-label-bold text-primary-container mb-2">Categoría</h3>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-primary-container text-white rounded-full text-label-sm font-label-sm cursor-pointer">Todos</span>
+<span class="px-3 py-1 bg-surface-container border border-outline-variant text-on-surface-variant rounded-full text-label-sm font-label-sm cursor-pointer">Backend</span>
+<span class="px-3 py-1 bg-surface-container border border-outline-variant text-on-surface-variant rounded-full text-label-sm font-label-sm cursor-pointer">Frontend</span>
+<span class="px-3 py-1 bg-surface-container border border-outline-variant text-on-surface-variant rounded-full text-label-sm font-label-sm cursor-pointer">DevOps</span>
+</div>
+</div>
+</div>
+<!-- Section Title -->
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary-container">Cursos Activos</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Gestione el catálogo de formación técnica.</p>
+</div>
+</div>
+<!-- Mobile Card Grid (Bento style hint) -->
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+<!-- Card 1 -->
+<div class="bg-white rounded-24 shadow-heavy overflow-hidden flex flex-col relative border border-outline-variant/20">
+<!-- Image & Badge -->
+<div class="relative h-40 w-full">
+<img class="w-full h-full object-cover" data-alt="A modern, abstract representation of server architecture and data flow, using geometric shapes in deep navy blue and bright orange on a light grey background, high-end 3D render style, corporate tech training aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7xEG1uXEU-tCy9qm4ew3jVCHQSauF2t3XCglM55AKP47kFqonxPBeVKHzgKqZBK3GqDf5GoyPXe9VpcdrCgPIPwMjp1WcWzLnV_KpPpqWsTc0Uzzle_JBljQ9Qd1udwL2e8XpiRVQJ6-EqJvYWw7zYkH-swV7EYhXi2qupQFuF35MJCPaoItENcMEaT5K4I60W6BtQwEkG11hgnJIV9TDZWefW4woRt0Xrjz6crOBSAVxIBlMKljqpbuz9Nyvs6lYFVeB6YWwV24"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<!-- Modality Badge (Glassmorphic) -->
+<div class="absolute top-3 left-3 glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-white font-bold tracking-wider">EN VIVO</span>
+</div>
+<!-- Category -->
+<div class="absolute bottom-3 left-4">
+<span class="font-label-sm text-label-sm text-secondary-fixed bg-secondary-container/90 px-2 py-1 rounded">BACKEND</span>
+</div>
+</div>
+<!-- Content -->
+<div class="p-4 flex-grow flex flex-col">
+<h3 class="font-headline-sm text-[20px] leading-tight text-primary-container mb-2">Arquitectura Microservicios Avanzada</h3>
+<div class="flex justify-between items-center mb-4 text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 16px;">schedule</span> 40h
+                        </div>
+<div class="font-label-bold text-label-bold text-primary-container text-base">$850 USD</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<!-- Toggle Switch -->
+<div class="flex items-center">
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10" id="toggle1" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant cursor-pointer transition-colors duration-200 ease-in" for="toggle1"></label>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Activo</span>
+</div>
+<!-- Actions -->
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-primary-container hover:text-white transition-colors text-primary-container" onclick="openBottomSheet()">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-error hover:text-white transition-colors text-error">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-24 shadow-heavy overflow-hidden flex flex-col relative border border-outline-variant/20">
+<div class="relative h-40 w-full">
+<img class="w-full h-full object-cover" data-alt="A sophisticated interface design wireframe overlaying a sleek, modern smartphone mockup, rendered in high resolution with subtle soft studio lighting, showcasing deep navy and crisp white UI elements for a premium technical academy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkxoH8UJd48ZxBBZaKevSzT-mG3thJLn2XcruJmKR3vBTXNi5gPLhelSFnyfUq6aguRatFUXatd6BZXiFGY2HYcPja6nYmhGhAfVFNkkyRDVc2dL6elYj-g1SSdoxyDc3c8FiWc8WpXSc7aUBF8cPQtdPlTAR-EkVzOpdSicmOjNVvQeJHbPKEBu_U-k0H4G91IIV1UhoZghJObYt-afMyto7Ft-KCl3jFff6mYoFXfpFsbqDi7tN0XIxDzuilkLo-GuTjdnINtvk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute top-3 left-3 glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-primary-fixed"></div>
+<span class="font-label-sm text-label-sm text-white font-bold tracking-wider">ON-DEMAND</span>
+</div>
+<div class="absolute bottom-3 left-4">
+<span class="font-label-sm text-label-sm text-primary-fixed bg-primary-container/90 px-2 py-1 rounded">FRONTEND</span>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col">
+<h3 class="font-headline-sm text-[20px] leading-tight text-primary-container mb-2">React para Aplicaciones Corporativas</h3>
+<div class="flex justify-between items-center mb-4 text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 16px;">schedule</span> 32h
+                        </div>
+<div class="font-label-bold text-label-bold text-primary-container text-base">$600 USD</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<div class="flex items-center">
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10" id="toggle2" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant cursor-pointer transition-colors duration-200 ease-in" for="toggle2"></label>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Activo</span>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-primary-container hover:text-white transition-colors text-primary-container" onclick="openBottomSheet()">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-error hover:text-white transition-colors text-error">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-6 right-margin-mobile md:right-gutter w-14 h-14 bg-secondary-container text-white rounded-full shadow-heavy flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-40" onclick="openBottomSheet()">
+<span class="material-symbols-outlined" style="font-size: 28px;">add</span>
+</button>
+<!-- Overlay for Bottom Sheet -->
+<div class="overlay fixed inset-0 bg-primary-container/40 z-50 backdrop-blur-sm" id="bottomSheetOverlay" onclick="closeBottomSheet()"></div>
+<!-- Bottom Sheet Modal (Create / Edit) -->
+<div class="bottom-sheet fixed bottom-0 left-0 w-full bg-white rounded-t-24 shadow-[0_-10px_40px_rgba(11,27,61,0.15)] z-50 flex flex-col max-h-[795px]" id="bottomSheet">
+<!-- Handle -->
+<div class="w-full flex justify-center pt-3 pb-1" onclick="closeBottomSheet()">
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full cursor-pointer"></div>
+</div>
+<div class="px-6 pb-4 flex justify-between items-center border-b border-outline-variant/20">
+<h2 class="font-headline-sm text-headline-sm text-primary-container">Nuevo Curso</h2>
+<button class="text-on-surface-variant" onclick="closeBottomSheet()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Form Content (Scrollable) -->
+<div class="p-6 overflow-y-auto flex-grow flex flex-col gap-5">
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-primary-container">Título del Curso</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:border-primary-container focus:ring-4 focus:ring-primary-container/20 transition-all font-body-md text-body-md" placeholder="Ej: DevOps Fundamentals" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-primary-container">Categoría</label>
+<select class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:border-primary-container focus:ring-4 focus:ring-primary-container/20 transition-all font-body-md text-body-md appearance-none">
+<option>Seleccionar...</option>
+<option>Backend</option>
+<option>Frontend</option>
+<option>DevOps</option>
+<option>Data Science</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-primary-container">Duración (h)</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:border-primary-container focus:ring-4 focus:ring-primary-container/20 transition-all font-body-md text-body-md" placeholder="40" type="number"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-primary-container">Costo (USD)</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:border-primary-container focus:ring-4 focus:ring-primary-container/20 transition-all font-body-md text-body-md" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-primary-container">Modalidad</label>
+<div class="flex gap-4">
+<label class="flex items-center gap-2">
+<input class="text-secondary-container focus:ring-secondary-container" name="modalidad" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface-variant">En Vivo</span>
+</label>
+<label class="flex items-center gap-2">
+<input class="text-primary-container focus:ring-primary-container" name="modalidad" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface-variant">On-Demand</span>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-primary-container">Imagen de Portada</label>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center bg-surface-container-low text-center cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-outline mb-2" style="font-size: 32px;">cloud_upload</span>
+<span class="font-label-bold text-label-bold text-primary-container">Subir imagen</span>
+<span class="font-label-sm text-label-sm text-outline mt-1">JPG, PNG (Max. 2MB)</span>
+</div>
+</div>
+</div>
+<!-- Bottom Sheet Actions -->
+<div class="p-6 border-t border-outline-variant/20 bg-white grid grid-cols-2 gap-4 pb-8">
+<button class="w-full py-3 rounded-16 border border-primary-container text-primary-container font-label-bold text-label-bold hover:bg-surface-container-low transition-colors" onclick="closeBottomSheet()">
+                Cancelar
+            </button>
+<button class="w-full py-3 rounded-16 bg-primary-container text-white font-label-bold text-label-bold hover:bg-opacity-90 transition-opacity">
+                Guardar
+            </button>
+</div>
+</div>
+<!-- Script for interactions -->
+<script>
+        function toggleFilters() {
+            const panel = document.getElementById('filterPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        const bottomSheet = document.getElementById('bottomSheet');
+        const overlay = document.getElementById('bottomSheetOverlay');
+
+        function openBottomSheet() {
+            bottomSheet.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeBottomSheet() {
+            bottomSheet.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body></html>

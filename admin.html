@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Panel de Control & Gestor CRUD - 123AcademiaTech</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "sans": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          },
+          boxShadow: {
+            "luxury": "0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04)",
+            "luxury-hover": "0 20px 40px -10px rgba(255, 107, 0, 0.15)"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col selection:bg-secondary selection:text-white antialiased">
+
+  <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
+    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Logo (Margen compacto gap-2) -->
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        </div>
+        <div>
+          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <!-- Inicio with Dropdown -->
+        <div class="relative group">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Inicio</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="index.html?audience=general" onclick="selectAudience('general')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">person</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
+                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                </div>
+              </a>
+              <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
+                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo with Dropdown -->
+        <div class="relative group">
+          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Catálogo</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">school</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
+                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                </div>
+              </a>
+              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Herramientas & Productos</p>
+                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
+        <a href="admin.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-secondary">tune</span>
+          <span>Panel CRUD</span>
+        </a>
+        <a href="contacto.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Action Buttons with Shopping Cart & Quote Generator -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- Cart Drawer Trigger Button -->
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-primary hover:text-secondary transition-all flex items-center gap-1.5 border border-slate-200/80" title="Ver Carrito & Cotizaciones">
+          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+          <span class="text-xs font-headline font-bold">Carrito</span>
+          <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
+        </button>
+
+        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Cerrar Sesión</a>
+        <button onclick="openCurrentTabModal()" class="px-4 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg flex items-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-base">add_circle</span>
+          <span id="nav-btn-text">+ AGREGAR</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex items-center gap-2 lg:hidden">
+        <button onclick="openCartDrawer()" class="relative p-2 text-slate-700 hover:text-secondary">
+          <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+          <span class="cart-badge-count hidden absolute top-0 right-0 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Modalidad de Inicio</span>
+        <a href="index.html?audience=general" onclick="selectAudience('general')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-white text-secondary font-headline font-bold text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Público General
+        </a>
+        <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          Emprendimientos y Negocios
+        </a>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
+        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">school</span>
+          Cursos Técnicos Presenciales
+        </a>
+        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
+          Herramientas & Productos
+        </a>
+      </div>
+      <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
+      <a href="admin.html" class="block py-2 text-secondary font-headline font-semibold text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
+      </a>
+      <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="openCartDrawer()" class="w-full py-2.5 rounded-xl border border-secondary text-secondary font-headline font-bold text-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">shopping_cart</span> Ver Carrito / Cotizador
+        </button>
+        <button onclick="openCurrentTabModal()" class="w-full py-2.5 rounded-xl bg-secondary text-white font-headline font-bold text-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">add_circle</span> + AGREGAR REGISTRO
+        </button>
+        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Cerrar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-container-max mx-auto w-full px-6 md:px-12 py-8 space-y-8">
+    
+    <!-- PESTAÑAS PRINCIPALES DEL CRUD (PANTALLA PRINCIPAL / CURSOS & COMBOS / STOCK DE PRODUCTOS) -->
+    <div class="bg-white rounded-2xl p-2 border border-slate-200/90 shadow-sm flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+        <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="px-5 py-3 rounded-xl font-headline font-bold text-xs sm:text-sm flex items-center gap-2 transition-all bg-primary text-white shadow-sm shrink-0">
+          <span class="material-symbols-outlined text-lg">dashboard</span>
+          <span>Pantalla Principal (Resumen)</span>
+        </button>
+
+        <button onclick="switchTab('courses')" id="tab-btn-courses" class="px-5 py-3 rounded-xl font-headline font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-slate-600 hover:bg-slate-100 shrink-0">
+          <span class="material-symbols-outlined text-lg text-secondary">school</span>
+          <span>Cursos & Combos de Inicio</span>
+        </button>
+
+        <button onclick="switchTab('products')" id="tab-btn-products" class="px-5 py-3 rounded-xl font-headline font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-slate-600 hover:bg-slate-100 shrink-0">
+          <span class="material-symbols-outlined text-lg text-secondary">inventory_2</span>
+          <span>Stock de Productos</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="px-3 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-secondary font-headline font-bold text-xs flex items-center gap-1.5 transition-colors border border-orange-200/60">
+          <span class="material-symbols-outlined text-base">receipt_long</span>
+          <span>Generar Presupuesto</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. PANTALLA PRINCIPAL (DASHBOARD GENERAL)  -->
+    <!-- ========================================== -->
+    <section id="screen-dashboard" class="space-y-8">
+      
+      <!-- STATS METRIC CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Cursos General -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-luxury flex items-center gap-4 hover:-translate-y-1 transition-transform">
+          <div class="w-14 h-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-3xl">school</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Cursos Individuales</span>
+            <div class="flex items-baseline gap-2">
+              <h4 id="dash-courses-count" class="font-headline font-black text-2xl text-primary">0</h4>
+              <span class="text-[11px] text-emerald-600 font-bold">Público General</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-0.5">Talleres presenciales</p>
+          </div>
+        </div>
+
+        <!-- Combos Negocios -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-luxury flex items-center gap-4 hover:-translate-y-1 transition-transform">
+          <div class="w-14 h-14 rounded-2xl bg-orange-50 text-secondary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-3xl">corporate_fare</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Combos Negocios</span>
+            <div class="flex items-baseline gap-2">
+              <h4 id="dash-combos-count" class="font-headline font-black text-2xl text-secondary">0</h4>
+              <span class="text-[11px] text-secondary font-bold">Planes B2B</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-0.5">Paquetes para empresas</p>
+          </div>
+        </div>
+
+        <!-- Productos Stock -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-luxury flex items-center gap-4 hover:-translate-y-1 transition-transform">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-3xl">inventory_2</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Productos & Stock</span>
+            <div class="flex items-baseline gap-2">
+              <h4 id="dash-products-count" class="font-headline font-black text-2xl text-emerald-600">0</h4>
+              <span class="text-[11px] text-slate-600 font-semibold">Herramientas</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-0.5">Disponibles en taller</p>
+          </div>
+        </div>
+
+        <!-- Total General -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-luxury flex items-center gap-4 hover:-translate-y-1 transition-transform">
+          <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-3xl">verified</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Oferta Web</span>
+            <div class="flex items-baseline gap-2">
+              <h4 id="dash-total-items" class="font-headline font-black text-2xl text-primary">0</h4>
+              <span class="text-[11px] text-slate-500 font-semibold">Registros</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-0.5">Cursos + Combos + Stock</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SECCIONES DE ACCESO RÁPIDO / GESTIÓN -->
+      <div class="grid md:grid-cols-3 gap-6">
+        
+        <!-- Tarjeta Cursos Individuales -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-luxury space-y-5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-secondary">person</span>
+            </div>
+            <div>
+              <span class="text-[10px] font-headline font-bold text-secondary uppercase tracking-wider">Inicio • Público General</span>
+              <h3 class="font-headline font-bold text-lg text-primary">Cursos Individuales</h3>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Talleres técnicos presenciales individuales para estudiantes y técnicos independientes.
+            </p>
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex justify-between">
+              <span class="text-slate-500">Activos en Inicio:</span>
+              <strong id="dash-general-subtotal" class="text-primary font-bold">5 Cursos</strong>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="switchTab('courses'); setCourseProgramFilter('course');" class="flex-1 py-2.5 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs transition-colors text-center shadow-sm">
+              GESTIONAR
+            </button>
+            <button onclick="openCourseModal(null, 'course')" class="px-3.5 py-2.5 rounded-xl bg-orange-100 hover:bg-orange-200 text-secondary font-headline font-bold text-xs transition-colors" title="Crear nuevo curso">
+              + NUEVO
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta Combos Empresariales -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-luxury space-y-5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-secondary text-white flex items-center justify-center shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-white">corporate_fare</span>
+            </div>
+            <div>
+              <span class="text-[10px] font-headline font-bold text-secondary uppercase tracking-wider">Inicio • Emprendimientos y Negocios</span>
+              <h3 class="font-headline font-bold text-lg text-primary">Combos Empresariales</h3>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Paquetes de capacitación cotizados por grupos de personas (3 a 10 colaboradores) y planes corporativos.
+            </p>
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex justify-between">
+              <span class="text-slate-500">Activos en Inicio:</span>
+              <strong id="dash-business-subtotal" class="text-secondary font-bold">5 Combos B2B</strong>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="switchTab('courses'); setCourseProgramFilter('combo');" class="flex-1 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs transition-colors text-center shadow-sm">
+              GESTIONAR
+            </button>
+            <button onclick="openCourseModal(null, 'combo')" class="px-3.5 py-2.5 rounded-xl bg-blue-100 hover:bg-blue-200 text-primary font-headline font-bold text-xs transition-colors" title="Crear nuevo combo">
+              + NUEVO
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta Stock de Productos -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-luxury space-y-5 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+              <span class="material-symbols-outlined text-2xl text-secondary">home_repair_service</span>
+            </div>
+            <div>
+              <span class="text-[10px] font-headline font-bold text-secondary uppercase tracking-wider">Catálogo • Equipamiento</span>
+              <h3 class="font-headline font-bold text-lg text-primary">Stock de Productos</h3>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Herramientas manuales, estaciones SMD, microscopios, multímetros e insumos de reparación.
+            </p>
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs flex justify-between">
+              <span class="text-slate-500">Total en Stock:</span>
+              <strong id="dash-products-subtotal" class="text-emerald-600 font-bold">8 Artículos</strong>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="switchTab('products')" class="flex-1 py-2.5 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs transition-colors text-center shadow-sm">
+              GESTIONAR
+            </button>
+            <button onclick="openProductModal()" class="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-headline font-bold text-xs transition-colors" title="Crear nuevo producto">
+              + NUEVO
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- 2. PANTALLA PARA CURSOS & COMBOS (GESTIÓN DE INICIO)   -->
+    <!-- ======================================================= -->
+    <section id="screen-courses" class="hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-headline font-bold text-2xl text-primary">Gestor de Cursos & Combos de Inicio</h2>
+          <p class="text-xs text-slate-500">Edita los cursos para Público General y los Combos para Emprendimientos y Negocios.</p>
+        </div>
+        <div class="flex items-center gap-2.5">
+          <button onclick="openCourseModal(null, 'course')" class="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-light text-white font-headline font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all">
+            <span class="material-symbols-outlined text-base text-secondary">person_add</span>
+            + CURSO GENERAL
+          </button>
+          <button onclick="openCourseModal(null, 'combo')" class="px-4 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md flex items-center gap-1.5 transition-all">
+            <span class="material-symbols-outlined text-base">corporate_fare</span>
+            + COMBO NEGOCIOS
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTRO DE TIPO DE PROGRAMA (TODOS / CURSOS GENERAL / COMBOS EMPRESARIALES) -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1">
+        <button onclick="setCourseProgramFilter('all')" id="prog-filter-all" class="prog-pill px-4 py-2 rounded-xl font-headline font-bold text-xs bg-secondary text-white shadow-sm shrink-0 transition-all">
+          Todos los Programas (<span id="count-all-prog">0</span>)
+        </button>
+        <button onclick="setCourseProgramFilter('course')" id="prog-filter-course" class="prog-pill px-4 py-2 rounded-xl font-headline font-bold text-xs bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 shrink-0 transition-all">
+          🎓 Cursos Individuales (Público General) (<span id="count-course-prog">0</span>)
+        </button>
+        <button onclick="setCourseProgramFilter('combo')" id="prog-filter-combo" class="prog-pill px-4 py-2 rounded-xl font-headline font-bold text-xs bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 shrink-0 transition-all">
+          🏢 Combos para Emprendimientos & Negocios (<span id="count-combo-prog">0</span>)
+        </button>
+      </div>
+
+      <!-- CONTROLES DE BÚSQUEDA -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div class="relative w-full md:w-96">
+          <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+          <input id="course-search-input" oninput="filterCoursesTable()" type="text" placeholder="Buscar por título, módulos o temario..." class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-secondary focus:ring-1 focus:ring-secondary text-sm font-medium"/>
+        </div>
+
+        <div class="flex items-center gap-3 w-full md:w-auto">
+          <select id="course-status-filter" onchange="filterCoursesTable()" class="py-2.5 px-4 rounded-xl border border-slate-200 text-sm font-medium text-slate-700">
+            <option value="all">Todos los Estados</option>
+            <option value="active">Solo Activos (Publicados)</option>
+            <option value="inactive">Solo Ocultos</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- COURSES & COMBOS CRUD TABLE -->
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-luxury overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-xs font-headline font-bold text-slate-600 uppercase tracking-wider">
+                <th class="py-4 px-6">Tipo / Modalidad</th>
+                <th class="py-4 px-6">Programa o Combo</th>
+                <th class="py-4 px-6">Duración / Formato</th>
+                <th class="py-4 px-6">Precio & Detalle</th>
+                <th class="py-4 px-6 text-center">Estado Web</th>
+                <th class="py-4 px-6 text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="courses-tbody" class="divide-y divide-slate-100 text-sm">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. PANTALLA PARA EL STOCK DE PRODUCTOS     -->
+    <!-- ========================================== -->
+    <section id="screen-products" class="hidden space-y-6">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-headline font-bold text-2xl text-primary">Gestión de Stock de Productos & Herramientas</h2>
+          <p class="text-xs text-slate-500">Controla las existencias en taller, precios e instrumental técnico disponible.</p>
+        </div>
+        <div>
+          <button onclick="openProductModal()" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">add_circle</span>
+            + AGREGAR PRODUCTO
+          </button>
+        </div>
+      </div>
+
+      <!-- CRUD CONTROLS & SEARCH -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div class="relative w-full md:w-96">
+          <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+          <input id="product-search-input" oninput="filterProductsTable()" type="text" placeholder="Buscar herramienta, marca o insumo..." class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-secondary focus:ring-1 focus:ring-secondary text-sm font-medium"/>
+        </div>
+
+        <div class="flex items-center gap-3 w-full md:w-auto">
+          <select id="product-category-filter" onchange="filterProductsTable()" class="py-2.5 px-4 rounded-xl border border-slate-200 text-sm font-medium text-slate-700">
+            <option value="all">Todas las Categorías</option>
+            <option value="herramientas">Herramientas Manuales</option>
+            <option value="estaciones">Estaciones & Soldadura</option>
+            <option value="instrumental">Instrumental de Medición</option>
+            <option value="redes">Redes & Conectividad</option>
+            <option value="insumos">Insumos & Químicos</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- PRODUCTS CRUD TABLE -->
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-luxury overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-xs font-headline font-bold text-slate-600 uppercase tracking-wider">
+                <th class="py-4 px-6">Producto / Herramienta</th>
+                <th class="py-4 px-6">Marca & Categoría</th>
+                <th class="py-4 px-6">Disponibilidad en Sede</th>
+                <th class="py-4 px-6">Precio</th>
+                <th class="py-4 px-6 text-center">Distintivo</th>
+                <th class="py-4 px-6 text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody" class="divide-y divide-slate-100 text-sm">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================= -->
+  <!-- FICHA DETALLADA PARA TARJETAS / REGISTROS (SLIDE-OVER) -->
+  <!-- ======================================================= -->
+  <div id="card-sheet-drawer" class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCardSheet()"></div>
+    <div id="card-sheet-panel" class="relative w-full max-w-xl bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <!-- Sheet Header -->
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div>
+          <span id="sheet-item-type-badge" class="px-2.5 py-0.5 rounded-md text-[10.5px] font-headline font-bold uppercase tracking-wider bg-blue-100 text-primary"></span>
+          <h3 id="sheet-title" class="font-headline font-bold text-lg text-primary mt-1 leading-snug"></h3>
+        </div>
+        <button onclick="closeCardSheet()" class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Sheet Scrollable Content -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-grow">
+        
+        <!-- Image Banner -->
+        <div class="relative h-52 w-full rounded-2xl overflow-hidden shadow-sm border border-slate-100 bg-slate-100 shrink-0">
+          <img id="sheet-image" src="" alt="Presentación" class="w-full h-full object-cover"/>
+          <span id="sheet-badge" class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-primary font-headline font-bold text-xs py-1 px-3 rounded-full shadow-sm"></span>
+          <span id="sheet-status-tag" class="absolute bottom-3 right-3 bg-primary/90 text-white font-semibold text-xs py-0.5 px-2.5 rounded-lg shadow-sm"></span>
+        </div>
+
+        <!-- Key Metrics Grid -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block">Inversión / Costo</span>
+            <p id="sheet-price" class="font-headline font-black text-base text-secondary mt-0.5"></p>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+            <span id="sheet-lbl-duration" class="text-[10px] text-slate-400 uppercase font-bold block">Duración</span>
+            <p id="sheet-duration" class="font-headline font-bold text-xs text-primary mt-0.5 truncate"></p>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+            <span id="sheet-lbl-extra" class="text-[10px] text-slate-400 uppercase font-bold block">Disponibilidad</span>
+            <p id="sheet-extra" class="font-headline font-bold text-xs text-primary mt-0.5 truncate"></p>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-2">
+          <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400">Descripción / Temario</h4>
+          <p id="sheet-desc" class="text-xs text-slate-600 leading-relaxed bg-slate-50/50 p-4 rounded-xl border border-slate-100"></p>
+        </div>
+
+        <!-- Modules or Technical Specs Checklist -->
+        <div id="sheet-items-list-container" class="space-y-2.5">
+          <h4 id="sheet-items-list-title" class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400">Módulos Incluidos / Especificaciones</h4>
+          <ul id="sheet-items-list" class="space-y-2 text-xs text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <!-- Rendered dynamically -->
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Sheet Footer Actions -->
+      <div class="p-5 border-t border-slate-100 bg-white shrink-0 flex items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2">
+          <button id="sheet-btn-edit" onclick="" class="px-4 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-headline font-bold text-xs flex items-center gap-1.5 transition-colors">
+            <span class="material-symbols-outlined text-sm">edit</span>
+            Editar
+          </button>
+          <button id="sheet-btn-delete" onclick="" class="p-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors" title="Eliminar este elemento">
+            <span class="material-symbols-outlined text-base">delete</span>
+          </button>
+        </div>
+
+        <button id="sheet-btn-add-cart" onclick="" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs flex items-center gap-2 shadow-md transition-all">
+          <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          <span>Añadir al Carrito / Cotizador</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
+  <!-- ======================================================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <!-- Cart Header -->
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
+            <p class="text-[11px] text-slate-500">Presupuesto y órdenes en tiempo real</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+          </button>
+          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Items Scroll Area -->
+      <div class="p-6 overflow-y-auto flex-grow space-y-4">
+        
+        <!-- Empty State -->
+        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+          </div>
+          <p class="font-headline font-bold text-sm text-slate-600">El carrito de cotización está vacío</p>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega cursos individuales, combos empresariales o herramientas del inventario para generar presupuestos.</p>
+        </div>
+
+        <!-- Filled State Items Container -->
+        <div id="cart-items-container" class="space-y-3">
+          <!-- Rendered via cart-data.js -->
+        </div>
+
+      </div>
+
+      <!-- Cart Footer / Summary & Actions -->
+      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-slate-500">
+            <span>Subtotal Estimado:</span>
+            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Modalidad:</span>
+            <span class="text-emerald-600 font-semibold">Garantía Presencial Sede</span>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
+            <span class="font-headline font-bold text-sm text-primary">TOTAL COTIZACIÓN:</span>
+            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">chat</span>
+            SOLICITAR / COTIZAR POR WHATSAPP
+          </button>
+          
+          <button onclick="transferCartToContactForm()" class="w-full py-3 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs flex items-center justify-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-base">mail</span>
+            ENVIAR A FORMULARIO DE CONTACTO
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT COURSE OR BUSINESS COMBO -->
+  <div id="course-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div>
+          <span id="course-modal-type-tag" class="text-[10px] font-headline font-bold text-secondary uppercase tracking-wider block">Gestor Académico</span>
+          <h3 id="course-modal-title" class="font-headline font-bold text-xl text-primary">Agregar Nuevo Programa</h3>
+        </div>
+        <button onclick="closeCourseModal()" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+      </div>
+
+      <form id="course-form" onsubmit="handleSaveCourse(event)" class="space-y-4">
+        <input type="hidden" id="course-id"/>
+        <input type="hidden" id="course-item-type" value="course"/>
+        
+        <!-- Selector de Tipo si es nuevo registro -->
+        <div id="type-selector-wrapper" class="bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-2">¿Qué tipo de programa deseas registrar?</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" onclick="setModalType('course')" id="btn-type-course" class="py-2.5 px-3 rounded-xl border border-secondary bg-orange-50 text-secondary font-headline font-bold text-xs flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-base">person</span>
+              Curso Público General
+            </button>
+            <button type="button" onclick="setModalType('combo')" id="btn-type-combo" class="py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-600 font-headline font-bold text-xs flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-base">corporate_fare</span>
+              Combo para Negocios B2B
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label id="lbl-title" class="block text-xs font-headline font-bold text-slate-700 mb-1">Título del Curso o Combo</label>
+          <input id="input-course-title" required type="text" placeholder="Ej: Combo Soporte IT & Reparación de Equipos" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Categoría Técnica</label>
+            <input id="input-course-category" required type="text" placeholder="Ej: ofimatica, hardware-it, redes" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+          <div>
+            <label id="lbl-badge" class="block text-xs font-headline font-bold text-slate-700 mb-1">Badge / Distintivo</label>
+            <input id="input-course-badge" type="text" placeholder="Ej: Combo Grupal 3 a 5 Personas" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Descripción / Enfoque del Programa</label>
+          <textarea id="input-course-desc" required rows="3" placeholder="Detalla el enfoque formativo, beneficios y habilidades prácticas..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"></textarea>
+        </div>
+
+        <!-- Campo específico para Combos: Módulos incluidos -->
+        <div id="combo-includes-container" class="hidden">
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Módulos Incluidos en el Combo (Separados por comas)</label>
+          <input id="input-combo-includes" type="text" placeholder="Ej: Reparación de Laptops, Mantenimiento de Impresoras, Diagnóstico Electrónico" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label id="lbl-duration" class="block text-xs font-headline font-bold text-slate-700 mb-1">Duración / Formato</label>
+            <input id="input-course-duration" required type="text" placeholder="Ej: 50 Horas de Taller Práctico" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Inversión / Precio</label>
+            <input id="input-course-price" required type="text" placeholder="Ej: $450 USD o $180 USD" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+          <div>
+            <label id="lbl-extra" class="block text-xs font-headline font-bold text-slate-700 mb-1">Cupos / Grupo de Personas</label>
+            <input id="input-course-extra" required type="text" placeholder="Ej: Grupo 3 a 5 Colaboradores / 6 Cupos" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+        </div>
+
+        <div id="combo-unitprice-container" class="hidden">
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Detalle Precio Unitario (Para combos B2B)</label>
+          <input id="input-combo-unitprice" type="text" placeholder="Ej: Aprox. $90 - $150 USD por colaborador" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <!-- Image Upload Field (PC Upload with Live Preview) -->
+        <div class="space-y-2">
+          <label class="block text-xs font-headline font-bold text-slate-700">Imagen de Presentación del Programa</label>
+          <div class="p-4 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 hover:border-secondary transition-colors">
+            
+            <!-- Hidden inputs -->
+            <input id="input-course-image" type="hidden" required/>
+            <input id="input-course-file" type="file" accept="image/*" class="hidden" onchange="handleImageFileUpload(event, 'course')"/>
+
+            <div id="course-img-upload-prompt" class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div class="w-12 h-12 rounded-2xl bg-orange-100 text-secondary flex items-center justify-center shrink-0 shadow-sm">
+                <span class="material-symbols-outlined text-2xl">add_photo_alternate</span>
+              </div>
+              <div class="flex-grow space-y-1">
+                <p class="font-headline font-bold text-xs text-primary">Cargar imagen desde tu computadora</p>
+                <p class="text-[11px] text-slate-500">Formatos: JPG, PNG o WEBP (se optimiza automáticamente).</p>
+              </div>
+              <button type="button" onclick="document.getElementById('input-course-file').click()" class="px-4 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-sm flex items-center gap-1.5 shrink-0 transition-all">
+                <span class="material-symbols-outlined text-sm">upload_file</span>
+                Elegir de mi PC
+              </button>
+            </div>
+
+            <!-- Live Image Preview Box -->
+            <div id="course-img-preview-box" class="hidden mt-3 pt-3 border-t border-slate-200/80 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <img id="course-img-preview-tag" src="" alt="Previsualización" class="w-16 h-12 object-cover rounded-xl border border-slate-200 shadow-sm"/>
+                <div>
+                  <span class="text-xs font-bold text-primary block">Imagen seleccionada</span>
+                  <span class="text-[10px] text-emerald-600 font-semibold">✓ Lista para guardar</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="document.getElementById('input-course-file').click()" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold transition-colors">
+                  Cambiar
+                </button>
+                <button type="button" onclick="removeSelectedImage('course')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors" title="Quitar imagen">
+                  <span class="material-symbols-outlined text-base">delete</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <input id="input-course-status" type="checkbox" checked class="w-4 h-4 rounded text-secondary focus:ring-secondary"/>
+          <label for="input-course-status" class="text-xs font-headline font-semibold text-slate-700">Mostrar y publicar este programa en la página de inicio y catálogos</label>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+          <button type="button" onclick="closeCourseModal()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-headline font-semibold text-xs">Cancelar</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md">Guardar Registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT PRODUCT & STOCK -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <h3 id="product-modal-title" class="font-headline font-bold text-xl text-primary">Agregar Nuevo Producto / Herramienta</h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+      </div>
+
+      <form id="product-form" onsubmit="handleSaveProduct(event)" class="space-y-4">
+        <input type="hidden" id="product-id"/>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Nombre del Producto</label>
+            <input id="input-prod-name" required type="text" placeholder="Ej: Kit de Destornilladores Pro 128 en 1" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Marca / Fabricante</label>
+            <input id="input-prod-brand" required type="text" placeholder="Ej: TecnoPro / Quick" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Categoría</label>
+            <select id="input-prod-category" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary">
+              <option value="herramientas">Herramientas Manuales</option>
+              <option value="estaciones">Estaciones & Soldadura</option>
+              <option value="instrumental">Instrumental de Medición</option>
+              <option value="redes">Redes & Conectividad</option>
+              <option value="insumos">Insumos & Químicos</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Precio</label>
+            <input id="input-prod-price" required type="text" placeholder="Ej: $35 USD" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Estado de Stock / Disponibilidad</label>
+            <select id="input-prod-stock" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary font-medium">
+              <option value="Disponible en Sede">Disponible en Sede</option>
+              <option value="Últimas 4 unidades">Últimas 4 unidades</option>
+              <option value="Alta Disponibilidad">Alta Disponibilidad</option>
+              <option value="Bajo Pedido / Entrega 48h">Bajo Pedido / Entrega 48h</option>
+              <option value="Agotado Temporalmente">Agotado Temporalmente</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Distintivo / Badge</label>
+            <input id="input-prod-badge" type="text" placeholder="Ej: Más Vendido / Uso Profesional" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          </div>
+        </div>
+
+        <!-- Product Image Upload Field (PC Upload with Live Preview) -->
+        <div class="space-y-2">
+          <label class="block text-xs font-headline font-bold text-slate-700">Imagen del Producto / Herramienta</label>
+          <div class="p-4 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 hover:border-secondary transition-colors">
+            
+            <!-- Hidden inputs -->
+            <input id="input-prod-image" type="hidden" required/>
+            <input id="input-prod-file" type="file" accept="image/*" class="hidden" onchange="handleImageFileUpload(event, 'product')"/>
+
+            <div id="prod-img-upload-prompt" class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div class="w-12 h-12 rounded-2xl bg-blue-100 text-primary flex items-center justify-center shrink-0 shadow-sm">
+                <span class="material-symbols-outlined text-2xl">add_photo_alternate</span>
+              </div>
+              <div class="flex-grow space-y-1">
+                <p class="font-headline font-bold text-xs text-primary">Cargar imagen desde tu computadora</p>
+                <p class="text-[11px] text-slate-500">Formatos: JPG, PNG o WEBP (se optimiza automáticamente).</p>
+              </div>
+              <button type="button" onclick="document.getElementById('input-prod-file').click()" class="px-4 py-2.5 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs shadow-sm flex items-center gap-1.5 shrink-0 transition-all">
+                <span class="material-symbols-outlined text-sm">upload_file</span>
+                Elegir de mi PC
+              </button>
+            </div>
+
+            <!-- Live Image Preview Box -->
+            <div id="prod-img-preview-box" class="hidden mt-3 pt-3 border-t border-slate-200/80 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <img id="prod-img-preview-tag" src="" alt="Previsualización" class="w-16 h-12 object-cover rounded-xl border border-slate-200 shadow-sm"/>
+                <div>
+                  <span class="text-xs font-bold text-primary block">Imagen seleccionada</span>
+                  <span class="text-[10px] text-emerald-600 font-semibold">✓ Lista para guardar</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="document.getElementById('input-prod-file').click()" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold transition-colors">
+                  Cambiar
+                </button>
+                <button type="button" onclick="removeSelectedImage('product')" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors" title="Quitar imagen">
+                  <span class="material-symbols-outlined text-base">delete</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Descripción del Producto</label>
+          <textarea id="input-prod-desc" required rows="2" placeholder="Describe los usos principales, materiales y compatibilidad del producto..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Especificaciones Técnicas (Separadas por comas)</label>
+          <input id="input-prod-specs" type="text" placeholder="Ej: 128 Puntas de acero S2, Eje flexible, Estuche magnético, Garantía 6 meses" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+          <button type="button" onclick="closeProductModal()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-headline font-semibold text-xs">Cancelar</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md">Guardar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white mt-16 py-8 border-t border-white/10">
+    <div class="max-w-container-max mx-auto px-6 text-center text-xs text-slate-400">
+      <p>© 2026 123AcademiaTech. Panel de Administración, Fichas Técnicas & Control de Stock.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="courses-data.js"></script>
+  <script src="products-data.js"></script>
+  <script src="cart-data.js"></script>
+  <script>
+    let currentTab = 'dashboard';
+    let currentProgramFilter = 'all'; // 'all', 'course', 'combo'
+    let allCourses = [];
+    let allCombos = [];
+    let allProducts = [];
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      window.location.href = `index.html?audience=${type}`;
+    }
+
+    // GESTIÓN DE PESTAÑAS (DASHBOARD / CURSOS / PRODUCTOS)
+    function switchTab(tabId) {
+      currentTab = tabId;
+
+      document.getElementById('screen-dashboard').classList.add('hidden');
+      document.getElementById('screen-courses').classList.add('hidden');
+      document.getElementById('screen-products').classList.add('hidden');
+
+      const tabs = ['dashboard', 'courses', 'products'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (btn) {
+          btn.className = "px-5 py-3 rounded-xl font-headline font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-slate-600 hover:bg-slate-100 shrink-0";
+        }
+      });
+
+      const activeScreen = document.getElementById(`screen-${tabId}`);
+      if (activeScreen) activeScreen.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.className = "px-5 py-3 rounded-xl font-headline font-bold text-xs sm:text-sm flex items-center gap-2 transition-all bg-primary text-white shadow-sm shrink-0";
+      }
+
+      const navBtnText = document.getElementById('nav-btn-text');
+      if (navBtnText) {
+        if (tabId === 'courses') navBtnText.innerText = '+ AGREGAR PROGRAMA';
+        else if (tabId === 'products') navBtnText.innerText = '+ AGREGAR PRODUCTO';
+        else navBtnText.innerText = '+ AGREGAR';
+      }
+
+      if (tabId === 'courses') filterCoursesTable();
+      if (tabId === 'products') renderProductsTable(allProducts);
+      if (tabId === 'dashboard') updateDashboardMetrics();
+    }
+
+    function openCurrentTabModal() {
+      if (currentTab === 'products') {
+        openProductModal();
+      } else {
+        openCourseModal(null, currentProgramFilter === 'combo' ? 'combo' : 'course');
+      }
+    }
+
+    function setCourseProgramFilter(filterType) {
+      currentProgramFilter = filterType;
+      document.querySelectorAll('.prog-pill').forEach(el => {
+        el.className = "prog-pill px-4 py-2 rounded-xl font-headline font-bold text-xs bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 shrink-0 transition-all";
+      });
+      const activeEl = document.getElementById(`prog-filter-${filterType}`);
+      if (activeEl) {
+        activeEl.className = "prog-pill px-4 py-2 rounded-xl font-headline font-bold text-xs bg-secondary text-white shadow-sm shrink-0 transition-all";
+      }
+      filterCoursesTable();
+    }
+
+    // ==========================================
+    // INICIALIZACIÓN
+    // ==========================================
+    function initApp() {
+      allCourses = getCourses();
+      allCombos = getBusinessCombos();
+      allProducts = getProducts();
+
+      updateDashboardMetrics();
+      filterCoursesTable();
+      renderProductsTable(allProducts);
+      updateCartBadge();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab');
+      if (tabParam === 'courses' || tabParam === 'products') {
+        switchTab(tabParam);
+      }
+    }
+
+    function updateDashboardMetrics() {
+      allCourses = getCourses();
+      allCombos = getBusinessCombos();
+      allProducts = getProducts();
+
+      const activeCoursesCount = allCourses.filter(c => c.status === 'active').length;
+      const activeCombosCount = allCombos.filter(c => c.status === 'active').length;
+      const productsCount = allProducts.length;
+
+      document.getElementById('dash-courses-count').innerText = activeCoursesCount;
+      document.getElementById('dash-combos-count').innerText = activeCombosCount;
+      document.getElementById('dash-products-count').innerText = productsCount;
+      document.getElementById('dash-total-items').innerText = (allCourses.length + allCombos.length + productsCount);
+
+      document.getElementById('dash-general-subtotal').innerText = `${allCourses.length} Cursos (${activeCoursesCount} Activos)`;
+      document.getElementById('dash-business-subtotal').innerText = `${allCombos.length} Combos (${activeCombosCount} Activos)`;
+      document.getElementById('dash-products-subtotal').innerText = `${productsCount} Artículos`;
+
+      document.getElementById('count-all-prog').innerText = (allCourses.length + allCombos.length);
+      document.getElementById('count-course-prog').innerText = allCourses.length;
+      document.getElementById('count-combo-prog').innerText = allCombos.length;
+    }
+
+    // ==========================================
+    // MÓDULO DE CURSOS Y COMBOS (CRUD)
+    // ==========================================
+    function getCombinedPrograms() {
+      const coursesMapped = allCourses.map(c => ({
+        ...c,
+        itemType: 'course',
+        typeLabel: 'Público General',
+        typeBadgeClass: 'bg-blue-100 text-primary border border-blue-200',
+        typeIcon: 'person',
+        displayExtra: c.spots || 'Cupos Disponibles',
+        displayDetails: c.description
+      }));
+
+      const combosMapped = allCombos.map(cb => ({
+        ...cb,
+        itemType: 'combo',
+        typeLabel: 'Combo Empresarial (B2B)',
+        typeBadgeClass: 'bg-orange-100 text-secondary border border-orange-200',
+        typeIcon: 'corporate_fare',
+        displayExtra: cb.groupSize || 'Grupal',
+        displayDetails: (cb.includes && cb.includes.length > 0) ? `Incluye: ${cb.includes.join(' • ')}` : cb.description
+      }));
+
+      return [...coursesMapped, ...combosMapped];
+    }
+
+    function filterCoursesTable() {
+      const search = document.getElementById('course-search-input').value.toLowerCase();
+      const status = document.getElementById('course-status-filter').value;
+      let combined = getCombinedPrograms();
+
+      if (currentProgramFilter !== 'all') {
+        combined = combined.filter(p => p.itemType === currentProgramFilter);
+      }
+
+      if (status !== 'all') {
+        combined = combined.filter(p => p.status === status);
+      }
+
+      if (search) {
+        combined = combined.filter(p => 
+          p.title.toLowerCase().includes(search) || 
+          p.description.toLowerCase().includes(search) ||
+          p.category.toLowerCase().includes(search)
+        );
+      }
+
+      renderCoursesTable(combined);
+    }
+
+    function renderCoursesTable(programs) {
+      const tbody = document.getElementById('courses-tbody');
+      if (!tbody) return;
+
+      if (programs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-slate-400 font-medium">No se encontraron cursos o combos con ese criterio.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = programs.map(p => `
+        <tr class="hover:bg-slate-50/80 transition-colors">
+          <td class="py-4 px-6">
+            <span class="inline-flex items-center gap-1 text-[11px] font-headline font-bold py-1 px-2.5 rounded-lg ${p.typeBadgeClass}">
+              <span class="material-symbols-outlined text-xs">${p.typeIcon}</span>
+              ${p.typeLabel}
+            </span>
+          </td>
+          <td class="py-4 px-6 flex items-center gap-3.5">
+            <img src="${p.image}" alt="${p.title}" class="w-14 h-12 rounded-xl object-cover shadow-sm shrink-0 bg-slate-100 cursor-pointer" onclick="openCardSheet('${p.id}', '${p.itemType}')"/>
+            <div>
+              <span onclick="openCardSheet('${p.id}', '${p.itemType}')" class="font-headline font-bold text-slate-800 text-sm block hover:text-secondary cursor-pointer transition-colors">${p.title}</span>
+              <p class="text-xs text-slate-400 line-clamp-1">${p.displayDetails}</p>
+            </div>
+          </td>
+          <td class="py-4 px-6 text-xs text-slate-600">
+            <div class="font-semibold text-primary">${p.duration}</div>
+            <span class="text-secondary font-medium">${p.displayExtra}</span>
+          </td>
+          <td class="py-4 px-6">
+            <span class="font-headline font-black text-secondary text-sm block">${p.price}</span>
+            <span class="text-[10px] text-slate-400 font-medium">${p.unitPriceDetail || 'Tarifa individual'}</span>
+          </td>
+          <td class="py-4 px-6 text-center">
+            <button onclick="toggleProgramStatus('${p.id}', '${p.itemType}')" class="px-3 py-1 rounded-full text-xs font-bold transition-colors ${p.status === 'active' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
+              ${p.status === 'active' ? 'Activo' : 'Oculto'}
+            </button>
+          </td>
+          <td class="py-4 px-6 text-right space-x-1.5">
+            <button onclick="openCardSheet('${p.id}', '${p.itemType}')" class="p-2 rounded-lg bg-orange-50 text-secondary hover:bg-orange-100 transition-colors" title="Ver Ficha Completa">
+              <span class="material-symbols-outlined text-base">visibility</span>
+            </button>
+            <button onclick="openCourseModal('${p.id}', '${p.itemType}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar Programa">
+              <span class="material-symbols-outlined text-base">edit</span>
+            </button>
+            <button onclick="deleteProgram('${p.id}', '${p.itemType}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar Programa">
+              <span class="material-symbols-outlined text-base">delete</span>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function toggleProgramStatus(id, itemType) {
+      if (itemType === 'combo') {
+        allCombos = allCombos.map(c => {
+          if (c.id === id) c.status = c.status === 'active' ? 'inactive' : 'active';
+          return c;
+        });
+        saveBusinessCombos(allCombos);
+      } else {
+        allCourses = allCourses.map(c => {
+          if (c.id === id) c.status = c.status === 'active' ? 'inactive' : 'active';
+          return c;
+        });
+        saveCourses(allCourses);
+      }
+
+      filterCoursesTable();
+      updateDashboardMetrics();
+    }
+
+    function deleteProgram(id, itemType) {
+      const typeText = itemType === 'combo' ? 'este combo empresarial' : 'este curso';
+      if (confirm(`¿Estás seguro de que deseas eliminar ${typeText} del catálogo web?`)) {
+        if (itemType === 'combo') {
+          allCombos = allCombos.filter(c => c.id !== id);
+          saveBusinessCombos(allCombos);
+        } else {
+          allCourses = allCourses.filter(c => c.id !== id);
+          saveCourses(allCourses);
+        }
+        filterCoursesTable();
+        updateDashboardMetrics();
+        closeCardSheet();
+      }
+    }
+
+    function setModalType(type) {
+      document.getElementById('course-item-type').value = type;
+      const isCombo = (type === 'combo');
+
+      const btnCourse = document.getElementById('btn-type-course');
+      const btnCombo = document.getElementById('btn-type-combo');
+      const includesContainer = document.getElementById('combo-includes-container');
+      const unitPriceContainer = document.getElementById('combo-unitprice-container');
+      const lblExtra = document.getElementById('lbl-extra');
+      const lblDuration = document.getElementById('lbl-duration');
+
+      if (isCombo) {
+        btnCombo.className = "py-2.5 px-3 rounded-xl border border-secondary bg-orange-50 text-secondary font-headline font-bold text-xs flex items-center justify-center gap-2";
+        btnCourse.className = "py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-600 font-headline font-bold text-xs flex items-center justify-center gap-2";
+        includesContainer.classList.remove('hidden');
+        unitPriceContainer.classList.remove('hidden');
+        lblExtra.innerText = "Tamaño del Grupo (Colaboradores)";
+        document.getElementById('input-course-extra').placeholder = "Ej: Grupo de 3 a 5 Colaboradores";
+        lblDuration.innerText = "Duración / Modalidad B2B";
+      } else {
+        btnCourse.className = "py-2.5 px-3 rounded-xl border border-secondary bg-orange-50 text-secondary font-headline font-bold text-xs flex items-center justify-center gap-2";
+        btnCombo.className = "py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-600 font-headline font-bold text-xs flex items-center justify-center gap-2";
+        includesContainer.classList.add('hidden');
+        unitPriceContainer.classList.add('hidden');
+        lblExtra.innerText = "Cupos Disponibles";
+        document.getElementById('input-course-extra').placeholder = "Ej: 6 Cupos Disponibles";
+        lblDuration.innerText = "Duración Presencial";
+      }
+    }
+
+    // ==========================================
+    // CARGADOR Y OPTIMIZADOR DE IMÁGENES DESDE PC
+    // ==========================================
+    function handleImageFileUpload(e, targetType) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const rawDataUrl = event.target.result;
+
+        const img = new Image();
+        img.onload = function() {
+          const maxDim = 1000;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+          if (targetType === 'course') {
+            document.getElementById('input-course-image').value = optimizedDataUrl;
+            document.getElementById('course-img-preview-tag').src = optimizedDataUrl;
+            document.getElementById('course-img-preview-box').classList.remove('hidden');
+          } else {
+            document.getElementById('input-prod-image').value = optimizedDataUrl;
+            document.getElementById('prod-img-preview-tag').src = optimizedDataUrl;
+            document.getElementById('prod-img-preview-box').classList.remove('hidden');
+          }
+        };
+        img.src = rawDataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeSelectedImage(targetType) {
+      if (targetType === 'course') {
+        document.getElementById('input-course-image').value = '';
+        const fileInput = document.getElementById('input-course-file');
+        if (fileInput) fileInput.value = '';
+        document.getElementById('course-img-preview-tag').src = '';
+        document.getElementById('course-img-preview-box').classList.add('hidden');
+      } else {
+        document.getElementById('input-prod-image').value = '';
+        const fileInput = document.getElementById('input-prod-file');
+        if (fileInput) fileInput.value = '';
+        document.getElementById('prod-img-preview-tag').src = '';
+        document.getElementById('prod-img-preview-box').classList.add('hidden');
+      }
+    }
+
+    function openCourseModal(itemId = null, itemType = 'course') {
+      const modal = document.getElementById('course-modal');
+      const form = document.getElementById('course-form');
+      form.reset();
+
+      const typeSelector = document.getElementById('type-selector-wrapper');
+      setModalType(itemType);
+
+      if (itemId) {
+        typeSelector.classList.add('hidden');
+        if (itemType === 'combo') {
+          const cb = allCombos.find(item => item.id === itemId);
+          if (cb) {
+            document.getElementById('course-modal-type-tag').innerText = 'Combo Empresarial (B2B)';
+            document.getElementById('course-modal-title').innerText = 'Editar Combo de Negocios';
+            document.getElementById('course-id').value = cb.id;
+            document.getElementById('course-item-type').value = 'combo';
+            document.getElementById('input-course-title').value = cb.title;
+            document.getElementById('input-course-category').value = cb.category;
+            document.getElementById('input-course-badge').value = cb.badge || '';
+            document.getElementById('input-course-desc').value = cb.description;
+            document.getElementById('input-combo-includes').value = (cb.includes || []).join(', ');
+            document.getElementById('input-course-duration').value = cb.duration;
+            document.getElementById('input-course-price').value = cb.price;
+            document.getElementById('input-course-extra').value = cb.groupSize || '';
+            document.getElementById('input-combo-unitprice').value = cb.unitPriceDetail || '';
+            document.getElementById('input-course-image').value = cb.image || '';
+            if (cb.image) {
+              document.getElementById('course-img-preview-tag').src = cb.image;
+              document.getElementById('course-img-preview-box').classList.remove('hidden');
+            } else {
+              removeSelectedImage('course');
+            }
+            document.getElementById('input-course-status').checked = (cb.status === 'active');
+          }
+        } else {
+          const c = allCourses.find(item => item.id === itemId);
+          if (c) {
+            document.getElementById('course-modal-type-tag').innerText = 'Curso Público General';
+            document.getElementById('course-modal-title').innerText = 'Editar Curso Presencial';
+            document.getElementById('course-id').value = c.id;
+            document.getElementById('course-item-type').value = 'course';
+            document.getElementById('input-course-title').value = c.title;
+            document.getElementById('input-course-category').value = c.category;
+            document.getElementById('input-course-badge').value = c.badge || '';
+            document.getElementById('input-course-desc').value = c.description;
+            document.getElementById('input-course-duration').value = c.duration;
+            document.getElementById('input-course-price').value = c.price;
+            document.getElementById('input-course-extra').value = c.spots || '';
+            document.getElementById('input-course-image').value = c.image || '';
+            if (c.image) {
+              document.getElementById('course-img-preview-tag').src = c.image;
+              document.getElementById('course-img-preview-box').classList.remove('hidden');
+            } else {
+              removeSelectedImage('course');
+            }
+            document.getElementById('input-course-status').checked = (c.status === 'active');
+          }
+        }
+      } else {
+        removeSelectedImage('course');
+        typeSelector.classList.remove('hidden');
+        document.getElementById('course-modal-type-tag').innerText = 'Nuevo Registro';
+        document.getElementById('course-modal-title').innerText = itemType === 'combo' ? 'Agregar Combo de Negocios' : 'Agregar Nuevo Curso';
+        document.getElementById('course-id').value = '';
+        document.getElementById('input-course-status').checked = true;
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCourseModal() {
+      const modal = document.getElementById('course-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleSaveCourse(e) {
+      e.preventDefault();
+      const id = document.getElementById('course-id').value;
+      const itemType = document.getElementById('course-item-type').value;
+      const courseImg = document.getElementById('input-course-image').value;
+
+      if (!courseImg) {
+        alert('Por favor selecciona una imagen para el programa desde tu PC.');
+        return;
+      }
+
+      if (itemType === 'combo') {
+        const rawIncludes = document.getElementById('input-combo-includes').value;
+        const includesArr = rawIncludes ? rawIncludes.split(',').map(s => s.trim()).filter(Boolean) : ['Capacitación Práctica', 'Asesoría Técnica'];
+
+        const comboData = {
+          id: id || `combo-${Date.now()}`,
+          title: document.getElementById('input-course-title').value,
+          category: document.getElementById('input-course-category').value,
+          badge: document.getElementById('input-course-badge').value || 'Combo Grupal',
+          description: document.getElementById('input-course-desc').value,
+          duration: document.getElementById('input-course-duration').value,
+          price: document.getElementById('input-course-price').value,
+          groupSize: document.getElementById('input-course-extra').value,
+          unitPriceDetail: document.getElementById('input-combo-unitprice').value || 'Descuento por volumen',
+          includes: includesArr,
+          image: document.getElementById('input-course-image').value,
+          status: document.getElementById('input-course-status').checked ? 'active' : 'inactive'
+        };
+
+        if (id) {
+          allCombos = allCombos.map(c => c.id === id ? comboData : c);
+        } else {
+          allCombos.unshift(comboData);
+        }
+        saveBusinessCombos(allCombos);
+      } else {
+        const courseData = {
+          id: id || `c-${Date.now()}`,
+          title: document.getElementById('input-course-title').value,
+          category: document.getElementById('input-course-category').value,
+          badge: document.getElementById('input-course-badge').value || 'Presencial',
+          description: document.getElementById('input-course-desc').value,
+          duration: document.getElementById('input-course-duration').value,
+          price: document.getElementById('input-course-price').value,
+          spots: document.getElementById('input-course-extra').value,
+          image: document.getElementById('input-course-image').value,
+          status: document.getElementById('input-course-status').checked ? 'active' : 'inactive'
+        };
+
+        if (id) {
+          allCourses = allCourses.map(c => c.id === id ? courseData : c);
+        } else {
+          allCourses.unshift(courseData);
+        }
+        saveCourses(allCourses);
+      }
+
+      closeCourseModal();
+      filterCoursesTable();
+      updateDashboardMetrics();
+    }
+
+    // ==========================================
+    // MÓDULO DE PRODUCTOS & STOCK (CRUD)
+    // ==========================================
+    function renderProductsTable(products) {
+      const tbody = document.getElementById('products-tbody');
+      if (!tbody) return;
+
+      if (products.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-slate-400 font-medium">No se encontraron productos en el inventario.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = products.map(p => `
+        <tr class="hover:bg-slate-50/80 transition-colors">
+          <td class="py-4 px-6 flex items-center gap-4">
+            <img src="${p.image}" alt="${p.name}" class="w-14 h-12 rounded-xl object-cover shadow-sm shrink-0 bg-slate-100 cursor-pointer" onclick="openCardSheet('${p.id}', 'product')"/>
+            <div>
+              <span onclick="openCardSheet('${p.id}', 'product')" class="font-headline font-bold text-slate-800 hover:text-secondary cursor-pointer transition-colors block">${p.name}</span>
+              <p class="text-xs text-slate-400 line-clamp-1">${p.description}</p>
+            </div>
+          </td>
+          <td class="py-4 px-6 text-xs text-slate-600">
+            <strong class="text-primary block font-bold">${p.brand}</strong>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] uppercase font-semibold text-slate-500">${p.category}</span>
+          </td>
+          <td class="py-4 px-6 text-xs">
+            <button onclick="cycleProductStock('${p.id}')" class="px-3 py-1 rounded-lg font-bold transition-all text-left flex items-center gap-1.5 ${p.stock.includes('Disponible') || p.stock.includes('Alta') ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : (p.stock.includes('Agotado') ? 'bg-rose-50 text-rose-700 border border-rose-200/60' : 'bg-amber-50 text-amber-700 border border-amber-200/60')}">
+              <span class="w-1.5 h-1.5 rounded-full ${p.stock.includes('Disponible') || p.stock.includes('Alta') ? 'bg-emerald-500' : (p.stock.includes('Agotado') ? 'bg-rose-500' : 'bg-amber-500')}"></span>
+              <span>${p.stock}</span>
+            </button>
+          </td>
+          <td class="py-4 px-6 font-headline font-black text-secondary text-sm">${p.price}</td>
+          <td class="py-4 px-6 text-center">
+            <span class="px-2.5 py-1 rounded-full bg-slate-100 text-[11px] font-bold text-slate-700">
+              ${p.badge}
+            </span>
+          </td>
+          <td class="py-4 px-6 text-right space-x-1.5">
+            <button onclick="openCardSheet('${p.id}', 'product')" class="p-2 rounded-lg bg-orange-50 text-secondary hover:bg-orange-100 transition-colors" title="Ver Ficha Técnica">
+              <span class="material-symbols-outlined text-base">visibility</span>
+            </button>
+            <button onclick="openProductModal('${p.id}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar Producto">
+              <span class="material-symbols-outlined text-base">edit</span>
+            </button>
+            <button onclick="deleteProduct('${p.id}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar Producto">
+              <span class="material-symbols-outlined text-base">delete</span>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterProductsTable() {
+      const search = document.getElementById('product-search-input').value.toLowerCase();
+      const cat = document.getElementById('product-category-filter').value;
+
+      const filtered = allProducts.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(search) || p.description.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search);
+        const matchesCat = cat === 'all' || p.category === cat;
+        return matchesSearch && matchesCat;
+      });
+
+      renderProductsTable(filtered);
+    }
+
+    function cycleProductStock(id) {
+      const states = ["Disponible en Sede", "Últimas 4 unidades", "Alta Disponibilidad", "Bajo Pedido / Entrega 48h", "Agotado Temporalmente"];
+      allProducts = allProducts.map(p => {
+        if (p.id === id) {
+          const currentIndex = states.indexOf(p.stock);
+          const nextIndex = (currentIndex + 1) % states.length;
+          p.stock = states[nextIndex >= 0 ? nextIndex : 0];
+        }
+        return p;
+      });
+      saveProducts(allProducts);
+      filterProductsTable();
+      updateDashboardMetrics();
+    }
+
+    function deleteProduct(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar este producto del inventario?')) {
+        allProducts = allProducts.filter(p => p.id !== id);
+        saveProducts(allProducts);
+        filterProductsTable();
+        updateDashboardMetrics();
+        closeCardSheet();
+      }
+    }
+
+    function openProductModal(productId = null) {
+      const modal = document.getElementById('product-modal');
+      const form = document.getElementById('product-form');
+      form.reset();
+
+      if (productId) {
+        const p = allProducts.find(item => item.id === productId);
+        if (p) {
+          document.getElementById('product-modal-title').innerText = 'Editar Producto & Stock';
+          document.getElementById('product-id').value = p.id;
+          document.getElementById('input-prod-name').value = p.name;
+          document.getElementById('input-prod-brand').value = p.brand;
+          document.getElementById('input-prod-category').value = p.category;
+          document.getElementById('input-prod-price').value = p.price;
+          document.getElementById('input-prod-stock').value = p.stock;
+          document.getElementById('input-prod-badge').value = p.badge || '';
+          document.getElementById('input-prod-image').value = p.image || '';
+          if (p.image) {
+            document.getElementById('prod-img-preview-tag').src = p.image;
+            document.getElementById('prod-img-preview-box').classList.remove('hidden');
+          } else {
+            removeSelectedImage('product');
+          }
+          document.getElementById('input-prod-desc').value = p.description;
+          document.getElementById('input-prod-specs').value = (p.specs || []).join(', ');
+        }
+      } else {
+        removeSelectedImage('product');
+        document.getElementById('product-modal-title').innerText = 'Agregar Nuevo Producto / Herramienta';
+        document.getElementById('product-id').value = '';
+        document.getElementById('input-prod-stock').value = 'Disponible en Sede';
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('product-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleSaveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('product-id').value;
+      const prodImg = document.getElementById('input-prod-image').value;
+
+      if (!prodImg) {
+        alert('Por favor selecciona una imagen para el producto desde tu PC.');
+        return;
+      }
+      const specsRaw = document.getElementById('input-prod-specs').value;
+      const specsArray = specsRaw ? specsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+      const productData = {
+        id: id || `prod-${Date.now()}`,
+        name: document.getElementById('input-prod-name').value,
+        brand: document.getElementById('input-prod-brand').value,
+        category: document.getElementById('input-prod-category').value,
+        price: document.getElementById('input-prod-price').value,
+        stock: document.getElementById('input-prod-stock').value,
+        badge: document.getElementById('input-prod-badge').value || 'Recomendado',
+        image: document.getElementById('input-prod-image').value,
+        description: document.getElementById('input-prod-desc').value,
+        specs: specsArray.length > 0 ? specsArray : ['Garantía oficial', 'Uso profesional en taller']
+      };
+
+      if (id) {
+        allProducts = allProducts.map(p => p.id === id ? productData : p);
+      } else {
+        allProducts.unshift(productData);
+      }
+
+      saveProducts(allProducts);
+      closeProductModal();
+      filterProductsTable();
+      updateDashboardMetrics();
+    }
+
+    // =======================================================
+    // GESTIÓN DE LA FICHA DETALLADA (CARD DETAILS SHEET)
+    // =======================================================
+    function openCardSheet(id, itemType) {
+      const drawer = document.getElementById('card-sheet-drawer');
+      let item = null;
+      let badgeType = '';
+      let badgeColor = '';
+
+      if (itemType === 'combo') {
+        item = allCombos.find(c => c.id === id);
+        badgeType = '🏢 Combo Empresarial (B2B)';
+        badgeColor = 'bg-orange-100 text-secondary border border-orange-200';
+      } else if (itemType === 'product') {
+        item = allProducts.find(p => p.id === id);
+        badgeType = '🛠️ Producto / Instrumental de Taller';
+        badgeColor = 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+      } else {
+        item = allCourses.find(c => c.id === id);
+        badgeType = '🎓 Curso Técnico Presencial';
+        badgeColor = 'bg-blue-100 text-primary border border-blue-200';
+      }
+
+      if (!item) return;
+
+      const typeBadge = document.getElementById('sheet-item-type-badge');
+      typeBadge.className = `px-2.5 py-0.5 rounded-md text-[10.5px] font-headline font-bold uppercase tracking-wider ${badgeColor}`;
+      typeBadge.innerText = badgeType;
+
+      document.getElementById('sheet-title').innerText = item.title || item.name;
+      document.getElementById('sheet-image').src = item.image;
+      document.getElementById('sheet-badge').innerText = item.badge || (item.brand ? `Marca: ${item.brand}` : 'Oficial');
+      document.getElementById('sheet-price').innerText = item.price;
+      document.getElementById('sheet-desc').innerText = item.description;
+
+      const statusTag = document.getElementById('sheet-status-tag');
+      if (itemType === 'product') {
+        statusTag.innerText = item.stock;
+      } else {
+        statusTag.innerText = item.status === 'active' ? 'Publicado en Web' : 'Oculto';
+      }
+
+      const lblDuration = document.getElementById('sheet-lbl-duration');
+      const valDuration = document.getElementById('sheet-duration');
+      const lblExtra = document.getElementById('sheet-lbl-extra');
+      const valExtra = document.getElementById('sheet-extra');
+
+      if (itemType === 'combo') {
+        lblDuration.innerText = 'Formato / Horas';
+        valDuration.innerText = item.duration;
+        lblExtra.innerText = 'Grupo';
+        valExtra.innerText = item.groupSize || 'Grupal';
+      } else if (itemType === 'product') {
+        lblDuration.innerText = 'Marca / Línea';
+        valDuration.innerText = item.brand || 'Profesional';
+        lblExtra.innerText = 'Stock Sede';
+        valExtra.innerText = item.stock;
+      } else {
+        lblDuration.innerText = 'Duración';
+        valDuration.innerText = item.duration;
+        lblExtra.innerText = 'Cupos';
+        valExtra.innerText = item.spots;
+      }
+
+      // Render Checklist of Modules / Specs
+      const listContainer = document.getElementById('sheet-items-list-container');
+      const listTitle = document.getElementById('sheet-items-list-title');
+      const listUl = document.getElementById('sheet-items-list');
+
+      let itemsArray = [];
+      if (itemType === 'combo') {
+        listTitle.innerText = 'Módulos y Temarios Incluidos en el Combo:';
+        itemsArray = item.includes || [];
+      } else if (itemType === 'product') {
+        listTitle.innerText = 'Especificaciones Técnicas & Características:';
+        itemsArray = item.specs || [];
+      } else {
+        listTitle.innerText = 'Temario y Enfoque Práctico:';
+        itemsArray = [
+          'Talleres 100% presenciales en laboratorios equipados',
+          'Banco de trabajo individual asignado',
+          'Prácticas directas con equipos y componentes reales',
+          'Certificación avalada curricularmente'
+        ];
+      }
+
+      listUl.innerHTML = itemsArray.map(line => `
+        <li class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-sm shrink-0">check_circle</span>
+          <span>${line}</span>
+        </li>
+      `).join('');
+
+      // Setup Action buttons inside Sheet
+      document.getElementById('sheet-btn-edit').onclick = () => {
+        closeCardSheet();
+        if (itemType === 'product') openProductModal(item.id);
+        else openCourseModal(item.id, itemType);
+      };
+
+      document.getElementById('sheet-btn-delete').onclick = () => {
+        if (itemType === 'product') deleteProduct(item.id);
+        else deleteProgram(item.id, itemType);
+      };
+
+      document.getElementById('sheet-btn-add-cart').onclick = () => {
+        addToCart({
+          id: item.id,
+          title: item.title || item.name,
+          price: item.price,
+          type: itemType === 'combo' ? 'combo' : (itemType === 'product' ? 'producto' : 'curso'),
+          image: item.image,
+          badge: item.badge
+        });
+      };
+
+      drawer.classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('card-sheet-panel').classList.remove('translate-x-full');
+      }, 10);
+    }
+
+    function closeCardSheet() {
+      const panel = document.getElementById('card-sheet-panel');
+      if (panel) panel.classList.add('translate-x-full');
+      setTimeout(() => {
+        const drawer = document.getElementById('card-sheet-drawer');
+        if (drawer) drawer.classList.add('hidden');
+      }, 300);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+  </script>
+</body>
+</html>

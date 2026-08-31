@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catálogo de Productos & Herramientas de Taller - 123AcademiaTech</title>
+
+  <!-- Google Fonts & Tailwind (Mismas fuentes de Cursos: Montserrat & Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "sans": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          },
+          boxShadow: {
+            "luxury": "0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04)",
+            "luxury-hover": "0 20px 40px -10px rgba(255, 107, 0, 0.15)"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col selection:bg-secondary selection:text-white antialiased">
+
+  <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
+    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Logo (Margen compacto gap-2) -->
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        </div>
+        <div>
+          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <!-- Inicio with Dropdown -->
+        <div class="relative group">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Inicio</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="index.html?audience=general" onclick="selectAudience('general')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">person</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
+                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                </div>
+              </a>
+              <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
+                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo with Dropdown (ACTIVO) -->
+        <div class="relative group">
+          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">
+            <span>Catálogo</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">school</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
+                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                </div>
+              </a>
+              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl bg-orange-50/90 text-secondary transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-secondary text-white flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-secondary">Herramientas & Productos</p>
+                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
+        <a href="admin.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-secondary">tune</span>
+          <span>Panel CRUD</span>
+        </a>
+        <a href="contacto.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- Cart Button -->
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-primary hover:text-secondary transition-all flex items-center gap-1.5 border border-slate-200/80" title="Ver Carrito & Cotizaciones">
+          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+          <span class="text-xs font-headline font-bold">Carrito</span>
+          <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
+        </button>
+
+        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Iniciar Sesión</a>
+        <a href="cursos.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg transition-all">Inscribirme</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex items-center gap-2 lg:hidden">
+        <button onclick="openCartDrawer()" class="relative p-2 text-slate-700 hover:text-secondary">
+          <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+          <span class="cart-badge-count hidden absolute top-0 right-0 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Modalidad de Inicio</span>
+        <a href="index.html?audience=general" onclick="selectAudience('general')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Público General
+        </a>
+        <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          Emprendimientos y Negocios
+        </a>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
+        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">school</span>
+          Cursos Técnicos Presenciales
+        </a>
+        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-white text-secondary font-headline font-bold text-xs shadow-sm">
+          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
+          Herramientas & Productos
+        </a>
+      </div>
+      <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
+      <a href="admin.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
+      </a>
+      <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="openCartDrawer()" class="w-full py-2.5 rounded-xl border border-secondary text-secondary font-headline font-bold text-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">shopping_cart</span> Ver Carrito / Cotizador
+        </button>
+        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Iniciar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN HERO SECTION -->
+  <section class="relative bg-primary text-white py-16 px-6 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary-dark to-primary opacity-95"></div>
+    <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-container-max mx-auto px-6 md:px-12 relative z-10 text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-secondary text-xs font-headline font-bold tracking-wide uppercase border border-white/10">
+        <span class="material-symbols-outlined text-sm">construction</span>
+        Equipamiento Técnico Profesional
+      </div>
+      <h1 class="font-headline font-black text-3xl sm:text-5xl text-white tracking-tight">
+        Herramientas & Equipos de Taller
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+        Adquiere el mismo instrumental técnico, estaciones de soldar, multímetros y kits de precisión utilizados en nuestros laboratorios presenciales.
+      </p>
+    </div>
+  </section>
+
+  <!-- SEARCH & CATEGORY FILTERS -->
+  <section class="max-w-container-max mx-auto px-6 md:px-12 -mt-7 relative z-20">
+    <div class="bg-white rounded-3xl p-6 shadow-luxury border border-slate-100 space-y-6">
+      
+      <!-- Search Input -->
+      <div class="relative w-full">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+        <input 
+          id="search-input"
+          oninput="filterProducts()"
+          type="text" 
+          placeholder="Buscar herramienta, estación SMD, multímetro, insumo o marca..."
+          class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 font-body text-sm font-medium transition-all"
+        />
+      </div>
+
+      <!-- Filter Category Pills (Mismo estilo de Cursos) -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <button onclick="setCategory('all')" id="cat-all" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-secondary text-white shadow-sm shrink-0 transition-all">
+          Todos los Productos
+        </button>
+        <button onclick="setCategory('herramientas')" id="cat-herramientas" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+          🛠️ Herramientas Manuales
+        </button>
+        <button onclick="setCategory('estaciones')" id="cat-estaciones" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+          🔥 Estaciones & Soldadura SMD
+        </button>
+        <button onclick="setCategory('instrumental')" id="cat-instrumental" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+          🔬 Instrumental & Medición
+        </button>
+        <button onclick="setCategory('redes')" id="cat-redes" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+          🌐 Redes & Conectividad
+        </button>
+        <button onclick="setCategory('insumos')" id="cat-insumos" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+          🧪 Insumos & Químicos
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRODUCTS GRID CONTAINER -->
+  <main class="max-w-container-max mx-auto px-6 md:px-12 py-10 flex-grow w-full">
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-6 md:gap-7">
+      <!-- Dynamic rendering via JavaScript -->
+    </div>
+  </main>
+
+  <!-- MODAL: DETALLES / FICHA TÉCNICA DEL PRODUCTO -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div>
+          <span id="modal-product-brand" class="text-xs font-headline font-bold text-secondary uppercase tracking-wider block"></span>
+          <h3 id="modal-product-title" class="font-headline font-bold text-xl text-primary"></h3>
+        </div>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div class="h-52 w-full rounded-2xl overflow-hidden bg-slate-100">
+          <img id="modal-product-img" src="" alt="Producto" class="w-full h-full object-cover"/>
+        </div>
+        
+        <div>
+          <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400 mb-1">Descripción</h4>
+          <p id="modal-product-desc" class="text-xs text-slate-600 leading-relaxed"></p>
+        </div>
+
+        <div>
+          <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Especificaciones Técnicas</h4>
+          <ul id="modal-product-specs" class="space-y-1.5 text-xs text-slate-700">
+            <!-- Dynamic specs -->
+          </ul>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-slate-400 font-semibold uppercase">Precio Sede</span>
+            <p id="modal-product-price" class="font-headline font-black text-2xl text-secondary"></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="modal-btn-add-cart" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-secondary font-headline font-bold text-xs flex items-center gap-1.5 transition-colors border border-orange-200/60">
+              <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              + CARRITO
+            </button>
+            <a id="modal-contact-link" href="#" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md transition-all">
+              COMPRAR AHORA
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
+  <!-- ======================================================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <!-- Cart Header -->
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
+            <p class="text-[11px] text-slate-500">Presupuesto y compras de taller</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+          </button>
+          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Items Scroll Area -->
+      <div class="p-6 overflow-y-auto flex-grow space-y-4">
+        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+          </div>
+          <p class="font-headline font-bold text-sm text-slate-600">El carrito está vacío</p>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega herramientas o cursos del catálogo para cotizar o comprar.</p>
+        </div>
+
+        <div id="cart-items-container" class="space-y-3"></div>
+      </div>
+
+      <!-- Cart Footer / Summary & Actions -->
+      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-slate-500">
+            <span>Subtotal Estimado:</span>
+            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Disponibilidad:</span>
+            <span class="text-emerald-600 font-semibold">En Sede Inmediata</span>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
+            <span class="font-headline font-bold text-sm text-primary">TOTAL:</span>
+            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">chat</span>
+            SOLICITAR / COMPRAR POR WHATSAPP
+          </button>
+          
+          <button onclick="transferCartToContactForm()" class="w-full py-3 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs flex items-center justify-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-base">mail</span>
+            ENVIAR A FORMULARIO DE CONTACTO
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER (STANDARDIZED LUXURY FULL WIDTH) -->
+  <footer class="w-full bg-gradient-to-r from-primary via-[#0E2554] to-[#C74B00] text-white mt-16 pt-16 pb-12 border-t border-white/10">
+    <div class="max-w-container-max mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        <!-- Col 1: Identidad & Sede -->
+        <div class="space-y-4 col-span-2 md:col-span-1">
+          <a href="index.html" class="flex items-center gap-2 group shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shadow-sm shrink-0">
+              <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+            </div>
+            <div>
+              <span class="font-headline font-extrabold text-lg tracking-tight text-white">123Academia<span class="text-secondary">Tech</span></span>
+              <p class="text-[9.5px] text-slate-300 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+            </div>
+          </a>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Laboratorios de formación técnica presencial y venta de instrumental especializado para técnicos y profesionales.
+          </p>
+        </div>
+
+        <!-- Col 2: Catálogo de Instrumental -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Catálogo de Instrumental</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="productos.html" class="hover:text-white transition-colors">Herramientas Manuales</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Estaciones SMD</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Multímetros y Osciloscopios</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Insumos y Flux</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Programas Técnicos -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Programas Técnicos</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Reparación de Celulares</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Mantenimiento de Laptops</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Redes & Telecomunicaciones</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Ofimática Avanzada</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Sede & Contacto -->
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Sede & Contacto</h4>
+          <p class="text-xs text-slate-300">Av. Tecnológica 123, Edificio TecnoPro, Piso 4.</p>
+          <p class="text-xs text-slate-300 font-semibold">WhatsApp: +1 (800) 123-TECH</p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">share</span>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">mail</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 text-center text-xs text-slate-400">
+        <p>© 2026 123AcademiaTech. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="products-data.js"></script>
+  <script src="cart-data.js"></script>
+  <script>
+    let activeCategory = 'all';
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      window.location.href = `index.html?audience=${type}`;
+    }
+
+    function setCategory(category) {
+      activeCategory = category;
+      document.querySelectorAll('.cat-pill').forEach(el => {
+        el.className = "cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all";
+      });
+      const activeEl = document.getElementById(`cat-${category}`);
+      if (activeEl) {
+        activeEl.className = "cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-secondary text-white shadow-sm shrink-0 transition-all";
+      }
+      renderProducts();
+    }
+
+    function filterProducts() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      renderProducts(query);
+    }
+
+    function renderProducts(query = '') {
+      const container = document.getElementById('products-grid');
+      let products = getProducts();
+
+      if (activeCategory !== 'all') {
+        products = products.filter(p => p.category === activeCategory);
+      }
+
+      if (query) {
+        products = products.filter(p => 
+          p.name.toLowerCase().includes(query) || 
+          p.description.toLowerCase().includes(query) ||
+          p.brand.toLowerCase().includes(query)
+        );
+      }
+
+      if (products.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <span class="material-symbols-outlined text-5xl mb-2">search_off</span>
+            <p class="font-headline font-bold text-lg text-primary">No se encontraron productos</p>
+            <p class="text-xs text-slate-500">Intenta con otra palabra clave o categoría.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = products.map(p => `
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-luxury flex flex-col justify-between group hover:-translate-y-1.5 transition-all duration-300">
+          <div>
+            <div class="relative h-44 overflow-hidden bg-slate-100 cursor-pointer" onclick="openProductModal('${p.id}')">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-primary font-headline font-bold text-[10.5px] py-1 px-2.5 rounded-full shadow-sm">
+                ${p.badge}
+              </span>
+              <span class="absolute bottom-3 right-3 bg-primary/80 text-white font-semibold text-[10px] py-0.5 px-2 rounded-md shadow-sm">
+                ${p.stock}
+              </span>
+            </div>
+            <div class="p-5 space-y-2.5">
+              <div class="text-[11px] font-semibold text-secondary uppercase tracking-wider">
+                ${p.brand}
+              </div>
+              <h3 onclick="openProductModal('${p.id}')" class="font-headline font-bold text-sm text-primary group-hover:text-secondary transition-colors line-clamp-2 cursor-pointer">
+                ${p.name}
+              </h3>
+              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                ${p.description}
+              </p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 space-y-3">
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-400 font-semibold uppercase">Precio</span>
+                <p class="font-headline font-black text-secondary text-lg">${p.price}</p>
+              </div>
+              <button onclick="handleProductBuy('${p.id}')" class="px-5 py-2 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs transition-colors shadow-sm flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">shopping_cart</span>
+                COMPRAR
+              </button>
+            </div>
+            <button onclick="openProductModal('${p.id}')" class="w-full py-1.5 text-center text-[11px] text-slate-500 hover:text-primary font-semibold flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-sm">info</span>
+              Ver Ficha Técnica
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleProductBuy(productId) {
+      const p = getProducts().find(item => item.id === productId);
+      if (!p) return;
+      addToCart({
+        id: p.id,
+        title: p.name,
+        price: p.price,
+        type: 'producto',
+        image: p.image,
+        badge: p.badge
+      });
+    }
+
+    function openProductModal(productId) {
+      const p = getProducts().find(item => item.id === productId);
+      if (!p) return;
+
+      document.getElementById('modal-product-brand').innerText = p.brand;
+      document.getElementById('modal-product-title').innerText = p.name;
+      document.getElementById('modal-product-img').src = p.image;
+      document.getElementById('modal-product-desc').innerText = p.description;
+      document.getElementById('modal-product-price').innerText = p.price;
+      document.getElementById('modal-contact-link').href = `contacto.html?course=${encodeURIComponent(p.name)}&type=product`;
+      
+      document.getElementById('modal-btn-add-cart').onclick = () => {
+        addToCart({
+          id: p.id,
+          title: p.name,
+          price: p.price,
+          type: 'producto',
+          image: p.image,
+          badge: p.badge
+        });
+        closeProductModal();
+      };
+
+      const specsList = document.getElementById('modal-product-specs');
+      specsList.innerHTML = (p.specs || []).map(spec => `
+        <li class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+          <span>${spec}</span>
+        </li>
+      `).join('');
+
+      const modal = document.getElementById('product-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('product-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+    });
+  </script>
+</body>
+</html>

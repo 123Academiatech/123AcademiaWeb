@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Sobre Nosotros & Instalaciones - 123AcademiaTech</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-panel {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .shadow-luxury {
+      box-shadow: 0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04);
+    }
+    .tab-active {
+      background-color: #FFFFFF !important;
+      color: #0B1B3D !important;
+      border-bottom: 2px solid transparent !important;
+      box-shadow: 0 -4px 15px rgba(11, 27, 61, 0.05);
+    }
+    .tab-inactive {
+      background-color: #E2E8F0 !important;
+      color: #64748B !important;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-secondary selection:text-white">
+
+  <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
+    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        </div>
+        <div>
+          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links (Separación constante y uniforme) -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <!-- Inicio with Dropdown -->
+        <div class="relative group">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 group-hover:text-primary py-2 transition-colors">
+            <span>Inicio</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="index.html" onclick="selectAudience('general')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">person</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
+                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                </div>
+              </a>
+              <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
+                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo with Dropdown -->
+        <div class="relative group">
+          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Catálogo</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">school</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
+                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                </div>
+              </a>
+              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Herramientas & Productos</p>
+                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
+        <a href="admin.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-secondary">tune</span>
+          <span>Panel CRUD</span>
+        </a>
+        <a href="contacto.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Action Buttons with Shopping Cart -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- Cart Drawer Trigger Button -->
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-primary hover:text-secondary transition-all flex items-center gap-1.5 border border-slate-200/80" title="Ver Carrito & Cotizaciones">
+          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+          <span class="text-xs font-headline font-bold">Carrito</span>
+          <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
+        </button>
+
+        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Iniciar Sesión</a>
+        <a href="contacto.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg transition-all">Agendar Visita</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex items-center gap-2 lg:hidden">
+        <button onclick="openCartDrawer()" class="relative p-2 text-slate-700 hover:text-secondary">
+          <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+          <span class="cart-badge-count hidden absolute top-0 right-0 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Modalidad de Inicio</span>
+        <a href="index.html" onclick="selectAudience('general')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-white text-secondary font-headline font-bold text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Público General
+        </a>
+        <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          Emprendimientos y Negocios
+        </a>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
+        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">school</span>
+          Cursos Técnicos Presenciales
+        </a>
+        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
+          Herramientas & Productos
+        </a>
+      </div>
+      <a href="nosotros.html" class="block py-2 text-secondary font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
+      <a href="admin.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
+      </a>
+      <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Iniciar Sesión</a>
+        <a href="contacto.html" class="text-center py-2.5 rounded-xl bg-secondary text-white font-headline font-bold text-sm">Agendar Visita Ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <main class="flex-grow max-w-container-max mx-auto w-full px-6 md:px-12 py-10 space-y-16">
+    
+    <!-- Hero Banner -->
+    <section class="bg-primary text-white rounded-3xl p-8 md:p-12 lg:p-14 shadow-2xl relative overflow-hidden">
+      <!-- Decorative background blur elements -->
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-secondary/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+        <!-- Left: Text Content -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-secondary font-headline font-bold text-xs">
+            <span class="material-symbols-outlined text-sm">stars</span>
+            LÍDERES EN CAPACITACIÓN TÉCNICA
+          </div>
+          <h1 class="font-headline font-black text-3xl sm:text-4xl md:text-5xl leading-tight">
+            FORJANDO LA PRÓXIMA GENERACIÓN DE EXPERTOS EN TECNOLOGÍA.
+          </h1>
+          <p class="text-slate-300 text-base md:text-lg leading-relaxed">
+            En 123AcademiaTech creemos que la mejor manera de aprender es practicando. Por eso, nuestras instalaciones están diseñadas como talleres reales de trabajo industrial con herramientas de precisión y tecnología de punta.
+          </p>
+        </div>
+
+        <!-- Right: Video Showcase (Bienvenida) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/15 bg-slate-900 group">
+            <video 
+              id="bienvenida-video" 
+              src="assets/videos/Bienvenida-Sobre-Nosotros.mp4" 
+              controls
+              autoplay 
+              loop 
+              muted 
+              playsinline
+              class="w-full h-64 sm:h-80 lg:h-96 object-cover"
+            >
+              Tu navegador no soporta el formato de video.
+            </video>
+
+            <!-- Floating Badge Overlay -->
+            <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-headline font-semibold text-white flex items-center gap-1.5 pointer-events-none">
+              <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              <span>Video de Bienvenida</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION, VISION, METHODOLOGY (3 CARDS) -->
+    <section class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-orange-50 text-secondary flex items-center justify-center">
+          <span class="material-symbols-outlined text-3xl">flag</span>
+        </div>
+        <h3 class="font-headline font-bold text-xl text-primary">Nuestra Misión</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Capacitar a técnicos, jóvenes y profesionales con conocimientos prácticos reales que les permitan emprender su propio taller o integrarse de inmediato al mercado laboral tecnológico.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-3xl">visibility</span>
+        </div>
+        <h3 class="font-headline font-bold text-xl text-primary">Nuestra Visión</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Ser la academia técnica presencial de referencia nacional en formación de hardware, telecomunicaciones y herramientas digitales, reconocida por su excelencia y tecnología.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-primary text-secondary flex items-center justify-center">
+          <span class="material-symbols-outlined text-3xl">build_circle</span>
+        </div>
+        <h3 class="font-headline font-bold text-xl text-primary">Metodología Teórico-Práctica</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Aprende con una metodología teórico-práctica, observando y tocando. Clases teóricas con prácticas gratificantes, formando futuros profesionales.
+        </p>
+      </div>
+    </section>
+
+    <!-- FACILITIES SHOWCASE (INSTALACIONES Y LABORATORIOS) -->
+    <section class="space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="text-secondary font-headline font-bold text-xs uppercase tracking-wider">Espacios de Aprendizaje</span>
+        <h2 class="font-headline font-black text-3xl text-primary">NUESTRAS INSTALACIONES DE VANGUARDIA</h2>
+        <p class="text-slate-600 text-sm">Conoce los laboratorios y aulas totalmente equipadas donde realizarás tus prácticas.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Lab 1 -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-md group">
+          <div class="h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Laboratorio de Reparación" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+          </div>
+          <div class="p-6 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-headline font-bold text-lg text-primary">Laboratorio de Microelectrónica</h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-orange-100 text-secondary text-[11px] font-bold">12 Bancos</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Equipado con microscopios trinoculares, estaciones de soldadura de aire caliente Quick/JBC, fuentes de alimentación DC reguladas y cámaras térmicas.
+            </p>
+          </div>
+        </div>
+
+        <!-- Lab 2 -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-md group">
+          <div class="h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Laboratorio de Redes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+          </div>
+          <div class="p-6 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-headline font-bold text-lg text-primary">Laboratorio de Redes & Servidores</h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-primary text-[11px] font-bold">Racks Reales</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Racks de servidores en torre y gabinete, switches administrables Cisco, routers MikroTik, paneles de parcheo y fusionadoras de fibra óptica.
+            </p>
+          </div>
+        </div>
+
+        <!-- Lab 3 -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-md group">
+          <div class="h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80" alt="Aula de Ofimática" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+          </div>
+          <div class="p-6 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-headline font-bold text-lg text-primary">Aula de Ofimática Ejecutiva</h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-bold">Doble Monitor</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Equipos de alto rendimiento con pantallas duales para análisis de datos, visualización de macros en Excel y gestión corporativa en tiempo real.
+            </p>
+          </div>
+        </div>
+
+        <!-- Lab 4 -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-md group">
+          <div class="h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=800&q=80" alt="Taller de Impresoras" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+          </div>
+          <div class="p-6 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-headline font-bold text-lg text-primary">Taller de Impresoras & Periféricos</h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 text-[11px] font-bold">Equipos Epson/HP</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Zona de pruebas químicas y mecánicas con módulos de limpieza de inyectores por ultrasonido, recarga de tóner y cambio de engranajes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Lab 5 -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-md group md:col-span-2 lg:col-span-2">
+          <div class="h-56 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80" alt="Recepción y Coworking" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+          </div>
+          <div class="p-6 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-headline font-bold text-lg text-primary">Recepción Ejecutiva & Coworking de Alumnos</h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[11px] font-bold">Zona Libre</span>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Área de descanso, cafetería y mesas de estudio donde los estudiantes pueden reunirse a resolver proyectos técnicos y hacer networking.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- KPIS & STATS -->
+    <section class="bg-gradient-to-r from-primary to-[#0E2554] text-white rounded-3xl p-10 shadow-xl">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
+        <div class="space-y-1">
+          <h4 class="font-headline font-black text-4xl sm:text-5xl text-secondary">+10</h4>
+          <p class="text-xs text-slate-300 font-semibold uppercase tracking-wider">Años de Trayectoria</p>
+        </div>
+        <div class="space-y-1 pt-4 md:pt-0">
+          <h4 class="font-headline font-black text-4xl sm:text-5xl text-secondary">+5,500</h4>
+          <p class="text-xs text-slate-300 font-semibold uppercase tracking-wider">Técnicos Graduados</p>
+        </div>
+        <div class="space-y-1 pt-4 md:pt-0">
+          <h4 class="font-headline font-black text-4xl sm:text-5xl text-secondary">1 a 1</h4>
+          <p class="text-xs text-slate-300 font-semibold uppercase tracking-wider">Bancos de Trabajo Individuales</p>
+        </div>
+        <div class="space-y-1 pt-4 md:pt-0">
+          <h4 class="font-headline font-black text-4xl sm:text-5xl text-secondary">5</h4>
+          <p class="text-xs text-slate-300 font-semibold uppercase tracking-wider">Especialidades Técnicas</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA AGENDA VISITA -->
+    <section class="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-luxury flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="space-y-3 max-w-xl">
+        <h3 class="font-headline font-bold text-2xl text-primary">¿Quieres conocer las instalaciones en persona?</h3>
+        <p class="text-slate-600 text-sm">
+          Agenda un recorrido guiado gratuito con uno de nuestros instructores y conoce los laboratorios antes de inscribirte.
+        </p>
+      </div>
+      <a href="contacto.html" class="px-8 py-4 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-sm shadow-lg hover:scale-105 transition-all shrink-0">
+        AGENDAR VISITA PRESENCIAL
+      </a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (STANDARDIZED LUXURY FULL WIDTH) -->
+  <footer class="w-full bg-gradient-to-r from-primary via-[#0E2554] to-[#C74B00] text-white mt-16 pt-16 pb-12 border-t border-white/10">
+    <div class="max-w-container-max mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        <!-- Col 1: Identidad & Sede -->
+        <div class="space-y-4 col-span-2 md:col-span-1">
+          <a href="index.html" class="flex items-center gap-2 group shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shadow-sm shrink-0">
+              <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+            </div>
+            <div>
+              <span class="font-headline font-extrabold text-lg tracking-tight text-white">123Academia<span class="text-secondary">Tech</span></span>
+              <p class="text-[9.5px] text-slate-300 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+            </div>
+          </a>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Laboratorios de formación técnica presencial y venta de instrumental especializado para técnicos y profesionales.
+          </p>
+        </div>
+
+        <!-- Col 2: Catálogo de Instrumental -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Catálogo de Instrumental</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="productos.html" class="hover:text-white transition-colors">Herramientas Manuales</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Estaciones SMD</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Multímetros y Osciloscopios</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Insumos y Flux</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Programas Técnicos -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Programas Técnicos</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Reparación de Celulares</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Mantenimiento de Laptops</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Redes & Telecomunicaciones</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Ofimática Avanzada</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Sede & Contacto -->
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Sede & Contacto</h4>
+          <p class="text-xs text-slate-300">Av. Tecnológica 123, Edificio TecnoPro, Piso 4.</p>
+          <p class="text-xs text-slate-300 font-semibold">WhatsApp: +1 (800) 123-TECH</p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">share</span>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">mail</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 text-center text-xs text-slate-400">
+        <p>© 2026 123AcademiaTech. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================= -->
+  <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
+  <!-- ======================================================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <!-- Cart Header -->
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
+            <p class="text-[11px] text-slate-500">Talleres, Combos B2B y Herramientas</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+          </button>
+          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Items Scroll Area -->
+      <div class="p-6 overflow-y-auto flex-grow space-y-4">
+        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+          </div>
+          <p class="font-headline font-bold text-sm text-slate-600">El cotizador está vacío</p>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega cursos individuales o combos empresariales para armar tu paquete.</p>
+        </div>
+
+        <div id="cart-items-container" class="space-y-3"></div>
+      </div>
+
+      <!-- Cart Footer / Summary & Actions -->
+      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-slate-500">
+            <span>Subtotal Estimado:</span>
+            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Modalidad:</span>
+            <span class="text-emerald-600 font-semibold">100% Presencial en Laboratorios</span>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
+            <span class="font-headline font-bold text-sm text-primary">TOTAL ESTIMADO:</span>
+            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">chat</span>
+            SOLICITAR INSCRIPCIÓN / COTIZAR WHATSAPP
+          </button>
+          
+          <button onclick="transferCartToContactForm()" class="w-full py-3 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs flex items-center justify-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-base">mail</span>
+            ENVIAR A FORMULARIO DE CONTACTO
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="cart-data.js"></script>
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      window.location.href = `index.html?audience=${type}`;
+    }
+  </script>
+</body>
+</html>

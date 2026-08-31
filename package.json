@@ -1,0 +1,21 @@
+{
+  "name": "123academiatech",
+  "version": "1.0.0",
+  "description": "Plataforma web de lujo para academia de formación técnica presencial y sistema de gestión CRUD",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "academia",
+    "ofimatica",
+    "reparacion-computadoras",
+    "reparacion-celulares",
+    "redes",
+    "impresoras",
+    "crud",
+    "stitch"
+  ],
+  "author": "123AcademiaTech",
+  "license": "MIT"
+}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academia TecnoPro - Público General</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#eceef0",
+                      "on-error-container": "#93000a",
+                      "on-background": "#191c1e",
+                      "on-secondary-container": "#572000",
+                      "surface-container-low": "#f2f4f6",
+                      "outline-variant": "#c5c6cf",
+                      "on-secondary-fixed": "#351000",
+                      "on-tertiary-container": "#ab7a59",
+                      "primary-fixed-dim": "#b7c6f1",
+                      "surface-tint": "#505e83",
+                      "tertiary-fixed-dim": "#f4ba95",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#ffb693",
+                      "surface-container-high": "#e6e8ea",
+                      "background": "#f7f9fb",
+                      "on-surface": "#191c1e",
+                      "tertiary": "#040100",
+                      "surface-bright": "#f7f9fb",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d8dadc",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed": "#ffdbcc",
+                      "inverse-primary": "#b7c6f1",
+                      "on-surface-variant": "#45464e",
+                      "on-error": "#ffffff",
+                      "secondary": "#a04100",
+                      "primary-fixed": "#dae2ff",
+                      "surface-container-highest": "#e0e3e5",
+                      "primary-container": "#0b1b3d",
+                      "on-tertiary-fixed-variant": "#653d21",
+                      "tertiary-container": "#321400",
+                      "on-primary-container": "#7684ac",
+                      "outline": "#75777f",
+                      "secondary-container": "#fe6b00",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#0a1a3c",
+                      "primary": "#00020a",
+                      "surface": "#f7f9fb",
+                      "on-primary-fixed-variant": "#38466a",
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#eff1f3",
+                      "tertiary-fixed": "#ffdcc7",
+                      "on-tertiary-fixed": "#311300",
+                      "surface-variant": "#e0e3e5",
+                      "inverse-surface": "#2d3133",
+                      "on-secondary-fixed-variant": "#7a3000"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "80px",
+                      "container-max": "1280px",
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Montserrat"],
+                      "body-md": ["Inter"],
+                      "label-bold": ["Inter"],
+                      "display-lg-mobile": ["Montserrat"],
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Montserrat"],
+                      "display-lg": ["Montserrat"]
+              },
+              "fontSize": {
+                      "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "label-bold": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .glass-panel-dark {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(11, 27, 61, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- SideNavBar (Two-in-One Split Access via JSON instructions applied as top tabs) -->
+<div class="hidden md:flex w-full max-w-container-max mx-auto -mb-[1px] relative z-10 pt-8 px-gutter">
+<div class="flex w-full overflow-hidden">
+<!-- Active Tab: PÚBLICO GENERAL -->
+<div class="flex-1 bg-white dark:bg-surface-container-lowest text-primary dark:text-primary-fixed font-bold rounded-t-[24px] shadow-none py-4 px-6 flex items-center justify-center gap-2 cursor-pointer transition-all duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-bold text-label-bold uppercase tracking-wider">PÚBLICO GENERAL</span>
+</div>
+<!-- Inactive Tab: EMPRENDIMIENTOS Y EMPRESAS -->
+<div class="flex-1 bg-white/40 dark:bg-primary-container/40 text-primary/60 dark:text-primary-fixed/60 backdrop-blur-md rounded-t-[24px] py-4 px-6 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">corporate_fare</span>
+<span class="font-label-bold text-label-bold uppercase tracking-wider">EMPRENDIMIENTOS Y EMPRESAS</span>
+</div>
+</div>
+</div>
+<!-- Mobile Segmented Control Fallback -->
+<div class="md:hidden w-full px-margin-mobile pt-4 pb-2 z-10 relative">
+<div class="bg-surface-container-low rounded-full p-1 flex shadow-sm">
+<div class="flex-1 bg-white rounded-full py-2 text-center text-primary font-label-bold text-label-bold shadow-sm">
+                PÚBLICO GENERAL
+            </div>
+<div class="flex-1 py-2 text-center text-primary/60 font-label-bold text-label-bold">
+                EMPRESAS
+            </div>
+</div>
+</div>
+<!-- Main Canvas Content Area -->
+<main class="flex-grow bg-white w-full max-w-container-max mx-auto md:rounded-tr-[24px] md:rounded-bl-[24px] md:rounded-br-[24px] shadow-[0px_4px_20px_rgba(11,27,61,0.05)] relative z-20 flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="flex justify-between items-center w-full px-gutter md:px-12 h-20 bg-white/70 dark:bg-primary-container/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0px_4px_20px_rgba(11,27,61,0.05)] sticky top-0 z-50 md:rounded-tr-[24px]">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">
+                TecnoPro
+            </div>
+<ul class="hidden lg:flex items-center gap-8">
+<li><a class="text-primary dark:text-primary-fixed border-b-2 border-secondary font-bold font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-2 py-1" href="#">Inicio</a></li>
+<li><a class="text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-2 py-1" href="#">Cursos Presenciales</a></li>
+<li><a class="text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-2 py-1" href="#">Certificaciones</a></li>
+<li><a class="text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-2 py-1" href="#">Panel CRUD</a></li>
+<li><a class="text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-2 py-1" href="#">Contacto</a></li>
+</ul>
+<div class="flex items-center gap-4">
+<button class="hidden md:block bg-secondary-container text-white px-6 py-2.5 rounded-full font-label-bold text-label-bold hover:bg-[#e66000] transition-colors shadow-sm scale-95 active:scale-90 transition-transform">
+                    Inscribirme
+                </button>
+<button class="lg:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="w-full px-margin-mobile md:px-12 py-12 md:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="order-2 lg:order-1 flex justify-center">
+<!-- 3D Illustration Placeholder -->
+<div class="relative w-full max-w-lg aspect-[4/3] rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] glass-panel group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A high-quality 3D digital illustration of a modern technical repair laboratory, featuring computer networking equipment and hardware diagnostics. The aesthetic is clean, bright, and technologically advanced, with a pristine white and soft gray light-mode background. Deep primary navy blue #0B1B3D elements provide structure, while vibrant secondary orange #FF6B00 accents highlight active connections or important tools. The scene is illuminated by soft ambient studio lighting, creating a premium, professional corporate modernism mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBli0sVj1Jfv3ltTRjXF3JVkp6BQdS_n5d7Z-7xVS_YQqy3UDZWI15Mxidqvnn4Tssb0_ZK2vqesc0R4R2t81IWEjTwpo_6E8QID_QvY3lxE-gszAi3fU1njlz3M1EWaRCM9JTHMFpcbr_6oWYvTVeYva_0bA3WGy9oW1LSesL0O63u_JMVhY_6rtnHNedge2X1WmFpuO5kGBhsWBECqaHa1k3N-KZO9xtnlEskXrRdtuqyirX9U1HI"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary-container/20 to-transparent"></div>
+</div>
+</div>
+<div class="order-1 lg:order-2 flex flex-col items-start space-y-6 md:space-y-8">
+<h1 class="font-display-lg-mobile lg:font-display-lg text-display-lg-mobile lg:text-display-lg text-primary-container">
+                    FORMACIÓN TÉCNICA PRESENCIAL DE ALTO IMPACTO Y CERTIFICACIÓN PRÁCTICA.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    Impulsa tu carrera técnica con nuestros talleres prácticos presenciales. Aprende de expertos en la industria con equipamiento de última generación y obtén certificaciones con validez profesional.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-secondary-container text-white px-8 py-4 rounded-[16px] font-label-bold text-label-bold hover:bg-[#e66000] transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                        EXPLORAR CURSOS
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="border border-primary-container text-primary-container px-8 py-4 rounded-[16px] font-label-bold text-label-bold hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+                        Ver Video Académico
+                        <span class="material-symbols-outlined text-sm">play_circle</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Value Proposition Bar -->
+<section class="w-full px-margin-mobile md:px-12 pb-section-gap">
+<div class="flex flex-col md:flex-row gap-4 justify-between items-stretch">
+<!-- Card 1 -->
+<div class="flex-1 bg-primary-container text-white rounded-[16px] p-6 flex items-center gap-4 shadow-[0px_10px_30px_rgba(11,27,61,0.08)] transform transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">build</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-base md:text-lg mb-1">Talleres Prácticos</h3>
+<p class="font-label-sm text-label-sm text-white/70">80% Práctica, 20% Teoría</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex-1 bg-surface-tint text-white rounded-[16px] p-6 flex items-center gap-4 shadow-[0px_10px_30px_rgba(11,27,61,0.08)] transform transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-base md:text-lg mb-1">Certificación Técnica</h3>
+<p class="font-label-sm text-label-sm text-white/70">Avalada por la industria</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex-1 bg-secondary-container text-white rounded-[16px] p-6 flex items-center gap-4 shadow-[0px_10px_30px_rgba(11,27,61,0.08)] transform transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-base md:text-lg mb-1">Soporte &amp; Equipamiento</h3>
+<p class="font-label-sm text-label-sm text-white/70">Herramientas profesionales</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Popular Programs Grid -->
+<section class="w-full px-margin-mobile md:px-12 py-12 bg-surface-container-low/50">
+<div class="text-center mb-12">
+<h2 class="font-headline-md text-headline-md text-primary-container mb-4">NUESTROS PROGRAMAS PRESENCIALES MÁS POPULARES</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Fórmate en las áreas técnicas con mayor demanda laboral.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter">
+<!-- Course 1 -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A bright, modern classroom setting focusing on a professional teaching computer literacy and office software to adult students. The scene is shot from a slightly high angle to show the clean desks and modern monitors. The aesthetic is corporate modernism, utilizing a light mode palette of crisp whites and soft grays, with primary navy blue #0B1B3D chairs and subtle secondary orange #FF6B00 accents on the learning materials. The lighting is natural and inviting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHpEFmwiImNyCZFbAfx16c-JMvMhC7F5WEmsmWOgACVqiUGXDD4crltMfALzkfNaOIsEvQ-EA3vQGYYpLPVFBOMrEIYI4KC07EVbgViacWuLWaAtXm9DoC1E8Tab-GCTH91eStPT1JqSdPu1Lndp1E5EgNedVPjdraIuLElxyxnBT5pj8EHuW-EXN_G5eTWJAveFVTLJndemdWKub6AB0EJYyPze1Y01IXI6f5ZuMM5_1d0_vj6Qmf"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">Presencial</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-lg text-primary-container mb-2">Ofimática Avanzada</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-6 flex-grow">Domina herramientas empresariales clave.</p>
+<button class="w-full border border-primary-container text-primary-container px-4 py-2.5 rounded-[16px] font-label-bold text-label-bold hover:bg-primary-container hover:text-white transition-colors">
+                            VER PROGRAMA
+                        </button>
+</div>
+</div>
+<!-- Course 2 -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A close-up, high-resolution shot of hands meticulously repairing a desktop computer motherboard. The aesthetic is highly technical and precise, embodying technological luxury. The background is a clean, well-lit white workspace. The primary colors feature deep navy blue #0B1B3D anti-static mats and vibrant orange #FF6B00 highlights from a multimeter display. The lighting emphasizes the intricate details of the circuitry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwqR679i0uQ-HrllGqFvkwAxDQosXDD_sKil_FTXicSipaSil9AmbSyAkWhazw8CdV0FcifS8R5tMwSi9qJN8kH7CedB8-TbYuwRrBKlnG_3KLYwBNw1zbtkUtTe83em_x8b2_azMcJ-G0urITaq2DcC7jm3Cv4IyAJcLJVVaSvo9W7YJeosON_4-ExdmMBbRKmit4xnyhI0J-2wCf8ReZ5QozeCXOBXm6YZMqE6m3z6DOnyhwjxdN"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">Presencial</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-lg text-primary-container mb-2">Reparación de PC</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-6 flex-grow">Diagnóstico y hardware a nivel componente.</p>
+<button class="w-full border border-primary-container text-primary-container px-4 py-2.5 rounded-[16px] font-label-bold text-label-bold hover:bg-primary-container hover:text-white transition-colors">
+                            VER PROGRAMA
+                        </button>
+</div>
+</div>
+<!-- Course 3 -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A skilled technician viewed through a magnifying lamp, working on a disassembled smartphone under bright, focused lighting. The aesthetic is clean and professional, focusing on macro details. The setting is a pristine white lab environment. A deep navy blue #0B1B3D smock contrasts with the bright, sterile surroundings, while a secondary orange #FF6B00 precision tool adds a pop of color. The mood is concentrated and expert." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCelk6ECrsxqjMb2Voqj0ZnhoDZrIn_BpSQ3bUh4rD3unc1VcffjOSRBDJyV-Oad_vN7LhxjSIDWzexNhEl5QqtS-wyUVg43wij6glhGgdmwWuIFgBLU4y32Fa9lnCNiU8rvYaVDMfKzHDKsXBX8s9d8mLAuk8pmECAxjii6pr_3PdbWoxmSgC7JNlpT5efNkSodTSuZ6WDKlLBBno-1wcEyhQRjlA4Gte403WvIO69R-xa12kLkcE6"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">Presencial</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-lg text-primary-container mb-2">Servicio Celulares</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-6 flex-grow">Micro-soldadura y fallas de software.</p>
+<button class="w-full border border-primary-container text-primary-container px-4 py-2.5 rounded-[16px] font-label-bold text-label-bold hover:bg-primary-container hover:text-white transition-colors">
+                            VER PROGRAMA
+                        </button>
+</div>
+</div>
+<!-- Course 4 -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A server room aisle viewed with a wide-angle lens, featuring a professional technician configuring a network rack. The aesthetic blends corporate modernism with a high-tech vibe. The light mode setting uses soft white ambient lighting bouncing off metallic surfaces, contrasted with deep navy blue #0B1B3D server cabinets. Bright secondary orange #FF6B00 ethernet cables create leading lines. The mood is secure and structured." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEjEta5AvfWClUoDMZRaaNnsHUJ3lQlUFGKc0WVhaE5R1Fu9sOdNaxBJEopdf6_rRUfzxDvZ96Z3as2BBvyrCL6WUk7f-QGqgavo8QSpC12rZs15qZfy4tS03pfW5Hthdq5qNKaDgxf1COc8UBI8RTV6QCwPbe0et51NniofXEC1tt1m0JHe2rH7Wntskx1MsmuHy-TxXX16NMxAvVOxfwEtRVhlWW_as-U8He7ns0_JWSVN0UBsGo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">Presencial</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-lg text-primary-container mb-2">Redes y Conectividad</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-6 flex-grow">Diseño, cableado estructurado y routers.</p>
+<button class="w-full border border-primary-container text-primary-container px-4 py-2.5 rounded-[16px] font-label-bold text-label-bold hover:bg-primary-container hover:text-white transition-colors">
+                            VER PROGRAMA
+                        </button>
+</div>
+</div>
+<!-- Course 5 -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group hidden xl:flex">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An open, complex laser printer mechanism being inspected by a technician. The shot is clean and well-lit, emphasizing the mechanical parts. The aesthetic is industrial yet refined, fitting corporate modernism. The overall palette is light grays and whites, grounded by deep navy blue #0B1B3D structural elements of the printer, with vibrant secondary orange #FF6B00 warning labels or gears providing visual interest. The mood is analytical." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgRsdSuT6xUm8mTCudRyOzAII4N82i-4BEmgJmLrERTAcHJWVKqMroS1AX8dwl2ssach2mOVILXpdualiBKgXsh02zY1aKyAxk5bRUmdSAftDUk6DjUG8aW8d3dS3XnDh0xBUEkI9C2c_G96K_IgLraqxnQ3fKgcSl_OUg5JNkg3KVe5wmt3clXG-Bk75QJefKe7Ize6h-jUUIQyD0xF2abnnUXfS272BScE5PPNgomO3PF3XKouZY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">Presencial</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-lg text-primary-container mb-2">Mantenimiento Impresoras</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-6 flex-grow">Láser, inyección y térmica comercial.</p>
+<button class="w-full border border-primary-container text-primary-container px-4 py-2.5 rounded-[16px] font-label-bold text-label-bold hover:bg-primary-container hover:text-white transition-colors">
+                            VER PROGRAMA
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Section (Chips) -->
+<section class="w-full px-margin-mobile md:px-12 py-16 flex flex-col items-center">
+<h2 class="font-headline-sm text-headline-sm text-primary-container mb-8 uppercase tracking-widest text-center">Habilidades a Desarrollar</h2>
+<div class="flex flex-wrap justify-center gap-4 max-w-4xl">
+<!-- Chip 1 -->
+<div class="bg-white border border-outline-variant/50 rounded-full px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md hover:border-primary-container transition-all cursor-default">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">troubleshoot</span>
+<span class="font-label-bold text-label-bold text-on-surface">Diagnóstico Preciso</span>
+</div>
+<!-- Chip 2 -->
+<div class="bg-white border border-outline-variant/50 rounded-full px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md hover:border-primary-container transition-all cursor-default">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+<span class="font-label-bold text-label-bold text-on-surface">Micro-soldadura</span>
+</div>
+<!-- Chip 3 -->
+<div class="bg-white border border-outline-variant/50 rounded-full px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md hover:border-primary-container transition-all cursor-default">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">lan</span>
+<span class="font-label-bold text-label-bold text-on-surface">Arquitectura de Redes</span>
+</div>
+<!-- Chip 4 -->
+<div class="bg-white border border-outline-variant/50 rounded-full px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md hover:border-primary-container transition-all cursor-default">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-label-bold text-label-bold text-on-surface">Fallas de Software</span>
+</div>
+<!-- Chip 5 -->
+<div class="bg-white border border-outline-variant/50 rounded-full px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md hover:border-primary-container transition-all cursor-default">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">handyman</span>
+<span class="font-label-bold text-label-bold text-on-surface">Manejo de Herramientas</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full mt-auto bg-gradient-to-r from-primary-container via-primary to-secondary relative z-10 grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter py-section-gap">
+<div class="col-span-1 md:col-span-1 flex flex-col space-y-4">
+<div class="font-headline-sm text-headline-sm text-white font-bold">TecnoPro</div>
+<p class="font-body-md text-body-md text-white/80 max-w-xs">
+                © 2024 Academia TecnoPro. Excelencia en Formación Técnica.
+            </p>
+<div class="flex gap-4 mt-4">
+<!-- Social Icons placeholders using material symbols for layout -->
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors" href="#">
+<span class="material-symbols-outlined">camera_alt</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors" href="#">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors" href="#">
+<span class="material-symbols-outlined">play_arrow</span>
+</a>
+</div>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-bold text-label-bold text-white mb-4 uppercase tracking-wider">Sobre Nosotros</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Misión</a></li>
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Visión</a></li>
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Filosofía</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-bold text-label-bold text-white mb-4 uppercase tracking-wider">Productos y Servicios</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Cursos</a></li>
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Talleres</a></li>
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Servicios</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-bold text-label-bold text-white mb-4 uppercase tracking-wider">Centro de Ayuda</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Cuenta</a></li>
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Certificación</a></li>
+<li><a class="font-body-md text-body-md text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Pagos</a></li>
+</ul>
+</div>
+</footer>
+<!-- Floating WhatsApp Widget -->
+<a class="fixed bottom-8 right-8 z-50 w-16 h-16 bg-[#25D366] text-white rounded-full shadow-[0px_10px_30px_rgba(37,211,102,0.4)] flex items-center justify-center hover:scale-110 transition-transform hover:shadow-[0px_14px_40px_rgba(37,211,102,0.6)]" href="#">
+<!-- Simplified WA icon representation -->
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">chat</span>
+<div class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white">
+            1
+        </div>
+</a>
+</body></html>

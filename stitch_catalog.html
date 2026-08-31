@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catálogo de Cursos - Academia TecnoPro</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#fe6b00",
+                        "on-background": "#191c1e",
+                        "tertiary-fixed": "#ffdcc7",
+                        "on-primary-fixed-variant": "#38466a",
+                        "secondary-fixed-dim": "#ffb693",
+                        "on-surface-variant": "#45464e",
+                        "primary-container": "#0b1b3d",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#040100",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#7a3000",
+                        "outline": "#75777f",
+                        "primary-fixed": "#dae2ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#7684ac",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#b7c6f1",
+                        "surface-container": "#eceef0",
+                        "surface-container-highest": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#653d21",
+                        "surface-tint": "#505e83",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb",
+                        "secondary-fixed": "#ffdbcc",
+                        "on-tertiary-fixed": "#311300",
+                        "secondary": "#a04100",
+                        "on-secondary-fixed": "#351000",
+                        "on-secondary-container": "#572000",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary-container": "#321400",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-container": "#ab7a59",
+                        "tertiary-fixed-dim": "#f4ba95",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e0e3e5",
+                        "outline-variant": "#c5c6cf",
+                        "on-primary-fixed": "#0a1a3c",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary": "#00020a",
+                        "inverse-primary": "#b7c6f1",
+                        "on-surface": "#191c1e",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "container-max": "1280px",
+                        "section-gap": "80px",
+                        "margin-mobile": "16px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Montserrat"],
+                        "label-bold": ["Inter"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Desktop) -->
+<header class="hidden md:block sticky top-0 z-50 bg-white/70 dark:bg-primary-container/70 backdrop-blur-xl docked full-width rounded-b-none border-b border-outline-variant/30 shadow-[0px_4px_20px_rgba(11,27,61,0.05)]">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+<div class="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined text-4xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">integration_instructions</span>
+                TecnoPro
+            </div>
+<nav class="flex gap-8 items-center h-full">
+<a class="h-full flex items-center text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-4" href="#">Inicio</a>
+<a class="h-full flex items-center text-primary dark:text-primary-fixed border-b-2 border-secondary font-bold font-label-bold text-label-bold px-4" href="#">Cursos</a>
+<a class="h-full flex items-center text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-4" href="#">Certificaciones</a>
+<a class="h-full flex items-center text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-4" href="#">Panel CRUD</a>
+<a class="h-full flex items-center text-on-surface-variant/60 dark:text-outline hover:text-primary font-label-bold text-label-bold hover:bg-surface-container-low transition-colors duration-300 px-4" href="#">Contacto</a>
+</nav>
+<button class="bg-secondary-container text-white font-label-bold px-6 py-3 rounded-lg hover:bg-secondary transition-colors scale-95 active:scale-90 shadow-md">
+                Inscribirme
+            </button>
+</div>
+</header>
+<!-- SideNavBar / Mobile Header (Two-in-One Split Access adaptation) -->
+<div class="md:hidden sticky top-0 z-40 bg-surface-container-low shadow-md">
+<div class="flex w-full">
+<button class="flex-1 py-4 bg-white/40 text-primary/60 font-label-bold text-center border-b-2 border-transparent">
+<span class="material-symbols-outlined block mb-1">person</span>
+                PÚBLICO
+            </button>
+<button class="flex-1 py-4 bg-white text-primary border-b-2 border-secondary font-bold font-label-bold text-center shadow-[0px_4px_10px_rgba(0,0,0,0.05)] z-10 rounded-tl-xl">
+<span class="material-symbols-outlined block mb-1">corporate_fare</span>
+                EMPRESAS
+            </button>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow bg-white shadow-[0px_4px_20px_rgba(11,27,61,0.05)] rounded-t-[24px] md:rounded-none relative z-20 md:mt-0 -mt-2 pb-24">
+<!-- Hero / Header Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-12 md:py-20 text-center">
+<h1 class="font-display-lg-mobile md:font-display-lg text-primary-container mb-4">
+                Catálogo de Cursos Profesionales
+            </h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+                Formación técnica de alto nivel para impulsar tu carrera. Domina las habilidades tecnológicas más demandadas por la industria actual.
+            </p>
+<!-- Filters (Bento-style pills) -->
+<div class="flex flex-wrap justify-center gap-3 mb-12">
+<button class="px-6 py-2 rounded-full bg-primary-container text-white font-label-bold shadow-sm">Todos</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-variant font-label-bold transition-colors">Software</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-variant font-label-bold transition-colors">Hardware</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-variant font-label-bold transition-colors">Redes</button>
+</div>
+</section>
+<!-- Course Grid -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-gutter pb-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Ofimática -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group hover:-translate-y-1 transition-transform duration-300 border border-surface-variant/50">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="A clean, modern office desk setup with a sleek laptop displaying spreadsheet software and document processors. The lighting is bright and professional, emphasizing a productive corporate environment in high resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlVofH6VaHkigN0yHkgevyPzjdgvEzhwF-nwDzihmG1A9Uhqe8-foZ2aMlb4YDSpQJKr85T9FwPgPNan8-jX5Cs_6PMweAoJiQupYEZUdtNorX6r0vzJ-OIwpONebpMJujWFgqL1S1mxS_ChEx4ZScPnWXoj4AautP8zHneYqq4rcOD_h3Q0VK8-N98_1-9kqwEbws-LUOT3-3zksIpxPXC-audElh74jx_1j4GS4oOo9I4LZkPQNS"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="text-xs font-bold text-white tracking-wide">BÁSICO</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-primary-container mb-2">Ofimática Profesional</h3>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant mb-6">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 40h</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">folder</span> Software</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="font-headline-sm text-primary-container">$120</span>
+<button class="px-5 py-2 bg-secondary-container text-white rounded-lg font-label-bold hover:bg-secondary transition-colors shadow-sm">Ver Detalles</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Reparación de Computadoras -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group hover:-translate-y-1 transition-transform duration-300 border border-surface-variant/50">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="Close up macro shot of a computer motherboard being repaired by a technician using precision tools. High-tech, clean lighting highlighting the metallic components and circuits in a professional lab setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVh_eNX1e-YJ04pCrplH3x-TyYqNuD2h7GJl5zpD6akI0GIFPdnERHdkTzXYGMy3huJ1p_BD2nF4ZnWmG-355Q3cfpuxVz8JfIrT2ojz39uMsLGXGeQHwG2ZYidX-2MBxHXB43YM_lP32mwtC_G0AnwQuhTt8VVE0oJYp_u6k4X0M6GgIYV7cvs5Kd9hXZ26LxKrQYdPfMsalUlkOAMi4D-NwweJZPSoBAHGVGZfHV_kuVAmexdExp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs font-bold text-white tracking-wide">INTERMEDIO</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-primary-container mb-2">Reparación de Computadoras</h3>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant mb-6">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 60h</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">memory</span> Hardware</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="font-headline-sm text-primary-container">$180</span>
+<button class="px-5 py-2 bg-secondary-container text-white rounded-lg font-label-bold hover:bg-secondary transition-colors shadow-sm">Ver Detalles</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Reparación de Celulares -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group hover:-translate-y-1 transition-transform duration-300 border border-surface-variant/50">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="A highly detailed top-down view of a modern smartphone disassembled on an anti-static mat, surrounded by professional microsoldering tools and a digital microscope. Clean, clinical lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkl3BuRUGZFNrFAOamC0zU6GwfvkfvRf3_uQfHI7IlCxMXaRbUIhyHyWyOCOIDv63gA96lQyftdOrqLCtugE4p_PqbJJslLPDylobhVPPX8fETH2PnWiEDNkS8ebbvaYkKCnNlNuF58TEx3ghM_iFTuYxcX-6RDZTN5aXbpSWx90XW1BJziU2dDqI7DBLJWP-tWoj9CvaIoGvypTnPqiDZc26oOkJpp2pcrKsYXVsqdZeccVd6xEf5"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs font-bold text-white tracking-wide">INTERMEDIO</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-primary-container mb-2">Reparación de Celulares</h3>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant mb-6">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 50h</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">smartphone</span> Hardware</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="font-headline-sm text-primary-container">$160</span>
+<button class="px-5 py-2 bg-secondary-container text-white rounded-lg font-label-bold hover:bg-secondary transition-colors shadow-sm">Ver Detalles</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Redes & Telecomunicaciones -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group hover:-translate-y-1 transition-transform duration-300 border border-surface-variant/50">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="A modern enterprise server room with racks of glowing networking equipment. Ethernet cables are neatly organized. The scene has a cool blue technological color palette with sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDYbayFB2Lzw6XSPzJHuJ-FThESTGtmse76ymf3u1QgS1jA3I1nww-h1N0sE3MBuTsK2XCozc_vNeiC7Z3TzC_vQOnjF0bpvwq5DaVLd35SXq1uCHExPuO5YKObj_82SMoOE8ZTj2AuwcR6klgoO_486dvtY0tC8I7BRBO5CU8ShlRLOmaVNPC9CnUfRzRzEwLe5XOuqnzmeBSuByNWxIsNK73iLoUkFaV9Xlbtnxq65QGwAhdMrXy"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-xs font-bold text-white tracking-wide">AVANZADO</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-primary-container mb-2">Redes &amp; Telecomunicaciones</h3>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant mb-6">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 80h</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">router</span> Redes</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="font-headline-sm text-primary-container">$250</span>
+<button class="px-5 py-2 bg-secondary-container text-white rounded-lg font-label-bold hover:bg-secondary transition-colors shadow-sm">Ver Detalles</button>
+</div>
+</div>
+</div>
+<!-- Card 5: Mantenimiento de Impresoras -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(11,27,61,0.08)] flex flex-col group hover:-translate-y-1 transition-transform duration-300 border border-surface-variant/50">
+<div class="relative h-48 w-full">
+<img class="w-full h-full object-cover" data-alt="A professional workspace showing the internal mechanical components of a large commercial printer being inspected. Bright, clear lighting emphasizes the gears and ink systems in high detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrnI_FFr1983bfc5tLtM1eebHLD1m7baAxs8-L-2bBwH9Y1IQGGi0BgGMo2LsnnhpMyv84hu0E1YLVyY3kuQzAa8DN3mOcRij4X9-oLHRNUPkWW25XNfHIk-G2XJAURCwRV4NfouwsCuL0SZFuCh20Sv_LPaeS9Pcg8MSH2fR7_RnnRquZQsFtMjC5MqYkAj_8_NR8wrCY0K6zxYiF_1oQb7vdifv4YuDlRxQdfVJDmWqz6XEapHir"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent"></div>
+<div class="absolute top-4 left-4 glass-panel rounded-full px-3 py-1 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs font-bold text-white tracking-wide">INTERMEDIO</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-primary-container mb-2">Mantenimiento de Impresoras</h3>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant mb-6">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 45h</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">print</span> Hardware</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="font-headline-sm text-primary-container">$140</span>
+<button class="px-5 py-2 bg-secondary-container text-white rounded-lg font-label-bold hover:bg-secondary transition-colors shadow-sm">Ver Detalles</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-gradient-to-r from-primary-container via-primary to-secondary full-width bottom-0 text-white pb-8 md:pb-0">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter py-section-gap w-full max-w-container-max mx-auto">
+<div class="col-span-1">
+<h4 class="font-headline-sm text-headline-sm text-white mb-6">TecnoPro</h4>
+<p class="font-body-md text-white/80 max-w-xs mb-4">Excelencia en Formación Técnica. Impulsando el talento profesional desde 2024.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary-fixed transition-colors">qr_code_2</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary-fixed transition-colors">share</span>
+</div>
+</div>
+<div class="col-span-1">
+<h5 class="font-label-bold text-secondary-fixed mb-4">Sobre Nosotros</h5>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Misión</a></li>
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Visión</a></li>
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Filosofía</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h5 class="font-label-bold text-secondary-fixed mb-4">Servicios</h5>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Cursos</a></li>
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Talleres</a></li>
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Servicios</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h5 class="font-label-bold text-secondary-fixed mb-4">Soporte</h5>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Cuenta</a></li>
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Certificación</a></li>
+<li><a class="text-white/80 hover:text-white hover:translate-x-1 transition-transform inline-block" href="#">Pagos</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/10 mt-8 py-6 text-center">
+<p class="font-label-sm text-white/60">© 2024 Academia TecnoPro. Excelencia en Formación Técnica.</p>
+</div>
+</footer>
+<!-- Floating WhatsApp Icon -->
+<a class="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0px_10px_30px_rgba(34,197,94,0.3)] hover:scale-110 transition-transform z-50" href="#">
+<span class="material-symbols-outlined text-3xl">chat</span>
+<span class="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border-2 border-white"></span>
+</a>
+</body></html>

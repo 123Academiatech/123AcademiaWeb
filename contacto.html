@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Contacto & Sede Presencial - 123AcademiaTech</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-panel {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .shadow-luxury {
+      box-shadow: 0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04);
+    }
+    .tab-active {
+      background-color: #FFFFFF !important;
+      color: #0B1B3D !important;
+      border-bottom: 2px solid transparent !important;
+      box-shadow: 0 -4px 15px rgba(11, 27, 61, 0.05);
+    }
+    .tab-inactive {
+      background-color: #E2E8F0 !important;
+      color: #64748B !important;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-secondary selection:text-white">
+
+  <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
+    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        </div>
+        <div>
+          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links (Separación constante y uniforme) -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <!-- Inicio with Dropdown -->
+        <div class="relative group">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 group-hover:text-primary py-2 transition-colors">
+            <span>Inicio</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="index.html" onclick="selectAudience('general')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">person</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
+                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                </div>
+              </a>
+              <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
+                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo with Dropdown -->
+        <div class="relative group">
+          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+            <span>Catálogo</span>
+            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
+            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
+              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">school</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
+                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                </div>
+              </a>
+              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+                </div>
+                <div>
+                  <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Herramientas & Productos</p>
+                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="nosotros.html" class="inline-flex items-center font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">Sobre Nosotros & Instalaciones</a>
+        <a href="admin.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm text-slate-600 hover:text-primary py-2 transition-colors">
+          <span class="material-symbols-outlined text-base text-secondary">tune</span>
+          <span>Panel CRUD</span>
+        </a>
+        <a href="contacto.html" class="inline-flex items-center font-headline font-semibold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Action Buttons with Shopping Cart -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- Cart Drawer Trigger Button -->
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-primary hover:text-secondary transition-all flex items-center gap-1.5 border border-slate-200/80" title="Ver Carrito & Cotizaciones">
+          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+          <span class="text-xs font-headline font-bold">Carrito</span>
+          <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
+        </button>
+
+        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Iniciar Sesión</a>
+        <a href="cursos.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg transition-all">Inscribirme</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex items-center gap-2 lg:hidden">
+        <button onclick="openCartDrawer()" class="relative p-2 text-slate-700 hover:text-secondary">
+          <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+          <span class="cart-badge-count hidden absolute top-0 right-0 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-700 hover:text-primary">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3">
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Modalidad de Inicio</span>
+        <a href="index.html" onclick="selectAudience('general')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl bg-white text-secondary font-headline font-bold text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Público General
+        </a>
+        <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          Emprendimientos y Negocios
+        </a>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
+        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
+        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">school</span>
+          Cursos Técnicos Presenciales
+        </a>
+        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
+          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
+          Herramientas & Productos
+        </a>
+      </div>
+      <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
+      <a href="admin.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
+      </a>
+      <a href="contacto.html" class="block py-2 text-secondary font-headline font-semibold text-sm">Contacto</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Iniciar Sesión</a>
+        <a href="cursos.html" class="text-center py-2.5 rounded-xl bg-secondary text-white font-headline font-bold text-sm">Inscribirme Ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTACT -->
+  <main class="flex-grow max-w-container-max mx-auto w-full px-6 md:px-12 py-10 space-y-12">
+    
+    <div class="text-center max-w-2xl mx-auto space-y-2">
+      <span class="text-secondary font-headline font-bold text-xs uppercase tracking-wider">Atención Presencial & Asesoría</span>
+      <h1 class="font-headline font-black text-3xl sm:text-4xl text-primary">Ponte en Contacto con Nosotros</h1>
+      <p class="text-slate-600 text-sm">¿Tienes dudas sobre los cursos, financiamiento o requisitos? Estamos para ayudarte.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10">
+      
+      <!-- Contact Form -->
+      <div id="contact-form-container" class="lg:col-span-7 bg-white rounded-3xl p-8 border border-slate-100 shadow-xl space-y-6">
+        
+        <!-- Pre-selected Course/Combo Banner (Aparece si viene de Cotizar o Inscribirme) -->
+        <div id="preselected-banner" class="hidden bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/80 rounded-2xl p-4 flex items-start gap-3.5 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-secondary text-white flex items-center justify-center shrink-0 shadow-sm">
+            <span id="banner-icon" class="material-symbols-outlined text-xl">verified</span>
+          </div>
+          <div>
+            <span id="banner-tag" class="text-[10px] font-headline font-bold text-secondary uppercase tracking-wider block">Curso Pre-Seleccionado</span>
+            <h4 id="preselected-title" class="font-headline font-bold text-sm text-primary"></h4>
+            <p class="text-xs text-slate-500 mt-0.5">Hemos rellenado tus campos automáticamente. Completa tus datos de contacto para enviar tu solicitud.</p>
+          </div>
+        </div>
+
+        <h3 class="font-headline font-bold text-xl text-primary">Envíanos un Mensaje</h3>
+        
+        <form id="contact-form" onsubmit="handleContact(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Nombre Completo</label>
+              <input id="contact-name" required type="text" placeholder="Ej: Juan Pérez" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+            </div>
+            <div>
+              <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Teléfono / WhatsApp</label>
+              <input id="contact-phone" required type="tel" placeholder="+1 (555) 000-0000" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Curso o Combo de Interés</label>
+            <select id="course-select" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary font-medium text-slate-700">
+              <option value="">Selecciona una opción...</option>
+              <optgroup label="🎓 Cursos Técnicos Presenciales">
+                <option value="Ofimática Ejecutiva & Avanzada">Ofimática Ejecutiva & Avanzada ($120 USD)</option>
+                <option value="Reparación & Mantenimiento de Computadoras y Laptops">Reparación & Mantenimiento de Computadoras y Laptops ($180 USD)</option>
+                <option value="Reparación Profesional de Celulares y Tablets">Reparación Profesional de Celulares y Tablets ($195 USD)</option>
+                <option value="Redes, Servidores y Cableado Estructurado">Redes, Servidores y Cableado Estructurado ($160 USD)</option>
+                <option value="Mantenimiento y Reparación de Impresoras">Mantenimiento y Reparación de Impresoras ($130 USD)</option>
+              </optgroup>
+              <optgroup label="🏢 Combos para Emprendimientos y Negocios (B2B)">
+                <option value="Combo Soporte IT & Reparación de Equipos">Combo Soporte IT & Reparación de Equipos (3 a 5 pers. - $450 USD)</option>
+                <option value="Combo Ofimática Ejecutiva & Automatización">Combo Ofimática Ejecutiva & Automatización (5 a 10 pers. - $520 USD)</option>
+                <option value="Combo Infraestructura de Redes & Seguridad B2B">Combo Infraestructura de Redes & Seguridad B2B (3 a 6 pers. - $640 USD)</option>
+                <option value="Combo Emprendedor: Montaje de Taller Técnico">Combo Emprendedor: Montaje de Taller Técnico (2 a 4 pers. - $580 USD)</option>
+                <option value="Plan Corporativo In-Company Full Pass">Plan Corporativo In-Company Full Pass (+10 pers. - A Cotizar)</option>
+              </optgroup>
+              <optgroup label="🛠️ Herramientas & Equipamiento de Taller">
+                <option value="Kit de Destornilladores de Precisión Pro 128 en 1">Kit de Destornilladores de Precisión Pro 128 en 1 ($35 USD)</option>
+                <option value="Estación de Calor y Cautín SMD 2 en 1 Pro 750W">Estación de Calor y Cautín SMD 2 en 1 Pro 750W ($120 USD)</option>
+                <option value="Microscopio Trinocular con Cámara HDMI 4K & Luz LED">Microscopio Trinocular con Cámara HDMI 4K ($380 USD)</option>
+                <option value="Multímetro Digital Automático True RMS con Probador">Multímetro Digital Automático True RMS ($55 USD)</option>
+                <option value="Fuente de Poder Regulable DC 30V / 5A para Diagnóstico">Fuente de Poder Regulable DC 30V / 5A ($95 USD)</option>
+                <option value="Tester de Redes RJ45 / RJ11 con Generador de Tonos">Tester de Redes RJ45 / RJ11 con Generador ($40 USD)</option>
+                <option value="Tina de Limpieza Ultrasónica Digital 0.8L de Acero">Tina de Limpieza Ultrasónica Digital 0.8L ($65 USD)</option>
+                <option value="Kit de Insumos: Pasta Térmica Plata + Flux UV + Estaño">Kit de Insumos Térmicos y Soldadura ($28 USD)</option>
+              </optgroup>
+              <optgroup label="💬 Otras Consultas">
+                <option value="Información General & Visita Guiada">Información General & Visita Guiada a Instalaciones</option>
+                <option value="Consultoría Técnica Personalizada">Consultoría Técnica Personalizada</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Mensaje o Consulta</label>
+            <textarea id="contact-message" rows="4" placeholder="Escribe aquí tus dudas sobre horarios, pagos o temarios..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-4 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-sm shadow-md transition-all">
+            ENVIAR SOLICITUD
+          </button>
+        </form>
+      </div>
+
+      <!-- Info & Sede -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-primary text-white rounded-3xl p-8 shadow-xl space-y-6">
+          <h3 class="font-headline font-bold text-xl text-white">Sede Central Presencial</h3>
+          
+          <div class="space-y-4 text-sm text-slate-200">
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-secondary text-xl shrink-0">location_on</span>
+              <div>
+                <strong class="text-white block">Dirección:</strong>
+                Av. Tecnológica 123, Edificio TecnoPro, Piso 4.
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-secondary text-xl shrink-0">schedule</span>
+              <div>
+                <strong class="text-white block">Horarios de Atención:</strong>
+                Lunes a Viernes: 8:00 AM - 7:00 PM<br/>
+                Sábados: 8:30 AM - 4:00 PM
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-secondary text-xl shrink-0">call</span>
+              <div>
+                <strong class="text-white block">Teléfono / WhatsApp Directo:</strong>
+                +1 (800) 123-TECH / +1 (555) 987-6543
+              </div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/?text=Hola%20123AcademiaTech" target="_blank" class="block text-center py-3 rounded-xl bg-[#25D366] text-white font-headline font-bold text-xs shadow-md hover:bg-[#1EBE5D] transition-colors">
+            CONTACTAR POR WHATSAPP INMEDIATO
+          </a>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-md">
+          <h4 class="font-headline font-bold text-sm text-primary mb-2">Garantía de Atención</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Respondemos todas las solicitudes en menos de 15 minutos en horario hábil. Puedes visitar nuestras instalaciones y hablar directamente con los instructores.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER (STANDARDIZED LUXURY FULL WIDTH) -->
+  <footer class="w-full bg-gradient-to-r from-primary via-[#0E2554] to-[#C74B00] text-white mt-16 pt-16 pb-12 border-t border-white/10">
+    <div class="max-w-container-max mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        <!-- Col 1: Identidad & Sede -->
+        <div class="space-y-4 col-span-2 md:col-span-1">
+          <a href="index.html" class="flex items-center gap-2 group shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shadow-sm shrink-0">
+              <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+            </div>
+            <div>
+              <span class="font-headline font-extrabold text-lg tracking-tight text-white">123Academia<span class="text-secondary">Tech</span></span>
+              <p class="text-[9.5px] text-slate-300 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+            </div>
+          </a>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Laboratorios de formación técnica presencial y venta de instrumental especializado para técnicos y profesionales.
+          </p>
+        </div>
+
+        <!-- Col 2: Catálogo de Instrumental -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Catálogo de Instrumental</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="productos.html" class="hover:text-white transition-colors">Herramientas Manuales</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Estaciones SMD</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Multímetros y Osciloscopios</a></li>
+            <li><a href="productos.html" class="hover:text-white transition-colors">Insumos y Flux</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Programas Técnicos -->
+        <div class="space-y-3">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Programas Técnicos</h4>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Reparación de Celulares</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Mantenimiento de Laptops</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Redes & Telecomunicaciones</a></li>
+            <li><a href="cursos.html" class="hover:text-white transition-colors">Ofimática Avanzada</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Sede & Contacto -->
+        <div class="space-y-3 col-span-2 md:col-span-1">
+          <h4 class="font-headline font-bold text-sm tracking-wider uppercase text-secondary">Sede & Contacto</h4>
+          <p class="text-xs text-slate-300">Av. Tecnológica 123, Edificio TecnoPro, Piso 4.</p>
+          <p class="text-xs text-slate-300 font-semibold">WhatsApp: +1 (800) 123-TECH</p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">share</span>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-sm">mail</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 text-center text-xs text-slate-400">
+        <p>© 2026 123AcademiaTech. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="courses-data.js"></script>
+  <script src="products-data.js"></script>
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      window.location.href = `index.html?audience=${type}`;
+    }
+
+    function handleContact(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value;
+      const course = document.getElementById('course-select').value;
+      alert(`¡Gracias ${name}! Hemos recibido tu solicitud para "${course || 'nuestros programas'}". Un asesor se comunicará contigo de inmediato.`);
+      e.target.reset();
+      const banner = document.getElementById('preselected-banner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    // Auto-completado al cargar según parámetros de URL (?course=... o ?combo=... o ?product=...)
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const courseParam = urlParams.get('course') || urlParams.get('subject') || urlParams.get('combo') || urlParams.get('product');
+      const typeParam = urlParams.get('type');
+
+      if (courseParam) {
+        const courseSelect = document.getElementById('course-select');
+        const messageInput = document.getElementById('contact-message');
+        const banner = document.getElementById('preselected-banner');
+        const bannerTitle = document.getElementById('preselected-title');
+        const bannerTag = document.getElementById('banner-tag');
+        const bannerIcon = document.getElementById('banner-icon');
+
+        // 1. Seleccionar el curso, combo o producto en el dropdown
+        if (courseSelect) {
+          let matched = false;
+          const cleanParam = courseParam.toLowerCase().trim();
+          for (let i = 0; i < courseSelect.options.length; i++) {
+            const optVal = courseSelect.options[i].value.toLowerCase();
+            const optText = courseSelect.options[i].text.toLowerCase();
+            if (optVal.includes(cleanParam) || cleanParam.includes(optVal) || optText.includes(cleanParam)) {
+              courseSelect.selectedIndex = i;
+              matched = true;
+              break;
+            }
+          }
+          if (!matched) {
+            const customOption = new Option(courseParam, courseParam, true, true);
+            courseSelect.add(customOption);
+          }
+        }
+
+        // 2. Rellenar mensaje predeterminado según tipo
+        if (messageInput) {
+          const isCombo = typeParam === 'combo' || courseParam.toLowerCase().includes('combo') || courseParam.toLowerCase().includes('corporativo');
+          const isProduct = typeParam === 'product' || courseParam.toLowerCase().includes('kit') || courseParam.toLowerCase().includes('estación') || courseParam.toLowerCase().includes('microscopio') || courseParam.toLowerCase().includes('multímetro') || courseParam.toLowerCase().includes('tester') || courseParam.toLowerCase().includes('tina') || courseParam.toLowerCase().includes('fuente');
+
+          if (typeParam === 'cart') {
+            messageInput.value = `Hola 123AcademiaTech, deseo solicitar presupuesto formal y disponibilidad para los siguientes ítems de mi cotización: ${courseParam}. Por favor contáctenme con los detalles de inscripción y facturación.`;
+          } else if (isProduct) {
+            messageInput.value = `Hola, me interesa consultar disponibilidad y comprar/cotizar el producto "${courseParam}". ¿Tienen stock disponible para entrega o retiro presencial en sede?`;
+          } else if (isCombo) {
+            messageInput.value = `Hola, me interesa solicitar la cotización para el "${courseParam}". Deseamos capacitar a nuestro equipo de colaboradores. Por favor bríndennos información de temario, fechas disponibles y opciones de pago.`;
+          } else {
+            messageInput.value = `Hola, deseo reservar mi cupo y recibir información detallada para inscribirme en el curso "${courseParam}" (horarios, temarios y formas de pago).`;
+          }
+        }
+
+        // 3. Mostrar banner visual de preselección
+        if (banner && bannerTitle) {
+          bannerTitle.innerText = courseParam;
+          const isCombo = typeParam === 'combo' || courseParam.toLowerCase().includes('combo') || courseParam.toLowerCase().includes('corporativo');
+          const isProduct = typeParam === 'product';
+
+          if (typeParam === 'cart') {
+            if (bannerTag) bannerTag.innerText = "🛒 Cotización Múltiple del Carrito";
+            if (bannerIcon) bannerIcon.innerText = "receipt_long";
+          } else if (isProduct) {
+            if (bannerTag) bannerTag.innerText = "🛠️ Producto / Herramienta Pre-Seleccionada";
+            if (bannerIcon) bannerIcon.innerText = "home_repair_service";
+          } else if (isCombo) {
+            if (bannerTag) bannerTag.innerText = "🏢 Combo Empresarial Pre-Seleccionado";
+            if (bannerIcon) bannerIcon.innerText = "corporate_fare";
+          } else {
+            if (bannerTag) bannerTag.innerText = "🎓 Curso Técnico Pre-Seleccionado";
+            if (bannerIcon) bannerIcon.innerText = "school";
+          }
+          banner.classList.remove('hidden');
+        }
+
+        // 4. Scroll suave al formulario
+        const formContainer = document.getElementById('contact-form-container');
+        if (formContainer) {
+          formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          formContainer.classList.add('ring-2', 'ring-secondary');
+          setTimeout(() => {
+            formContainer.classList.remove('ring-2', 'ring-secondary');
+          }, 3000);
+        }
+      }
+    });
+  </script>
+
+  <!-- ======================================================= -->
+  <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
+  <!-- ======================================================= -->
+  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
+    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
+    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+      
+      <!-- Cart Header -->
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
+            <p class="text-[11px] text-slate-500">Talleres, Combos B2B y Herramientas</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-lg">delete_sweep</span>
+          </button>
+          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart Items Scroll Area -->
+      <div class="p-6 overflow-y-auto flex-grow space-y-4">
+        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
+            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+          </div>
+          <p class="font-headline font-bold text-sm text-slate-600">El cotizador está vacío</p>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega cursos individuales o combos empresariales para armar tu paquete.</p>
+        </div>
+
+        <div id="cart-items-container" class="space-y-3"></div>
+      </div>
+
+      <!-- Cart Footer / Summary & Actions -->
+      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-slate-500">
+            <span>Subtotal Estimado:</span>
+            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Modalidad:</span>
+            <span class="text-emerald-600 font-semibold">100% Presencial en Laboratorios</span>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
+            <span class="font-headline font-bold text-sm text-primary">TOTAL ESTIMADO:</span>
+            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">chat</span>
+            SOLICITAR INSCRIPCIÓN / COTIZAR WHATSAPP
+          </button>
+          
+          <button onclick="transferCartToContactForm()" class="w-full py-3 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs flex items-center justify-center gap-2 transition-colors">
+            <span class="material-symbols-outlined text-base">mail</span>
+            ENVIAR A FORMULARIO DE CONTACTO
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="cart-data.js"></script>
+</body>
+</html>
