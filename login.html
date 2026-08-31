@@ -156,7 +156,7 @@
 
       <!-- Action Buttons -->
       <div class="hidden sm:flex items-center gap-4">
-        <a href="login.html" class="px-4 py-2 font-headline font-semibold text-sm text-secondary hover:text-secondary-hover transition-colors">Iniciar Sesión</a>
+        <div class="auth-nav-slot"></div>
         <a href="cursos.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-sm shadow-md hover:shadow-lg transition-all">Inscribirme</a>
       </div>
 
@@ -200,7 +200,7 @@
       </a>
       <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
       <div class="pt-2 flex flex-col gap-2">
-        <a href="login.html" class="text-center py-2.5 rounded-xl border border-secondary text-secondary font-headline font-semibold text-sm">Iniciar Sesión</a>
+        <div class="auth-nav-mobile-slot"></div>
         <a href="cursos.html" class="text-center py-2.5 rounded-xl bg-secondary text-white font-headline font-bold text-sm">Inscribirme Ahora</a>
       </div>
     </div>
@@ -388,10 +388,12 @@
           localStorage.setItem('123_user_email', user.email);
           localStorage.setItem('123_user_nivel', String(user.nivel));
           localStorage.setItem('123_user_rol', user.rol_nombre || 'Usuario');
+          localStorage.setItem('123_user_avatar', user.avatar_url || user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80');
 
           if (Number(user.nivel) === 4) {
             localStorage.setItem('123_is_admin', 'true');
             localStorage.setItem('123_admin_email', user.email);
+            localStorage.setItem('123_user_avatar', user.avatar_url || user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');
             window.location.href = "admin.html";
           } else if (Number(user.nivel) === 3) {
             localStorage.setItem('123_is_admin', 'false');
@@ -411,6 +413,11 @@
           if (email.includes('admin')) {
             localStorage.setItem('123_is_admin', 'true');
             localStorage.setItem('123_admin_email', email);
+            localStorage.setItem('123_user_name', 'Administrador Principal');
+            localStorage.setItem('123_user_email', email);
+            localStorage.setItem('123_user_nivel', '4');
+            localStorage.setItem('123_user_rol', 'Administrador');
+            localStorage.setItem('123_user_avatar', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');
             window.location.href = "admin.html";
           } else {
             alert('Usuario no encontrado en la base de datos de Supabase.');
@@ -433,5 +440,6 @@
       }
     }
   </script>
+  <script src="auth-nav.js"></script>
 </body>
 </html>
