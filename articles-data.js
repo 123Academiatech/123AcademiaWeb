@@ -1,7 +1,9 @@
-// Gestor de Artículos y Publicaciones Técnicas para 123AcademiaTech
+// Gestor de Artículos y Blog Técnico con Conexión a Supabase
+// Tabla: public.articulos (id, titulo, slug, categoria, resumen, contenido, autor, imagen, vistas, status, created_at)
+
 const DEFAULT_ARTICLES = [
   {
-    id: "art-1",
+    id: "06f1c7e4-4e01-4131-89bd-a47ce2539da4",
     title: "Guía Práctica: Cómo detectar un cortocircuito en placa madre con cámara térmica",
     slug: "detectar-cortocircuito-placa-madre",
     category: "Reparación & Diagnóstico",
@@ -14,7 +16,7 @@ const DEFAULT_ARTICLES = [
     created_at: "2026-08-15"
   },
   {
-    id: "art-2",
+    id: "82bf0e75-e357-43cb-b1d3-530499ac734c",
     title: "Top 5 Fórmulas y Macros que todo Analista de Datos debe dominar en Excel 2026",
     slug: "formulas-macros-excel-2026",
     category: "Ofimática & Productividad",
@@ -27,7 +29,7 @@ const DEFAULT_ARTICLES = [
     created_at: "2026-08-20"
   },
   {
-    id: "art-3",
+    id: "87c9fd54-9f20-4756-af70-82d02488ba16",
     title: "Configuración de VLANs y Segmentación de Redes con MikroTik RouterOS v7",
     slug: "configuracion-vlans-mikrotik-routeros-v7",
     category: "Redes & Telecomunicaciones",
@@ -41,19 +43,169 @@ const DEFAULT_ARTICLES = [
   }
 ];
 
-function getArticles() {
-  const stored = localStorage.getItem('academia_articles');
-  if (!stored) {
-    localStorage.setItem('academia_articles', JSON.stringify(DEFAULT_ARTICLES));
-    return DEFAULT_ARTICLES;
-  }
+// Obtener artículos en vivo desde Supabase
+async function fetchArticlesFromDB() {
   try {
-    return JSON.parse(stored);
+    if (typeof SupabaseAPI !== 'undefined') {
+      const data = await SupabaseAPI.query('articulos', '*', 'created_at.desc');
+      if (data && Array.isArray(data) && data.length > 0) {
+        const normalized = data.map(a => ({
+          id: a.id,
+          title: a.titulo,
+          slug: a.slug,
+          category: a.categoria,
+          resumen: a.resumen,
+          contenido: a.contenido,
+          autor: a.autor,
+          imagen: a.imagen || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+          vistas: Number(a.vistas) || 0,
+          status: a.status || 'published',
+          created_at: a.created_at ? a.created_at.split('T')[0] : '2026-08-31'
+        }));
+        localStorage.setItem('academia_articles', JSON.stringify(normalized));
+        return normalized;
+      }
+    }
   } catch (e) {
-    return DEFAULT_ARTICLES;
+    console.warn('[ArticlesDB] Error al conectar con Supabase, usando caché local:', e);
   }
+  return getCachedArticles();
 }
 
+function getCachedArticles() {
+  const stored = localStorage.getItem('academia_articles');
+  if (stored) {
+    try { return JSON.parse(stored); } catch (e) {}
+  }
+  return DEFAULT_ARTICLES;
+}
+
+// Crear nuevo artículo en Supabase
+async function createArticleInDB(articleData) {
+  const slug = (articleData.title || '')
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+  const payload = {
+    titulo: articleData.title,
+    slug: slug || `articulo-${Date.now()}`,
+    categoria: articleData.category || 'General',
+    resumen: articleData.resumen,
+    contenido: articleData.contenido || articleData.resumen,
+    autor: articleData.autor || 'Equipo Docente 123AcademiaTech',
+    imagen: articleData.imagen || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+    vistas: 0,
+    status: articleData.status || 'published'
+  };
+
+  const res = await SupabaseAPI.insert('articulos', payload);
+  const created = (res && res[0]) ? res[0] : payload;
+
+  const formatted = {
+    id: created.id || `art-${Date.now()}`,
+    title: created.titulo,
+    slug: created.slug,
+    category: created.categoria,
+    resumen: created.resumen,
+    contenido: created.contenido,
+    autor: created.autor,
+    imagen: created.imagen,
+    vistas: created.vistas || 0,
+    status: created.status || 'published',
+    created_at: created.created_at ? created.created_at.split('T')[0] : new Date().toISOString().split('T')[0]
+  };
+
+  const current = getCachedArticles();
+  current.unshift(formatted);
+  localStorage.setItem('academia_articles', JSON.stringify(current));
+  return formatted;
+}
+
+// Actualizar artículo existente en Supabase
+async function updateArticleInDB(id, articleData) {
+  const slug = (articleData.title || '')
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+  const payload = {
+    titulo: articleData.title,
+    slug: slug,
+    categoria: articleData.category,
+    resumen: articleData.resumen,
+    contenido: articleData.contenido,
+    autor: articleData.autor,
+    imagen: articleData.imagen,
+    status: articleData.status
+  };
+
+  await SupabaseAPI.update('articulos', id, payload);
+
+  const current = getCachedArticles();
+  const updatedList = current.map(a => {
+    if (a.id === id) {
+      return {
+        ...a,
+        title: payload.titulo,
+        slug: payload.slug,
+        category: payload.categoria,
+        resumen: payload.resumen,
+        contenido: payload.contenido,
+        autor: payload.autor,
+        imagen: payload.imagen,
+        status: payload.status
+      };
+    }
+    return a;
+  });
+  localStorage.setItem('academia_articles', JSON.stringify(updatedList));
+  return updatedList;
+}
+
+// Eliminar artículo en Supabase
+async function deleteArticleInDB(id) {
+  await SupabaseAPI.delete('articulos', id);
+  const current = getCachedArticles().filter(a => a.id !== id);
+  localStorage.setItem('academia_articles', JSON.stringify(current));
+  return true;
+}
+
+// Alternar estado publicado / borrador en Supabase
+async function toggleArticleStatusInDB(id, currentStatus) {
+  const nextStatus = (currentStatus === 'published') ? 'draft' : 'published';
+  await SupabaseAPI.update('articulos', id, { status: nextStatus });
+
+  const current = getCachedArticles().map(a => {
+    if (a.id === id) {
+      a.status = nextStatus;
+    }
+    return a;
+  });
+  localStorage.setItem('academia_articles', JSON.stringify(current));
+  return nextStatus;
+}
+
+// Incrementar contador de lecturas en Supabase
+async function incrementArticleViewsInDB(id) {
+  try {
+    const current = getCachedArticles();
+    const item = current.find(a => a.id === id);
+    const newViews = (item ? (item.vistas || 0) : 0) + 1;
+    await SupabaseAPI.update('articulos', id, { vistas: newViews });
+    if (item) {
+      item.vistas = newViews;
+      localStorage.setItem('academia_articles', JSON.stringify(current));
+    }
+  } catch (e) {}
+}
+
+// Helpers para compatibilidad sincrónica
+function getArticles() {
+  return getCachedArticles();
+}
 function saveArticles(articles) {
   localStorage.setItem('academia_articles', JSON.stringify(articles));
 }
