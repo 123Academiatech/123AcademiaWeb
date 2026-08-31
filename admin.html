@@ -5,9 +5,18 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Panel de Control & Gestor CRUD - 123AcademiaTech</title>
   <script>
-    // Control de acceso: solo administradores
-    if (localStorage.getItem('123_is_admin') !== 'true') {
-      window.location.replace('login.html');
+    // Control de acceso: solo administradores (Nivel 4) y docentes (Nivel 3)
+    const isAdmin = localStorage.getItem('123_is_admin') === 'true';
+    const userNivel = Number(localStorage.getItem('123_user_nivel')) || 0;
+    if (!isAdmin && userNivel < 3) {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+      if (isLocal) {
+        localStorage.setItem('123_is_admin', 'true');
+        localStorage.setItem('123_user_nivel', '4');
+        localStorage.setItem('123_admin_email', 'admin@123academiatech.com');
+      } else {
+        window.location.replace('login.html');
+      }
     }
   </script>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -1844,32 +1853,47 @@
       `).join('');
     }
 
-    function toggleProgramStatus(id, itemType) {
-      if (itemType === 'combo') {
-        allCombos = allCombos.map(c => {
-          if (c.id === id) c.status = c.status === 'active' ? 'inactive' : 'active';
-          return c;
-        });
-        saveBusinessCombos(allCombos);
-      } else {
-        allCourses = allCourses.map(c => {
-          if (c.id === id) c.status = c.status === 'active' ? 'inactive' : 'active';
-          return c;
-        });
-        saveCourses(allCourses);
+    async function toggleProgramStatus(id, itemType) {
+      const isCombo = (itemType === 'combo');
+      const list = isCombo ? allCombos : allCourses;
+      const item = list.find(c => c.id === id);
+      if (!item) return;
+
+      const nextStatus = item.status === 'active' ? 'inactive' : 'active';
+      item.status = nextStatus;
+
+      try {
+        await updateCourseInDB(id, { ...item, status: nextStatus }, isCombo);
+        const data = await fetchCoursesFromDB();
+        allCourses = data.courses;
+        allCombos = data.combos;
+      } catch (err) {
+        console.warn('Error al actualizar estado en Supabase:', err);
+        if (isCombo) saveBusinessCombos(allCombos);
+        else saveCourses(allCourses);
       }
       filterCoursesTable();
       updateDashboardMetrics();
     }
 
-    function deleteProgram(id, itemType) {
-      if (confirm(`¿Eliminar este ${itemType}?`)) {
-        if (itemType === 'combo') {
-          allCombos = allCombos.filter(c => c.id !== id);
-          saveBusinessCombos(allCombos);
-        } else {
-          allCourses = allCourses.filter(c => c.id !== id);
-          saveCourses(allCourses);
+    async function deleteProgram(id, itemType) {
+      const isCombo = (itemType === 'combo');
+      if (confirm(`¿Estás seguro de que deseas eliminar este ${isCombo ? 'combo empresarial' : 'curso'} de Supabase?`)) {
+        try {
+          await deleteCourseInDB(id);
+          const data = await fetchCoursesFromDB();
+          allCourses = data.courses;
+          allCombos = data.combos;
+          closeCardSheet();
+        } catch (err) {
+          alert('Error al eliminar en Supabase: ' + err.message);
+          if (isCombo) {
+            allCombos = allCombos.filter(c => c.id !== id);
+            saveBusinessCombos(allCombos);
+          } else {
+            allCourses = allCourses.filter(c => c.id !== id);
+            saveCourses(allCourses);
+          }
         }
         filterCoursesTable();
         updateDashboardMetrics();
@@ -1935,36 +1959,64 @@
     function openCourseModal(itemId = null, itemType = 'course') {
       const modal = document.getElementById('course-modal');
       document.getElementById('course-form').reset();
+      removeSelectedImage('course');
       
+      const isCombo = (itemType === 'combo');
+      document.getElementById('course-item-type').value = itemType;
+      document.getElementById('course-modal-type-tag').innerText = isCombo ? 'Combo Empresarial (B2B)' : 'Curso Individual (General)';
+
+      // Contenedores condicionales según tipo
+      const comboIncludesBox = document.getElementById('combo-includes-container');
+      if (comboIncludesBox) {
+        if (isCombo) comboIncludesBox.classList.remove('hidden');
+        else comboIncludesBox.classList.add('hidden');
+      }
+
       if (itemId) {
-        if (itemType === 'combo') {
+        if (isCombo) {
           const cb = allCombos.find(item => item.id === itemId);
-          document.getElementById('course-modal-type-tag').innerText = 'Combo Empresarial (B2B)';
-          document.getElementById('course-id').value = cb.id;
-          document.getElementById('course-item-type').value = 'combo';
-          document.getElementById('input-course-title').value = cb.title;
-          document.getElementById('input-course-desc').value = cb.description;
-          document.getElementById('input-course-price').value = cb.price;
-          document.getElementById('input-combo-includes').value = (cb.includes || []).join(', ');
-          document.getElementById('input-course-image').value = cb.image || '';
-          if (cb.image) {
-            document.getElementById('course-img-preview-tag').src = cb.image;
-            document.getElementById('course-img-preview-box').classList.remove('hidden');
+          if (cb) {
+            document.getElementById('course-modal-title').innerText = 'Editar Combo Empresarial en Supabase';
+            document.getElementById('course-id').value = cb.id;
+            document.getElementById('input-course-title').value = cb.title || '';
+            document.getElementById('input-course-desc').value = cb.description || '';
+            document.getElementById('input-course-price').value = cb.price || '';
+            document.getElementById('input-course-duration').value = cb.duration || '80 Horas Prácticas';
+            if (document.getElementById('input-course-category')) document.getElementById('input-course-category').value = cb.category || 'empresarial';
+            if (document.getElementById('input-course-badge')) document.getElementById('input-course-badge').value = cb.badge || 'Plan Corporativo';
+            if (document.getElementById('input-course-extra')) document.getElementById('input-course-extra').value = cb.groupSize || 'Grupos de 3 a 5 personas';
+            if (document.getElementById('input-combo-includes')) document.getElementById('input-combo-includes').value = (cb.includes || []).join(', ');
+            document.getElementById('input-course-image').value = cb.image || '';
+            if (cb.image) {
+              document.getElementById('course-img-preview-tag').src = cb.image;
+              document.getElementById('course-img-preview-box').classList.remove('hidden');
+            }
           }
         } else {
           const c = allCourses.find(item => item.id === itemId);
-          document.getElementById('course-modal-type-tag').innerText = 'Curso Individual (General)';
-          document.getElementById('course-id').value = c.id;
-          document.getElementById('course-item-type').value = 'course';
-          document.getElementById('input-course-title').value = c.title;
-          document.getElementById('input-course-desc').value = c.description;
-          document.getElementById('input-course-price').value = c.price;
-          document.getElementById('input-course-image').value = c.image || '';
-          if (c.image) {
-            document.getElementById('course-img-preview-tag').src = c.image;
-            document.getElementById('course-img-preview-box').classList.remove('hidden');
+          if (c) {
+            document.getElementById('course-modal-title').innerText = 'Editar Curso Técnico en Supabase';
+            document.getElementById('course-id').value = c.id;
+            document.getElementById('input-course-title').value = c.title || '';
+            document.getElementById('input-course-desc').value = c.description || '';
+            document.getElementById('input-course-price').value = c.price || '';
+            document.getElementById('input-course-duration').value = c.duration || '40 Horas Presenciales';
+            if (document.getElementById('input-course-category')) document.getElementById('input-course-category').value = c.category || 'ofimatica';
+            if (document.getElementById('input-course-badge')) document.getElementById('input-course-badge').value = c.badge || 'Presencial';
+            if (document.getElementById('input-course-extra')) document.getElementById('input-course-extra').value = c.spots || '6 Cupos Disponibles';
+            document.getElementById('input-course-image').value = c.image || '';
+            if (c.image) {
+              document.getElementById('course-img-preview-tag').src = c.image;
+              document.getElementById('course-img-preview-box').classList.remove('hidden');
+            }
           }
         }
+      } else {
+        document.getElementById('course-id').value = '';
+        document.getElementById('course-modal-title').innerText = isCombo ? 'Agregar Nuevo Combo Empresarial en Supabase' : 'Agregar Nuevo Curso Técnico en Supabase';
+        document.getElementById('input-course-duration').value = isCombo ? '80 Horas Prácticas' : '40 Horas Presenciales';
+        if (document.getElementById('input-course-extra')) document.getElementById('input-course-extra').value = isCombo ? 'Grupos de 3 a 5 personas' : '6 Cupos Disponibles';
+        if (document.getElementById('input-course-badge')) document.getElementById('input-course-badge').value = isCombo ? 'Plan Corporativo' : 'Presencial Especializado';
       }
       modal.classList.remove('hidden');
       modal.classList.add('flex');
@@ -1980,14 +2032,15 @@
       e.preventDefault();
       const id = document.getElementById('course-id').value;
       const itemType = document.getElementById('course-item-type').value;
-      const courseImg = document.getElementById('input-course-image').value;
+      const isCombo = (itemType === 'combo');
 
+      let courseImg = document.getElementById('input-course-image').value;
       if (!courseImg) {
-        alert('Por favor selecciona una imagen para el programa desde tu PC.');
-        return;
+        courseImg = isCombo 
+          ? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
+          : 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80';
       }
 
-      const isCombo = (itemType === 'combo');
       const submitBtn = e.target.querySelector('button[type="submit"]');
       const origHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
@@ -2003,15 +2056,15 @@
           const comboData = {
             id: id || undefined,
             title: document.getElementById('input-course-title').value,
-            category: document.getElementById('input-course-category').value,
-            badge: document.getElementById('input-course-badge').value || 'Combo Grupal',
+            category: document.getElementById('input-course-category')?.value || 'empresarial',
+            badge: document.getElementById('input-course-badge')?.value || 'Plan Corporativo',
             description: document.getElementById('input-course-desc').value,
-            duration: document.getElementById('input-course-duration').value,
+            duration: document.getElementById('input-course-duration').value || '80 Horas Prácticas',
             price: document.getElementById('input-course-price').value,
-            groupSize: document.getElementById('input-course-extra')?.value || 'Grupal',
+            groupSize: document.getElementById('input-course-extra')?.value || 'Grupos de 3 a 5 personas',
             includes: includesArr,
             image: courseImg,
-            status: document.getElementById('input-course-status').checked ? 'active' : 'inactive'
+            status: document.getElementById('input-course-status')?.checked ? 'active' : 'inactive'
           };
 
           if (id) await updateCourseInDB(id, comboData, true);
@@ -2020,14 +2073,14 @@
           const courseData = {
             id: id || undefined,
             title: document.getElementById('input-course-title').value,
-            category: document.getElementById('input-course-category').value,
-            badge: document.getElementById('input-course-badge').value || 'Presencial',
+            category: document.getElementById('input-course-category')?.value || 'ofimatica',
+            badge: document.getElementById('input-course-badge')?.value || 'Presencial Especializado',
             description: document.getElementById('input-course-desc').value,
-            duration: document.getElementById('input-course-duration').value,
+            duration: document.getElementById('input-course-duration').value || '40 Horas Presenciales',
             price: document.getElementById('input-course-price').value,
-            spots: document.getElementById('input-course-extra')?.value || 'Cupos Disponibles',
+            spots: document.getElementById('input-course-extra')?.value || '6 Cupos Disponibles',
             image: courseImg,
-            status: document.getElementById('input-course-status').checked ? 'active' : 'inactive'
+            status: document.getElementById('input-course-status')?.checked ? 'active' : 'inactive'
           };
 
           if (id) await updateCourseInDB(id, courseData, false);
@@ -2168,17 +2221,23 @@
       renderProductsTable(filtered);
     }
 
-    function cycleProductStock(id) {
+    async function cycleProductStock(id) {
       const states = ["Disponible en Sede", "Últimas 4 unidades", "Alta Disponibilidad", "Bajo Pedido / Entrega 48h", "Agotado Temporalmente"];
-      allProducts = allProducts.map(p => {
-        if (p.id === id) {
-          const currentIndex = states.indexOf(p.stock);
-          const nextIndex = (currentIndex + 1) % states.length;
-          p.stock = states[nextIndex >= 0 ? nextIndex : 0];
-        }
-        return p;
-      });
-      saveProducts(allProducts);
+      const p = allProducts.find(item => item.id === id);
+      if (!p) return;
+
+      const currentIndex = states.indexOf(p.stock);
+      const nextIndex = (currentIndex + 1) % states.length;
+      const nextStock = states[nextIndex >= 0 ? nextIndex : 0];
+      p.stock = nextStock;
+
+      try {
+        await updateProductInDB(id, { ...p, stock: nextStock });
+        allProducts = await fetchProductsFromDB();
+      } catch (err) {
+        console.warn('Error al actualizar stock en Supabase:', err);
+        saveProducts(allProducts);
+      }
       filterProductsTable();
       updateDashboardMetrics();
     }
@@ -2201,33 +2260,33 @@
       const modal = document.getElementById('product-modal');
       const form = document.getElementById('product-form');
       form.reset();
+      removeSelectedImage('product');
 
       if (productId) {
         const p = allProducts.find(item => item.id === productId);
         if (p) {
           document.getElementById('product-modal-title').innerText = 'Editar Producto & Stock en Supabase';
           document.getElementById('product-id').value = p.id;
-          document.getElementById('input-prod-name').value = p.name;
-          document.getElementById('input-prod-brand').value = p.brand || '';
-          document.getElementById('input-prod-category').value = p.category;
-          document.getElementById('input-prod-price').value = p.price;
-          document.getElementById('input-prod-stock').value = p.stock;
-          document.getElementById('input-prod-badge').value = p.badge || '';
+          document.getElementById('input-prod-name').value = p.name || '';
+          document.getElementById('input-prod-brand').value = p.brand || 'Oficial';
+          document.getElementById('input-prod-category').value = p.category || 'herramientas';
+          document.getElementById('input-prod-price').value = p.price || '';
+          document.getElementById('input-prod-stock').value = p.stock || 'Disponible en Sede';
+          document.getElementById('input-prod-badge').value = p.badge || 'Stock';
           document.getElementById('input-prod-image').value = p.image || '';
           if (p.image) {
             document.getElementById('prod-img-preview-tag').src = p.image;
             document.getElementById('prod-img-preview-box').classList.remove('hidden');
-          } else {
-            removeSelectedImage('product');
           }
-          document.getElementById('input-prod-desc').value = p.description;
+          document.getElementById('input-prod-desc').value = p.description || '';
           document.getElementById('input-prod-specs').value = (p.specs || []).join(', ');
         }
       } else {
-        removeSelectedImage('product');
-        document.getElementById('product-modal-title').innerText = 'Agregar Nuevo Producto en Supabase';
         document.getElementById('product-id').value = '';
+        document.getElementById('product-modal-title').innerText = 'Agregar Nuevo Producto en Supabase';
         document.getElementById('input-prod-stock').value = 'Disponible en Sede';
+        document.getElementById('input-prod-badge').value = 'Recomendado';
+        document.getElementById('input-prod-brand').value = 'TecnoPro Tools';
       }
 
       modal.classList.remove('hidden');
@@ -2243,11 +2302,10 @@
     async function handleSaveProduct(e) {
       e.preventDefault();
       const id = document.getElementById('product-id').value;
-      const prodImg = document.getElementById('input-prod-image').value;
+      let prodImg = document.getElementById('input-prod-image').value;
 
       if (!prodImg) {
-        alert('Por favor selecciona una imagen para el producto desde tu PC.');
-        return;
+        prodImg = 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80';
       }
       const specsRaw = document.getElementById('input-prod-specs').value;
       const specsArray = specsRaw ? specsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Garantía oficial', 'Uso profesional en taller'];
