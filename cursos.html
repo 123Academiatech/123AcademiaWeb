@@ -147,7 +147,7 @@
           <span class="cart-badge-count hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md animate-bounce">0</span>
         </button>
 
-        <a href="login.html" class="px-3.5 py-2 font-headline font-semibold text-xs text-slate-600 hover:text-primary transition-colors">Iniciar Sesión</a>
+        <div class="auth-nav-slot"></div>
         <a href="contacto.html" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md hover:shadow-lg transition-all">Inscribirme</a>
       </div>
 
@@ -200,7 +200,7 @@
         <button onclick="openCartDrawer()" class="w-full py-2.5 rounded-xl border border-secondary text-secondary font-headline font-bold text-sm flex items-center justify-center gap-2">
           <span class="material-symbols-outlined text-base">shopping_cart</span> Ver Carrito / Cotizador
         </button>
-        <a href="login.html" class="text-center py-2.5 rounded-xl border border-slate-300 font-headline font-semibold text-sm text-primary">Iniciar Sesión</a>
+        <div class="auth-nav-mobile-slot"></div>
       </div>
     </div>
   </header>
@@ -699,5 +699,6 @@
       }
     });
   </script>
+  <script src="auth-nav.js"></script>
 </body>
 </html>
