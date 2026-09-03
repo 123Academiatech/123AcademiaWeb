@@ -987,6 +987,75 @@
   </div>
 
   <!-- ======================================================= -->
+  <!-- MODAL: VER DESCRIPCIÓN COMPLETA DE SOLICITUD          -->
+  <!-- ======================================================= -->
+  <div id="solicitud-detail-modal" class="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300 opacity-0" role="dialog" aria-modal="true">
+    <div class="fixed inset-0" onclick="closeSolicitudDetailModal()"></div>
+
+    <div id="solicitud-detail-card" class="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-luxury border border-slate-100 transform scale-95 transition-all duration-300 z-10 text-left space-y-5">
+      
+      <!-- Botón Cerrar (X) -->
+      <button onclick="closeSolicitudDetailModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors focus:outline-none" title="Cerrar modal">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+
+      <!-- Encabezado con Ícono -->
+      <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-primary flex items-center justify-center shrink-0 border border-blue-100">
+          <span class="material-symbols-outlined text-2xl text-primary">mark_email_read</span>
+        </div>
+        <div>
+          <h3 class="font-headline font-bold text-lg text-primary">Detalle de la Solicitud</h3>
+          <p class="text-xs text-slate-500">Consulta de cliente registrada desde la web</p>
+        </div>
+      </div>
+
+      <!-- Cuadrícula de Datos del Cliente -->
+      <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-100">
+        <div>
+          <span class="text-slate-400 font-semibold uppercase text-[10px] block">Nombre del Cliente</span>
+          <strong id="modal-sol-name" class="font-headline font-bold text-slate-800 block text-sm mt-0.5"></strong>
+        </div>
+        <div>
+          <span class="text-slate-400 font-semibold uppercase text-[10px] block">Teléfono / WhatsApp</span>
+          <strong id="modal-sol-phone" class="font-mono text-slate-800 block text-sm mt-0.5"></strong>
+        </div>
+        <div class="pt-2 border-t border-slate-200/60 col-span-2 sm:col-span-1">
+          <span class="text-slate-400 font-semibold uppercase text-[10px] block">Programa de Interés</span>
+          <strong id="modal-sol-course" class="font-headline font-bold text-secondary block mt-0.5"></strong>
+        </div>
+        <div class="pt-2 border-t border-slate-200/60 col-span-2 sm:col-span-1">
+          <span class="text-slate-400 font-semibold uppercase text-[10px] block">Fecha y Hora</span>
+          <span id="modal-sol-date" class="font-mono text-slate-600 block mt-0.5"></span>
+        </div>
+      </div>
+
+      <!-- Descripción / Mensaje Completo -->
+      <div class="space-y-1.5">
+        <label class="font-headline font-bold text-xs uppercase tracking-wider text-slate-500 block">Mensaje / Consulta Completa</label>
+        <div id="modal-sol-message" class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-wrap max-h-56 overflow-y-auto">
+          <!-- Mensaje cargado dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Acciones Inferiores -->
+      <div class="pt-2 flex items-center justify-between gap-3">
+        <div id="modal-sol-status-badge"></div>
+        
+        <div class="flex items-center gap-2">
+          <button id="modal-sol-btn-toggle" onclick="" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-headline font-bold text-xs transition-colors">
+            Alternar Estado
+          </button>
+          <button onclick="closeSolicitudDetailModal()" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-slate-800 text-white font-headline font-bold text-xs transition-colors shadow-sm">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
   <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
   <!-- ======================================================= -->
   <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
@@ -1889,9 +1958,10 @@
             <td class="p-4 text-slate-600 max-w-[260px] truncate" title="${item.mensaje}">${item.mensaje || '<em class="text-slate-400">Sin mensaje adicional</em>'}</td>
             <td class="p-4">${statusBadge}</td>
             <td class="p-4 text-right whitespace-nowrap space-x-1">
-              <a href="${waUrl}" target="_blank" class="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors inline-flex items-center" title="Contactar por WhatsApp">
-                <span class="material-symbols-outlined text-base">chat</span>
-              </a>
+              <button onclick="openSolicitudDetailModal('${item.id}')" class="px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors inline-flex items-center gap-1 font-headline font-bold text-[11px]" title="Ver Descripción Completa">
+                <span class="material-symbols-outlined text-sm">visibility</span>
+                <span>Ver Descripción</span>
+              </button>
               <button onclick="toggleSolicitudEstado('${item.id}', '${item.estado}')" class="p-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors inline-flex items-center" title="Alternar Estado (Atendido/Pendiente)">
                 <span class="material-symbols-outlined text-base">${isPendiente ? 'task_alt' : 'history'}</span>
               </button>
@@ -1902,6 +1972,61 @@
           </tr>
         `;
       }).join('');
+    }
+
+    function openSolicitudDetailModal(id) {
+      const item = allSolicitudes.find(s => String(s.id) === String(id));
+      if (!item) return;
+
+      const modal = document.getElementById('solicitud-detail-modal');
+      const card = document.getElementById('solicitud-detail-card');
+
+      document.getElementById('modal-sol-name').innerText = item.nombre || 'Cliente';
+      document.getElementById('modal-sol-phone').innerText = item.telefono || 'Sin teléfono';
+      document.getElementById('modal-sol-course').innerText = item.curso_interes || 'Información General';
+      document.getElementById('modal-sol-date').innerText = item.created_at ? new Date(item.created_at).toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' }) : 'Reciente';
+      document.getElementById('modal-sol-message').innerText = item.mensaje || 'El usuario no incluyó un mensaje adicional.';
+
+      const isPendiente = item.estado === 'Pendiente';
+      const statusBadge = isPendiente
+        ? `<span class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold px-3 py-1 rounded-full"><span class="material-symbols-outlined text-sm">schedule</span>Pendiente</span>`
+        : `<span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full"><span class="material-symbols-outlined text-sm">check_circle</span>Atendido</span>`;
+      
+      document.getElementById('modal-sol-status-badge').innerHTML = statusBadge;
+
+      const toggleBtn = document.getElementById('modal-sol-btn-toggle');
+      if (toggleBtn) {
+        toggleBtn.innerText = isPendiente ? 'Marcar como Atendido' : 'Marcar como Pendiente';
+        toggleBtn.onclick = async () => {
+          await toggleSolicitudEstado(item.id, item.estado);
+          closeSolicitudDetailModal();
+        };
+      }
+
+      if (modal && card) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        requestAnimationFrame(() => {
+          modal.classList.remove('opacity-0');
+          card.classList.remove('scale-95');
+          card.classList.add('scale-100');
+        });
+      }
+    }
+
+    function closeSolicitudDetailModal() {
+      const modal = document.getElementById('solicitud-detail-modal');
+      const card = document.getElementById('solicitud-detail-card');
+      if (!modal) return;
+      if (card) {
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+      }
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 250);
     }
 
     async function toggleSolicitudEstado(id, currentStatus) {
