@@ -46,7 +46,7 @@ async function createUserInDB(userData) {
   const payload = {
     nombre: userData.name,
     email: userData.email,
-    password_hash: userData.password || '123456',
+    password_hash: userData.password || null,
     telefono: userData.phone || null,
     nivel: Number(userData.nivel) || 1,
     avatar_url: userData.avatar || null,
