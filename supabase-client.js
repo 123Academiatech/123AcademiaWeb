@@ -8,8 +8,55 @@ if (typeof window !== 'undefined' && window.supabase && typeof window.supabase.c
   db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-// Helper REST directo
+// Helper REST y Supabase Auth
 const SupabaseAPI = {
+  getAuthToken() {
+    try {
+      const sessionStr = localStorage.getItem('sb-pbswarzkotjznmasniax-auth-token');
+      if (sessionStr) {
+        const parsed = JSON.parse(sessionStr);
+        if (parsed && parsed.access_token) {
+          return parsed.access_token;
+        }
+      }
+    } catch (e) {}
+    return SUPABASE_ANON_KEY;
+  },
+
+  async login(email, password) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error_description || errData.msg || 'Credenciales inválidas');
+      }
+      const data = await res.json();
+      localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(data));
+      localStorage.setItem('123_is_admin', 'true');
+      localStorage.setItem('123_user_nivel', '4');
+      localStorage.setItem('123_user_email', email);
+      return data;
+    } catch (e) {
+      console.error('[SupabaseAPI] Error en login:', e);
+      throw e;
+    }
+  },
+
+  logout() {
+    localStorage.removeItem('sb-pbswarzkotjznmasniax-auth-token');
+    localStorage.removeItem('123_is_admin');
+    localStorage.removeItem('123_user_nivel');
+    localStorage.removeItem('123_user_email');
+    window.location.href = 'index.html';
+  },
+
   async query(table, select = '*', order = 'created_at.desc', filter = '') {
     try {
       let url = `${SUPABASE_URL}/rest/v1/${table}?select=${encodeURIComponent(select)}`;
@@ -22,28 +69,30 @@ const SupabaseAPI = {
         url += `&${order}`;
       }
 
+      const token = this.getAuthToken();
       const res = await fetch(url, {
         headers: {
           'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
         }
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (e) {
-      console.warn(`[SupabaseAPI] Fallback offline en lectura de ${table}:`, e);
+      console.warn(`[SupabaseAPI] Fallback en lectura de ${table}:`, e);
       return null;
     }
   },
 
   async insert(table, data) {
     try {
+      const token = this.getAuthToken();
       const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
         method: 'POST',
         headers: {
           'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
           'Prefer': 'return=representation'
         },
@@ -62,11 +111,12 @@ const SupabaseAPI = {
 
   async update(table, id, data) {
     try {
+      const token = this.getAuthToken();
       const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
         method: 'PATCH',
         headers: {
           'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
           'Prefer': 'return=representation'
         },
@@ -85,11 +135,12 @@ const SupabaseAPI = {
 
   async delete(table, id) {
     try {
+      const token = this.getAuthToken();
       const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
         method: 'DELETE',
         headers: {
           'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${token}`
         }
       });
       if (!res.ok) {
