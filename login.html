@@ -348,6 +348,9 @@
 
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const inputs = e.target.querySelectorAll('input');
@@ -372,11 +375,6 @@
           submitBtn.innerHTML = `INICIAR SESIÓN`;
         }
       }
-    }
-
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
     }
 
     function selectAudience(type) {
