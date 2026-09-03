@@ -9,6 +9,78 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "primary-container": "#0B1B3D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "secondary-container": "#FE6B00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF",
+            "surface-low": "#F1F5F9",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1680px"
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Reducción global del 20% en la escala de toda la interfaz */
+    html {
+      zoom: 0.8;
+    }
+
+    .glass-panel {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .shadow-luxury {
+      box-shadow: 0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04);
+    }
+    .tab-active {
+      background-color: #FFFFFF !important;
+      color: #0B1B3D !important;
+      border-bottom: 2px solid transparent !important;
+      box-shadow: 0 -4px 15px rgba(11, 27, 61, 0.05);
+    }
+    .tab-inactive {
+      background-color: transparent !important;
+      color: #64748B !important;
+      border-bottom: 2px solid transparent !important;
+    }
+    .tab-inactive:hover {
+      color: #0B1B3D !important;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body></body>
+<body class="bg-background text-on-surface font-body antialiased selection:bg-secondary selection:text-white flex flex-col min-h-screen">
+  <!-- Redirección automática al index principal de la app -->
+  <script>
+    window.location.href = "index.html";
+  </script>
+</body>
 </html>
