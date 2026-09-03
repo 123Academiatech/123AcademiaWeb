@@ -9,44 +9,44 @@ const AppComponents = {
 
     return `
   <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-luxury w-full">
-    <div class="max-w-container-max mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
-      <!-- Logo -->
+    <div class="max-w-container-max mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+      <!-- Logo (Compacto 20% reducido) -->
       <a href="index.html" class="flex items-center gap-2 group shrink-0">
-        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
-          <span class="material-symbols-outlined text-xl text-secondary">terminal</span>
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          <span class="material-symbols-outlined text-lg text-secondary">terminal</span>
         </div>
         <div>
-          <span class="font-headline font-extrabold text-lg tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
-          <p class="text-[9.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
+          <span class="font-headline font-extrabold text-base tracking-tight text-primary">123Academia<span class="text-secondary">Tech</span></span>
+          <p class="text-[8.5px] text-slate-500 font-semibold tracking-wider uppercase -mt-0.5">Capacitación Presencial</p>
         </div>
       </a>
 
-      <!-- Desktop Nav Links -->
-      <nav class="hidden lg:flex items-center gap-6">
+      <!-- Desktop Nav Links (Tamaño y espacio 20% compacto) -->
+      <nav class="hidden lg:flex items-center gap-4.5">
         <!-- Inicio with Dropdown -->
         <div class="relative group">
-          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm ${isPage('index')} py-2 transition-colors">
+          <a href="index.html" class="inline-flex items-center gap-1 font-headline font-semibold text-xs ${isPage('index')} py-1.5 transition-colors">
             <span>Inicio</span>
-            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+            <span class="material-symbols-outlined text-sm transition-transform group-hover:rotate-180 duration-200">expand_more</span>
           </a>
-          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
-            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
-              <a href="index.html?audience=general" onclick="selectAudience('general')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
-                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-lg">person</span>
+          <div class="absolute left-0 top-full pt-1 w-64 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-luxury border border-slate-100 p-1.5 space-y-0.5">
+              <a href="index.html?audience=general" onclick="selectAudience('general')" class="flex items-center gap-2 p-2.5 rounded-lg hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-7 h-7 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-base">person</span>
                 </div>
                 <div>
                   <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Público General</p>
-                  <p class="text-[11px] text-slate-500">Cursos técnicos individuales</p>
+                  <p class="text-[10px] text-slate-500">Cursos técnicos individuales</p>
                 </div>
               </a>
-              <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
-                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-lg">corporate_fare</span>
+              <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2 p-2.5 rounded-lg hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-7 h-7 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-base">corporate_fare</span>
                 </div>
                 <div>
                   <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Emprendimientos y Negocios</p>
-                  <p class="text-[11px] text-slate-500">Capacitación corporativa y B2B</p>
+                  <p class="text-[10px] text-slate-500">Capacitación corporativa y B2B</p>
                 </div>
               </a>
             </div>
@@ -55,52 +55,52 @@ const AppComponents = {
 
         <!-- Catálogo with Dropdown -->
         <div class="relative group">
-          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-sm ${isPage('cursos') || isPage('productos') ? 'text-secondary font-bold' : 'text-slate-600 hover:text-primary'} py-2 transition-colors">
+          <a href="cursos.html" class="inline-flex items-center gap-1 font-headline font-semibold text-xs ${isPage('cursos') || isPage('productos') ? 'text-secondary font-bold' : 'text-slate-600 hover:text-primary'} py-1.5 transition-colors">
             <span>Catálogo</span>
-            <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180 duration-200">expand_more</span>
+            <span class="material-symbols-outlined text-sm transition-transform group-hover:rotate-180 duration-200">expand_more</span>
           </a>
-          <div class="absolute left-0 top-full pt-1.5 w-72 hidden group-hover:block z-50">
-            <div class="bg-white rounded-2xl shadow-luxury border border-slate-100 p-2 space-y-1">
-              <a href="cursos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-orange-50/80 transition-colors group/item">
-                <div class="w-8 h-8 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-lg">school</span>
+          <div class="absolute left-0 top-full pt-1 w-64 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-luxury border border-slate-100 p-1.5 space-y-0.5">
+              <a href="cursos.html" class="flex items-center gap-2 p-2.5 rounded-lg hover:bg-orange-50/80 transition-colors group/item">
+                <div class="w-7 h-7 rounded-lg bg-orange-100 text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-base">school</span>
                 </div>
                 <div>
                   <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Cursos Técnicos Presenciales</p>
-                  <p class="text-[11px] text-slate-500">Talleres prácticos con certificación</p>
+                  <p class="text-[10px] text-slate-500">Talleres prácticos con certificación</p>
                 </div>
               </a>
-              <a href="productos.html" class="flex items-center gap-2.5 p-3 rounded-xl hover:bg-blue-50/80 transition-colors group/item">
-                <div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-lg">home_repair_service</span>
+              <a href="productos.html" class="flex items-center gap-2 p-2.5 rounded-lg hover:bg-blue-50/80 transition-colors group/item">
+                <div class="w-7 h-7 rounded-lg bg-blue-100 text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-base">home_repair_service</span>
                 </div>
                 <div>
                   <p class="font-headline font-bold text-xs text-primary group-hover/item:text-secondary transition-colors">Herramientas & Productos</p>
-                  <p class="text-[11px] text-slate-500">Equipamiento e insumos de taller</p>
+                  <p class="text-[10px] text-slate-500">Equipamiento e insumos de taller</p>
                 </div>
               </a>
             </div>
           </div>
         </div>
 
-        <a href="articulos.html" class="font-headline font-semibold text-sm ${isPage('articulos')} py-2 transition-colors">Artículos & Blog</a>
-        <a href="nosotros.html" class="font-headline font-semibold text-sm ${isPage('nosotros')} py-2 transition-colors">Sobre Nosotros</a>
-        <a href="contacto.html" class="font-headline font-semibold text-sm ${isPage('contacto')} py-2 transition-colors">Contacto & Sede</a>
-        <a href="admin.html" class="admin-only-link hidden font-headline font-bold text-sm text-secondary hover:text-secondary-hover py-2 transition-colors flex items-center gap-1">
-          <span class="material-symbols-outlined text-base">tune</span>
+        <a href="articulos.html" class="font-headline font-semibold text-xs ${isPage('articulos')} py-1.5 transition-colors">Artículos & Blog</a>
+        <a href="nosotros.html" class="font-headline font-semibold text-xs ${isPage('nosotros')} py-1.5 transition-colors">Sobre Nosotros</a>
+        <a href="contacto.html" class="font-headline font-semibold text-xs ${isPage('contacto')} py-1.5 transition-colors">Contacto & Sede</a>
+        <a href="admin.html" class="admin-only-link hidden font-headline font-bold text-xs text-secondary hover:text-secondary-hover py-1.5 transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">tune</span>
           <span>Panel CRUD</span>
         </a>
       </nav>
 
-      <!-- Desktop Right Actions -->
-      <div class="hidden lg:flex items-center gap-4">
-        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-slate-700 hover:text-secondary transition-colors group" title="Ver Carrito y Cotizador">
-          <span class="material-symbols-outlined text-xl">shopping_cart</span>
-          <span class="cart-badge-count absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-secondary text-white text-[10px] font-bold flex items-center justify-center shadow-sm hidden">0</span>
+      <!-- Desktop Right Actions (Compactas) -->
+      <div class="hidden lg:flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="relative p-2 rounded-lg bg-slate-100 hover:bg-orange-50 text-slate-700 hover:text-secondary transition-colors group" title="Ver Carrito y Cotizador">
+          <span class="material-symbols-outlined text-lg">shopping_cart</span>
+          <span class="cart-badge-count absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center shadow-sm hidden">0</span>
         </button>
 
         <div class="auth-nav-slot">
-          <a href="login.html" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-headline font-bold text-xs shadow-md transition-all">
+          <a href="login.html" class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-headline font-bold text-xs shadow-sm transition-all">
             Iniciar Sesión
           </a>
         </div>
@@ -108,12 +108,12 @@ const AppComponents = {
 
       <!-- Mobile Menu Trigger -->
       <div class="flex items-center gap-2 lg:hidden">
-        <button onclick="openCartDrawer()" class="relative p-2 rounded-lg bg-slate-100 text-slate-700">
-          <span class="material-symbols-outlined text-xl">shopping_cart</span>
+        <button onclick="openCartDrawer()" class="relative p-1.5 rounded-lg bg-slate-100 text-slate-700">
+          <span class="material-symbols-outlined text-lg">shopping_cart</span>
           <span class="cart-badge-count absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary text-white text-[9px] font-bold flex items-center justify-center hidden">0</span>
         </button>
-        <button onclick="toggleMobileMenu()" class="p-2 rounded-lg text-slate-700 hover:bg-slate-100">
-          <span class="material-symbols-outlined text-2xl">menu</span>
+        <button onclick="toggleMobileMenu()" class="p-1.5 rounded-lg text-slate-700 hover:bg-slate-100">
+          <span class="material-symbols-outlined text-xl">menu</span>
         </button>
       </div>
     </div>
