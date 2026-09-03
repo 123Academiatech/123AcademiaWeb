@@ -173,6 +173,11 @@ document.addEventListener('click', (e) => {
 });
 
 function handleUserLogout() {
+  if (typeof SupabaseAPI !== 'undefined' && typeof SupabaseAPI.logout === 'function') {
+    SupabaseAPI.logout();
+    return;
+  }
+  localStorage.removeItem('sb-pbswarzkotjznmasniax-auth-token');
   localStorage.removeItem('123_user_id');
   localStorage.removeItem('123_user_name');
   localStorage.removeItem('123_user_email');
