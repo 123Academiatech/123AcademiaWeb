@@ -348,101 +348,40 @@
 
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    }
-
-    function selectAudience(type) {
-      localStorage.setItem('audience_preference', type);
-      window.location.href = `index.html?audience=${type}`;
-    }
-
     async function handleLogin(e) {
       e.preventDefault();
-      const emailInput = document.querySelector('input[type="email"]');
-      const pwdInput = document.querySelector('input[type="password"]');
+      const inputs = e.target.querySelectorAll('input');
+      const email = inputs[0].value.trim();
+      const password = inputs[1].value;
+
       const submitBtn = e.target.querySelector('button[type="submit"]');
-
-      const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
-      const password = pwdInput ? pwdInput.value : '';
-
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Verificando credenciales...`;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Autenticando con Supabase...`;
       }
 
       try {
-        // Consultar usuario en la base de datos Supabase
-        const users = await SupabaseAPI.query('usuarios', `*`, `created_at.asc`);
-        const user = users ? users.find(u => (u.email || '').toLowerCase() === email) : null;
-
-        if (user) {
-          // Validar clave (o default de respaldo)
-          if (user.password_hash && user.password_hash !== password && password !== '123456' && password !== 'admin123') {
-            alert('Contraseña incorrecta. Por favor verifica tus credenciales.');
-            return;
-          }
-
-          if (!user.activo) {
-            alert('Esta cuenta de usuario se encuentra suspendida o inactiva.');
-            return;
-          }
-
-          // Guardar sesión activa
-          localStorage.setItem('123_user_id', user.id);
-          localStorage.setItem('123_user_name', user.nombre);
-          localStorage.setItem('123_user_email', user.email);
-          localStorage.setItem('123_user_nivel', String(user.nivel));
-          localStorage.setItem('123_user_rol', user.rol_nombre || 'Usuario');
-          localStorage.setItem('123_user_avatar', user.avatar_url || user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80');
-
-          if (Number(user.nivel) === 4) {
-            localStorage.setItem('123_is_admin', 'true');
-            localStorage.setItem('123_admin_email', user.email);
-            localStorage.setItem('123_user_avatar', user.avatar_url || user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');
-            window.location.href = "admin.html";
-          } else if (Number(user.nivel) === 3) {
-            localStorage.setItem('123_is_admin', 'false');
-            alert(`¡Bienvenido docente ${user.nombre}! Redirigiendo a artículos técnicos.`);
-            window.location.href = "articulos.html";
-          } else if (Number(user.nivel) === 2) {
-            localStorage.setItem('123_is_admin', 'false');
-            alert(`¡Bienvenido alumno/a ${user.nombre}! Redirigiendo a tus cursos.`);
-            window.location.href = "cursos.html";
-          } else {
-            localStorage.setItem('123_is_admin', 'false');
-            alert(`¡Bienvenido ${user.nombre}!`);
-            window.location.href = "index.html";
-          }
-        } else {
-          // Fallback por defecto si no está registrado
-          if (email.includes('admin')) {
-            localStorage.setItem('123_is_admin', 'true');
-            localStorage.setItem('123_admin_email', email);
-            localStorage.setItem('123_user_name', 'Administrador Principal');
-            localStorage.setItem('123_user_email', email);
-            localStorage.setItem('123_user_nivel', '4');
-            localStorage.setItem('123_user_rol', 'Administrador');
-            localStorage.setItem('123_user_avatar', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');
-            window.location.href = "admin.html";
-          } else {
-            alert('Usuario no encontrado en la base de datos de Supabase.');
-          }
-        }
+        await SupabaseAPI.login(email, password);
+        window.location.href = "admin.html";
       } catch (err) {
         console.error('Error durante autenticación:', err);
-        // Fallback admin
-        if (email.includes('admin')) {
-          localStorage.setItem('123_is_admin', 'true');
-          window.location.href = "admin.html";
-        } else {
-          alert('Error conectando con la base de datos Supabase: ' + err.message);
-        }
+        alert('Error de inicio de sesión en Supabase Auth: ' + (err.message || 'Credenciales inválidas'));
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = `INICIAR SESIÓN`;
         }
       }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectAudience(type) {
+      localStorage.setItem('audience_preference', type);
+      window.location.href = `index.html?audience=${type}`;
     }
   </script>
   <script src="auth-nav.js"></script>
