@@ -252,22 +252,37 @@
           </div>
         </div>
 
-        <!-- Right: Tech Visual / Video Showcase (Loop sin audio) -->
+        <!-- Right: Tech Visual / Video Showcase (Loop sin audio con controles opcionales) -->
         <div class="lg:col-span-5 relative">
           <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100/90 bg-slate-900 group">
             <video 
               id="hero-video" 
-              src="assets/videos/Quiero_que_hagas_un_video_de_t.mp4" 
+              src="assets/videos/Presentacion-instalaciones.mp4" 
               poster="assets/images/Salon-tecnico.jpg"
               autoplay 
               loop 
               muted 
               playsinline
-              class="w-full h-80 sm:h-96 object-cover pointer-events-none"
+              preload="auto"
+              class="w-full h-80 sm:h-96 object-cover cursor-pointer"
+              onclick="toggleHeroVideo()"
             ></video>
 
+            <!-- Interactive Video Controls Overlay -->
+            <div class="absolute top-4 right-4 z-20 flex items-center gap-2">
+              <button id="hero-video-audio-btn" onclick="toggleHeroVideoAudio(event)" class="w-9 h-9 rounded-full bg-black/60 hover:bg-secondary text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all shadow-md" title="Activar/Desactivar Sonido">
+                <span id="hero-video-audio-icon" class="material-symbols-outlined text-lg">volume_off</span>
+              </button>
+              <button id="hero-video-toggle-btn" onclick="toggleHeroVideo(event)" class="w-9 h-9 rounded-full bg-black/60 hover:bg-secondary text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all shadow-md" title="Pausar / Reproducir">
+                <span id="hero-video-icon" class="material-symbols-outlined text-lg">pause</span>
+              </button>
+            </div>
+
             <div class="absolute bottom-4 left-4 right-4 z-10 p-3 rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white pointer-events-none">
-              <p class="font-headline font-bold text-sm tracking-wide">Instalaciones & Talleres Presenciales</p>
+              <p class="font-headline font-bold text-sm tracking-wide flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Instalaciones & Talleres Presenciales
+              </p>
               <p class="text-[11px] text-slate-200">Prácticas reales en laboratorios con instrumental técnico de última generación.</p>
             </div>
           </div>
@@ -1314,10 +1329,51 @@
       const heroVideo = document.getElementById('hero-video');
       if (heroVideo) {
         heroVideo.muted = true;
+        heroVideo.defaultMuted = true;
         heroVideo.loop = true;
-        heroVideo.play().catch(() => {});
+        heroVideo.play().then(() => {
+          const icon = document.getElementById('hero-video-icon');
+          if (icon) icon.innerText = 'pause';
+        }).catch((err) => {
+          console.warn('Autoplay deferred until user interaction:', err);
+          const icon = document.getElementById('hero-video-icon');
+          if (icon) icon.innerText = 'play_arrow';
+          const resumeOnTouch = () => {
+            if (heroVideo.paused) {
+              heroVideo.play().then(() => {
+                if (icon) icon.innerText = 'pause';
+              }).catch(() => {});
+            }
+          };
+          window.addEventListener('click', resumeOnTouch, { once: true });
+          window.addEventListener('touchstart', resumeOnTouch, { once: true });
+        });
       }
     });
+
+    function toggleHeroVideo(e) {
+      if (e) e.stopPropagation();
+      const v = document.getElementById('hero-video');
+      const icon = document.getElementById('hero-video-icon');
+      if (!v) return;
+      if (v.paused) {
+        v.play().then(() => {
+          if (icon) icon.innerText = 'pause';
+        }).catch(err => console.log('Play error:', err));
+      } else {
+        v.pause();
+        if (icon) icon.innerText = 'play_arrow';
+      }
+    }
+
+    function toggleHeroVideoAudio(e) {
+      if (e) e.stopPropagation();
+      const v = document.getElementById('hero-video');
+      const icon = document.getElementById('hero-video-audio-icon');
+      if (!v) return;
+      v.muted = !v.muted;
+      if (icon) icon.innerText = v.muted ? 'volume_off' : 'volume_up';
+    }
   </script>
 
   <script>
