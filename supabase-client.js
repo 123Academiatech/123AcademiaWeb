@@ -43,8 +43,52 @@ const SupabaseAPI = {
       localStorage.setItem('123_user_nivel', '4');
       localStorage.setItem('123_user_email', email);
       return data;
+  async register(name, email, password, phone = '') {
+    try {
+      // 1. Sign up user in Supabase Auth
+      const signupRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const signupData = await signupRes.json();
+      if (!signupRes.ok && signupData.error_description) {
+        throw new Error(signupData.error_description || signupData.msg || 'Error al registrar usuario en Supabase Auth');
+      }
+
+      // 2. Insert record in 'usuarios' table with Nivel 1 (Visitante)
+      const userPayload = {
+        nombre: name,
+        email: email,
+        telefono: phone || '',
+        nivel: 1,
+        rol_nombre: 'Visitante',
+        activo: true
+      };
+
+      try {
+        await this.insert('usuarios', userPayload);
+      } catch (e) {
+        console.warn('[SupabaseAPI] No se pudo guardar en la tabla usuarios:', e);
+      }
+
+      // 3. Set initial session in localStorage (Nivel 1 Visitante)
+      localStorage.setItem('123_user_email', email);
+      localStorage.setItem('123_user_name', name);
+      localStorage.setItem('123_user_nivel', '1');
+      localStorage.setItem('123_user_rol', 'Visitante');
+      localStorage.setItem('123_is_admin', 'false');
+      if (signupData && signupData.access_token) {
+        localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(signupData));
+      }
+
+      return { success: true, name, email, nivel: 1 };
     } catch (e) {
-      console.error('[SupabaseAPI] Error en login:', e);
+      console.error('[SupabaseAPI] Error en registro:', e);
       throw e;
     }
   },
