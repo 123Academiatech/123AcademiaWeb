@@ -93,23 +93,33 @@
             <video 
               id="bienvenida-video" 
               src="assets/videos/Bienvenida-Sobre-Nosotros.mp4" 
-              controls
               autoplay 
               loop 
               muted 
               playsinline
-              class="w-full h-64 sm:h-80 lg:h-96 object-cover"
+              class="w-full h-64 sm:h-80 lg:h-96 object-cover cursor-pointer"
+              onclick="toggleNosotrosVideo()"
             >
               Tu navegador no soporta el formato de video.
             </video>
+
+            <!-- Interactive Video Controls Overlay (Superior) -->
+            <div class="absolute top-4 right-4 z-20 flex items-center gap-2">
+              <button id="bienvenida-video-audio-btn" onclick="toggleNosotrosVideoAudio(event)" class="w-9 h-9 rounded-full bg-black/60 hover:bg-secondary text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all shadow-md" title="Activar/Desactivar Sonido">
+                <span id="bienvenida-video-audio-icon" class="material-symbols-outlined text-lg">volume_off</span>
+              </button>
+              <button id="bienvenida-video-toggle-btn" onclick="toggleNosotrosVideo(event)" class="w-9 h-9 rounded-full bg-black/60 hover:bg-secondary text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all shadow-md" title="Pausar / Reproducir">
+                <span id="bienvenida-video-icon" class="material-symbols-outlined text-lg">pause</span>
+              </button>
+            </div>
 
             <!-- Floating Description Overlay with Pulsating Dot -->
             <div class="absolute bottom-4 left-4 right-4 z-10 p-3 rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white pointer-events-none">
               <p class="font-headline font-bold text-sm tracking-wide flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                Instalaciones & Talleres Presenciales
+                Presentación 123AcademiaTech
               </p>
-              <p class="text-[11px] text-slate-200">Recorrido por nuestros laboratorios y talleres de capacitación presencial.</p>
+              <p class="text-[11px] text-slate-200">Cursos presenciales con atención personalizada</p>
             </div>
           </div>
         </div>
@@ -364,9 +374,34 @@
       document.querySelectorAll('.admin-only-link').forEach(el => el.classList.remove('hidden'));
     }
 
+    function toggleNosotrosVideo(e) {
+      if (e) e.stopPropagation();
+      const video = document.getElementById('bienvenida-video');
+      const icon = document.getElementById('bienvenida-video-icon');
+      if (video) {
+        if (video.paused) {
+          video.play();
+          if (icon) icon.innerText = 'pause';
+        } else {
+          video.pause();
+          if (icon) icon.innerText = 'play_arrow';
+        }
+      }
+    }
+
+    function toggleNosotrosVideoAudio(e) {
+      if (e) e.stopPropagation();
+      const video = document.getElementById('bienvenida-video');
+      const icon = document.getElementById('bienvenida-video-audio-icon');
+      if (video) {
+        video.muted = !video.muted;
+        if (icon) icon.innerText = video.muted ? 'volume_off' : 'volume_up';
+      }
+    }
+
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+      if (menu) menu.classList.toggle('hidden');
     }
 
     function selectAudience(type) {
