@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <title>Crear Cuenta - 123AcademiaTech</title>
+  
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0B1B3D",
+            "primary-dark": "#050C1D",
+            "secondary": "#FF6B00",
+            "secondary-hover": "#E55A00",
+            "background": "#F8FAFC",
+            "surface": "#FFFFFF"
+          },
+          fontFamily: {
+            "headline": ["Montserrat", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "sans": ["Inter", "sans-serif"]
+          },
+          maxWidth: {
+            "container-max": "1320px"
+          },
+          boxShadow: {
+            "luxury": "0 10px 30px -5px rgba(11, 27, 61, 0.08)"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-secondary selection:text-white" data-page="registro">
+
+  <!-- HEADER DINÁMICO CENTRALIZADO -->
+  <div id="app-header"></div>
+
+  <!-- MAIN REGISTRO CONTAINER -->
+  <main class="flex-grow flex items-center justify-center p-6 py-10">
+    <div class="max-w-md w-full bg-white rounded-3xl p-8 md:p-10 border border-slate-100 shadow-luxury space-y-6">
+      <div class="text-center space-y-2">
+        <a href="index.html" class="inline-flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-white shadow-md">
+            <span class="material-symbols-outlined text-2xl text-secondary">terminal</span>
+          </div>
+          <span class="font-headline font-extrabold text-[19px] text-primary">123Academia<span class="text-secondary">Tech</span></span>
+        </a>
+        <h2 class="font-headline font-bold text-[23px] text-primary pt-2">Crear Cuenta</h2>
+        <p class="text-xs text-slate-500">Regístrate para acceder a nuestros cursos e insumos de taller.</p>
+      </div>
+
+      <!-- FORMULARIO DE REGISTRO -->
+      <form onsubmit="handleRegisterPage(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Nombre Completo</label>
+          <input required type="text" placeholder="Ej: Carlos Pérez" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Correo Electrónico</label>
+          <input required type="email" placeholder="usuario@correo.com" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Teléfono (WhatsApp)</label>
+          <input type="tel" placeholder="+58 412 1234567" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Contraseña</label>
+          <input required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Confirmar Contraseña</label>
+          <input required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-headline font-bold text-sm shadow-md hover:shadow-lg transition-all">
+          CREAR CUENTA
+        </button>
+      </form>
+
+      <div class="text-center pt-4 border-t border-slate-100 flex flex-col gap-2 text-xs">
+        <p class="text-slate-500">¿Ya tienes una cuenta? <a href="login.html" class="text-secondary font-headline font-bold hover:underline">Iniciar Sesión</a></p>
+        <a href="index.html" class="font-headline font-semibold text-slate-400 hover:text-primary">← Volver al Inicio</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER DINÁMICO CENTRALIZADO -->
+  <div id="app-footer"></div>
+  <div id="app-cart-drawer"></div>
+
+  <!-- SCRIPTS -->
+  <script src="supabase-client.js"></script>
+  <script>
+    async function handleRegisterPage(e) {
+      e.preventDefault();
+      const inputs = e.target.querySelectorAll('input');
+      const name = inputs[0].value.trim();
+      const email = inputs[1].value.trim();
+      const phone = inputs[2].value.trim();
+      const password = inputs[3].value;
+      const confirmPassword = inputs[4].value;
+
+      if (password !== confirmPassword) {
+        alert('Las contraseñas no coinciden. Por favor verifica ambos campos.');
+        inputs[4].focus();
+        return;
+      }
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Procesando registro...`;
+      }
+
+      try {
+        await SupabaseAPI.register(name, email, password, phone);
+        alert('¡Cuenta creada exitosamente! Bienvenido a 123AcademiaTech.');
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error('Error durante registro:', err);
+        alert('Error al crear la cuenta: ' + (err.message || 'No se pudo completar el registro'));
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `CREAR CUENTA`;
+        }
+      }
+    }
+  </script>
+  <script src="auth-nav.js"></script>
+  <script src="components.js"></script>
+</body>
+</html>
