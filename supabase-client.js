@@ -43,7 +43,7 @@ const SupabaseAPI = {
       localStorage.setItem('123_user_nivel', '4');
       localStorage.setItem('123_user_email', email);
       return data;
-  async register(name, email, password, phone = '') {
+  async register(name, email, password, birthDate = '') {
     try {
       // 1. Sign up user in Supabase Auth
       const signupRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
@@ -64,7 +64,7 @@ const SupabaseAPI = {
       const userPayload = {
         nombre: name,
         email: email,
-        telefono: phone || '',
+        fecha_nacimiento: birthDate || null,
         nivel: 1,
         rol_nombre: 'Visitante',
         activo: true
