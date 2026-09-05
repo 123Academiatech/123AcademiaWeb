@@ -77,7 +77,18 @@
         <p class="text-xs text-slate-500">Accede a tu cuenta de estudiante o al panel de administración.</p>
       </div>
 
-      <form onsubmit="handleLogin(event)" class="space-y-4">
+      <!-- PESTAÑAS DE NAVEGACIÓN (LOGIN / REGISTRO) -->
+      <div class="flex items-center rounded-2xl bg-slate-100 p-1 border border-slate-200">
+        <button id="btn-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2.5 rounded-xl font-headline font-bold text-xs transition-all bg-white text-primary shadow-sm">
+          Iniciar Sesión
+        </button>
+        <button id="btn-tab-register" onclick="switchAuthTab('register')" class="flex-1 py-2.5 rounded-xl font-headline font-bold text-xs transition-all text-slate-500 hover:text-primary">
+          Crear Cuenta (Registro)
+        </button>
+      </div>
+
+      <!-- FORMULARIO 1: INICIAR SESIÓN -->
+      <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Correo Electrónico</label>
           <input required type="email" placeholder="admin@123academiatech.com" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
@@ -97,6 +108,35 @@
 
         <button type="submit" class="w-full py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-sm shadow-md hover:shadow-lg transition-all">
           INICIAR SESIÓN
+        </button>
+      </form>
+
+      <!-- FORMULARIO 2: CREAR CUENTA (REGISTRO BASE DE DATOS - NIVEL 1) -->
+      <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div class="p-3 rounded-2xl bg-blue-50/80 border border-blue-200/80 text-xs text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-lg shrink-0">info</span>
+          <span>Al registrarte, tu cuenta se creará en la base de datos con **Nivel 1 (Visitante)** de forma inmediata.</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Nombre Completo</label>
+          <input required type="text" placeholder="Ej: Carlos Pérez" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Correo Electrónico</label>
+          <input required type="email" placeholder="usuario@correo.com" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Teléfono (WhatsApp)</label>
+          <input type="tel" placeholder="+58 412 1234567" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+        <div>
+          <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Contraseña</label>
+          <input required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-headline font-bold text-sm shadow-md hover:shadow-lg transition-all">
+          CREAR CUENTA (NIVEL 1)
         </button>
       </form>
 
@@ -138,9 +178,57 @@
       }
     });
 
+    function switchAuthTab(tab) {
+      const btnLogin = document.getElementById('btn-tab-login');
+      const btnRegister = document.getElementById('btn-tab-register');
+      const formLogin = document.getElementById('form-login');
+      const formRegister = document.getElementById('form-register');
+
+      if (tab === 'register') {
+        btnLogin.className = "flex-1 py-2.5 rounded-xl font-headline font-bold text-xs transition-all text-slate-500 hover:text-primary";
+        btnRegister.className = "flex-1 py-2.5 rounded-xl font-headline font-bold text-xs transition-all bg-white text-primary shadow-sm";
+        formLogin.classList.add('hidden');
+        formRegister.classList.remove('hidden');
+      } else {
+        btnLogin.className = "flex-1 py-2.5 rounded-xl font-headline font-bold text-xs transition-all bg-white text-primary shadow-sm";
+        btnRegister.className = "flex-1 py-2.5 rounded-xl font-headline font-bold text-xs transition-all text-slate-500 hover:text-primary";
+        formRegister.classList.add('hidden');
+        formLogin.classList.remove('hidden');
+      }
+    }
+
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       if (menu) menu.classList.toggle('hidden');
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const inputs = e.target.querySelectorAll('input');
+      const name = inputs[0].value.trim();
+      const email = inputs[1].value.trim();
+      const phone = inputs[2].value.trim();
+      const password = inputs[3].value;
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Registrando usuario...`;
+      }
+
+      try {
+        await SupabaseAPI.register(name, email, password, phone);
+        alert('¡Registro completado exitosamente! Tu cuenta ha sido creada con Nivel 1 (Visitante).');
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error('Error durante registro:', err);
+        alert('Error en registro: ' + (err.message || 'No se pudo completar el registro'));
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `CREAR CUENTA (NIVEL 1)`;
+        }
+      }
     }
 
     async function handleLogin(e) {
