@@ -56,39 +56,10 @@
     }
   </script>
 </head>
-        </a>
-        <a href="index.html?audience=business" onclick="selectAudience('business')" class="flex items-center gap-2.5 py-2 px-3 rounded-xl hover:bg-white text-slate-700 font-headline font-semibold text-xs transition-colors">
-          <span class="w-2 h-2 rounded-full bg-primary"></span>
-          Emprendimientos y Negocios
-        </a>
-      </div>
-      <div class="bg-slate-50 rounded-2xl p-2.5 space-y-1 border border-slate-100">
-        <span class="text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider px-2 block">Catálogo</span>
-        <a href="cursos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
-          <span class="material-symbols-outlined text-sm text-secondary">school</span>
-          Cursos Técnicos Presenciales
-        </a>
-        <a href="productos.html" class="flex items-center gap-2.5 py-2 px-3 rounded-xl text-slate-700 font-headline font-semibold text-xs">
-          <span class="material-symbols-outlined text-sm text-secondary">home_repair_service</span>
-          Herramientas & Productos
-        </a>
-      </div>
-      <a href="nosotros.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Sobre Nosotros & Instalaciones</a>
-      <a href="admin.html" class="block py-2 text-secondary font-headline font-semibold text-sm flex items-center gap-2">
-        <span class="material-symbols-outlined text-base text-secondary">tune</span> Panel CRUD (Gestor)
-      </a>
-      <a href="contacto.html" class="block py-2 text-slate-700 font-headline font-semibold text-sm">Contacto</a>
-      <div class="pt-2 flex flex-col gap-2">
-        <button onclick="openCartDrawer()" class="w-full py-2.5 rounded-xl border border-secondary text-secondary font-headline font-bold text-sm flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-base">shopping_cart</span> Ver Carrito / Cotizador
-        </button>
-        <button onclick="openCurrentTabModal()" class="w-full py-2.5 rounded-xl bg-secondary text-white font-headline font-bold text-sm flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-base">add_circle</span> + AGREGAR REGISTRO
-        </button>
-        <div class="auth-nav-mobile-slot"></div>
-      </div>
-    </div>
-  </header>
+<body data-page="admin" class="bg-background text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-secondary selection:text-white">
+
+  <!-- HEADER DINÁMICO CENTRALIZADO -->
+  <div id="app-header"></div>
 
   <!-- MAIN CONTAINER -->
   <main class="flex-grow max-w-container-max mx-auto w-full px-6 md:px-12 py-8 space-y-8">
@@ -776,6 +747,10 @@
     </section>
 
   </main>
+
+  <!-- FOOTER Y CART DRAWER DINÁMICOS CENTRALIZADOS -->
+  <div id="app-footer"></div>
+  <div id="app-cart-drawer"></div>
 
   <!-- ======================================================= -->
   <!-- FICHA DETALLADA PARA TARJETAS / REGISTROS (SLIDE-OVER) -->
