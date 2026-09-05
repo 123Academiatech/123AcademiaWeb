@@ -173,19 +173,18 @@ document.addEventListener('click', (e) => {
 });
 
 function handleUserLogout() {
+  try {
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('123_') || key.startsWith('sb-') || key.startsWith('academia_') || key.includes('user') || key.includes('admin')) {
+        localStorage.removeItem(key);
+      }
+    });
+  } catch (e) {}
+
   if (typeof SupabaseAPI !== 'undefined' && typeof SupabaseAPI.logout === 'function') {
     SupabaseAPI.logout();
     return;
   }
-  localStorage.removeItem('sb-pbswarzkotjznmasniax-auth-token');
-  localStorage.removeItem('123_user_id');
-  localStorage.removeItem('123_user_name');
-  localStorage.removeItem('123_user_email');
-  localStorage.removeItem('123_user_nivel');
-  localStorage.removeItem('123_user_rol');
-  localStorage.removeItem('123_user_avatar');
-  localStorage.removeItem('123_is_admin');
-  localStorage.removeItem('123_admin_email');
 
   renderAuthNavUI();
 
