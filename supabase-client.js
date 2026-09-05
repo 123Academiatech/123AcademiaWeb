@@ -50,10 +50,13 @@ const SupabaseAPI = {
   },
 
   logout() {
-    localStorage.removeItem('sb-pbswarzkotjznmasniax-auth-token');
-    localStorage.removeItem('123_is_admin');
-    localStorage.removeItem('123_user_nivel');
-    localStorage.removeItem('123_user_email');
+    try {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('123_') || key.startsWith('sb-') || key.startsWith('academia_') || key.includes('user') || key.includes('admin')) {
+          localStorage.removeItem(key);
+        }
+      });
+    } catch (e) {}
     window.location.href = 'index.html';
   },
 
