@@ -83,28 +83,28 @@
           oninput="filterProducts()"
           type="text" 
           placeholder="Buscar herramienta, estación SMD, multímetro, insumo o marca..."
-          class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 font-body text-sm font-medium transition-all"
+          class="w-full pl-12 pr-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 font-body text-sm font-medium transition-all"
         />
       </div>
 
       <!-- Filter Category Pills (Mismo estilo de Cursos) -->
       <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
-        <button onclick="setCategory('all')" id="cat-all" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-secondary text-white shadow-sm shrink-0 transition-all">
+        <button onclick="setCategory('all')" id="cat-all" class="cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-secondary text-white shadow-sm shrink-0 transition-all">
           Todos los Productos
         </button>
-        <button onclick="setCategory('herramientas')" id="cat-herramientas" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+        <button onclick="setCategory('herramientas')" id="cat-herramientas" class="cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
           🛠️ Herramientas Manuales
         </button>
-        <button onclick="setCategory('estaciones')" id="cat-estaciones" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+        <button onclick="setCategory('estaciones')" id="cat-estaciones" class="cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
           🔥 Estaciones & Soldadura SMD
         </button>
-        <button onclick="setCategory('instrumental')" id="cat-instrumental" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+        <button onclick="setCategory('instrumental')" id="cat-instrumental" class="cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
           🔬 Instrumental & Medición
         </button>
-        <button onclick="setCategory('redes')" id="cat-redes" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+        <button onclick="setCategory('redes')" id="cat-redes" class="cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
           🌐 Redes & Conectividad
         </button>
-        <button onclick="setCategory('insumos')" id="cat-insumos" class="cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
+        <button onclick="setCategory('insumos')" id="cat-insumos" class="cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all">
           🧪 Insumos & Químicos
         </button>
       </div>
@@ -155,11 +155,11 @@
             <p id="modal-product-price" class="font-headline font-black text-2xl text-secondary"></p>
           </div>
           <div class="flex items-center gap-2">
-            <button id="modal-btn-add-cart" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-orange-50 text-secondary font-headline font-bold text-xs flex items-center gap-1.5 transition-colors border border-orange-200/60">
+            <button id="modal-btn-add-cart" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 text-secondary font-headline font-bold text-xs flex items-center gap-1.5 transition-colors border border-orange-200/60">
               <span class="material-symbols-outlined text-base">add_shopping_cart</span>
               + CARRITO
             </button>
-            <a id="modal-contact-link" href="#" class="px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md transition-all">
+            <a id="modal-contact-link" href="#" class="px-4 py-2 rounded-xl bg-secondary hover:bg-secondary-hover text-white font-headline font-bold text-xs shadow-md transition-all">
               COMPRAR AHORA
             </a>
           </div>
@@ -227,7 +227,7 @@
         </div>
 
         <div class="space-y-2">
-          <button onclick="checkoutViaWhatsApp()" class="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
+          <button onclick="checkoutViaWhatsApp()" class="w-full py-2.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
             <span class="material-symbols-outlined text-base">chat</span>
             SOLICITAR / COMPRAR POR WHATSAPP
           </button>
@@ -266,11 +266,11 @@
     function setCategory(category) {
       activeCategory = category;
       document.querySelectorAll('.cat-pill').forEach(el => {
-        el.className = "cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all";
+        el.className = "cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 shrink-0 transition-all";
       });
       const activeEl = document.getElementById(`cat-${category}`);
       if (activeEl) {
-        activeEl.className = "cat-pill px-5 py-2.5 rounded-xl font-headline font-bold bg-secondary text-white shadow-sm shrink-0 transition-all";
+        activeEl.className = "cat-pill px-4 py-2 rounded-xl font-headline font-bold bg-secondary text-white shadow-sm shrink-0 transition-all";
       }
       renderProducts();
     }
