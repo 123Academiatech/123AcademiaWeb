@@ -100,30 +100,7 @@
         </button>
       </form>
 
-      <!-- ACCESO RÁPIDO POR NIVELES DE PERFIL -->
-      <div class="pt-4 border-t border-slate-100 space-y-2">
-        <span class="block text-[10px] font-headline font-bold text-slate-400 uppercase tracking-wider text-center">Acceso Rápido por Perfil</span>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="loginAsRole(4)" class="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-left transition-colors group">
-            <span class="text-[10px] font-bold text-amber-900 block group-hover:text-secondary">🛡️ Administrador</span>
-            <span class="text-[9px] text-amber-700 block">Nivel 4 (Panel CRUD)</span>
-          </button>
-          <button onclick="loginAsRole(3)" class="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-left transition-colors group">
-            <span class="text-[10px] font-bold text-emerald-900 block group-hover:text-emerald-700">👨‍🏫 Docente</span>
-            <span class="text-[9px] text-emerald-700 block">Nivel 3 (Instructor)</span>
-          </button>
-          <button onclick="loginAsRole(2)" class="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-left transition-colors group">
-            <span class="text-[10px] font-bold text-blue-900 block group-hover:text-primary">🎓 Alumno</span>
-            <span class="text-[9px] text-blue-700 block">Nivel 2 (Estudiante)</span>
-          </button>
-          <button onclick="loginAsRole(1)" class="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-left transition-colors group">
-            <span class="text-[10px] font-bold text-slate-800 block group-hover:text-slate-900">👁️ Visitante</span>
-            <span class="text-[9px] text-slate-500 block">Nivel 1 (Público)</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="text-center pt-2">
+      <div class="text-center pt-4 border-t border-slate-100">
         <a href="index.html" class="text-xs font-headline font-semibold text-slate-500 hover:text-primary">← Volver al Inicio</a>
       </div>
     </div>
@@ -164,38 +141,6 @@
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       if (menu) menu.classList.toggle('hidden');
-    }
-
-    function loginAsRole(nivel) {
-      const form = document.querySelector('form');
-      const inputs = form ? form.querySelectorAll('input') : [];
-      const roleProfiles = {
-        4: { email: 'admin@123academiatech.com', pass: 'Admin123AcademiaTech!', name: 'Super Administrador', rol: 'Administrador', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80' },
-        3: { email: 'docente@123academiatech.com', pass: 'Docente123AcademiaTech!', name: 'Prof. Carlos Mendoza', rol: 'Docente', avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80' },
-        2: { email: 'alumno@123academiatech.com', pass: 'Alumno123AcademiaTech!', name: 'María Rodríguez', rol: 'Alumno', avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80' },
-        1: { email: 'visitante@123academiatech.com', pass: 'Visitante123AcademiaTech!', name: 'Juan Pérez', rol: 'Visitante', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80' }
-      };
-
-      const prof = roleProfiles[nivel] || roleProfiles[1];
-      if (inputs[0]) inputs[0].value = prof.email;
-      if (inputs[1]) inputs[1].value = prof.pass;
-
-      localStorage.setItem('123_user_email', prof.email);
-      localStorage.setItem('123_user_name', prof.name);
-      localStorage.setItem('123_user_nivel', String(nivel));
-      localStorage.setItem('123_user_rol', prof.rol);
-      localStorage.setItem('123_user_avatar', prof.avatar);
-      localStorage.setItem('123_is_admin', nivel === 4 ? 'true' : 'false');
-
-      if (nivel === 4) {
-        SupabaseAPI.login(prof.email, prof.pass).then(() => {
-          window.location.href = 'admin.html';
-        }).catch(() => {
-          window.location.href = 'admin.html';
-        });
-      } else {
-        window.location.href = 'index.html';
-      }
     }
 
     async function handleLogin(e) {
