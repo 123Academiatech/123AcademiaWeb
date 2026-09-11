@@ -4,61 +4,13 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Sobre Nosotros & Instalaciones - 123AcademiaTech</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CSS & Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet"/>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#0B1B3D",
-            "primary-dark": "#050C1D",
-            "primary-container": "#0B1B3D",
-            "secondary": "#FF6B00",
-            "secondary-hover": "#E55A00",
-            "secondary-container": "#FE6B00",
-            "background": "#F8FAFC",
-            "surface": "#FFFFFF",
-            "surface-low": "#F1F5F9",
-            "on-surface": "#0F172A",
-            "on-surface-variant": "#475569"
-          },
-          fontFamily: {
-            "headline": ["Montserrat", "sans-serif"],
-            "body": ["Inter", "sans-serif"]
-          },
-          maxWidth: {
-            "container-max": "1320px"
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    .glass-panel {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background-color: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-    }
-    .shadow-luxury {
-      box-shadow: 0 10px 30px -5px rgba(11, 27, 61, 0.08), 0 4px 12px -2px rgba(11, 27, 61, 0.04);
-    }
-    .tab-active {
-      background-color: #FFFFFF !important;
-      color: #0B1B3D !important;
-      border-bottom: 2px solid transparent !important;
-      box-shadow: 0 -4px 15px rgba(11, 27, 61, 0.05);
-    }
-    .tab-inactive {
-      background-color: #E2E8F0 !important;
-      color: #64748B !important;
-    }
-  </style>
+  
+    <link rel="stylesheet" href="dist/styles.css"/>
 </head>
-<body class="bg-[#F8FAFC] text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-secondary selection:text-white" data-page="nosotros">
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col selection:bg-secondary selection:text-white antialiased" data-page="nosotros">
 
   <!-- HEADER / NAVEGACIÓN TOTALMENTE EN LA PARTE SUPERIOR -->
   <div id="app-header"></div>
@@ -293,80 +245,6 @@
   <div id="app-footer"></div>
   <div id="app-cart-drawer"></div>
 
-  <!-- ======================================================= -->
-  <!-- VENTANA DE CARRITO & COTIZADOR TÉCNICO (SLIDE-OVER)    -->
-  <!-- ======================================================= -->
-  <div id="cart-drawer" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm hidden flex justify-end">
-    <div class="fixed inset-0" onclick="closeCartDrawer()"></div>
-    <div id="cart-drawer-panel" class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
-      
-      <!-- Cart Header -->
-      <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
-        <div class="flex items-center gap-2.5">
-          <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-sm">
-            <span class="material-symbols-outlined text-secondary text-xl">shopping_cart</span>
-          </div>
-          <div>
-            <h3 class="font-headline font-bold text-base text-primary">Carrito & Cotizador</h3>
-            <p class="text-[11px] text-slate-500">Talleres, Combos B2B y Herramientas</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="clearCart()" class="text-slate-400 hover:text-rose-500 p-2 text-xs font-semibold" title="Vaciar Carrito">
-            <span class="material-symbols-outlined text-lg">delete_sweep</span>
-          </button>
-          <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
-            <span class="material-symbols-outlined text-lg">close</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Cart Items Scroll Area -->
-      <div class="p-6 overflow-y-auto flex-grow space-y-4">
-        <div id="cart-empty-state" class="py-16 text-center text-slate-400 space-y-3">
-          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center mx-auto">
-            <span class="material-symbols-outlined text-3xl">shopping_bag</span>
-          </div>
-          <p class="font-headline font-bold text-sm text-slate-600">El cotizador está vacío</p>
-          <p class="text-xs text-slate-400 max-w-xs mx-auto">Agrega cursos individuales o combos empresariales para armar tu paquete.</p>
-        </div>
-
-        <div id="cart-items-container" class="space-y-3"></div>
-      </div>
-
-      <!-- Cart Footer / Summary & Actions -->
-      <div id="cart-filled-state" class="p-6 border-t border-slate-100 bg-slate-50/90 shrink-0 space-y-4 hidden">
-        <div class="space-y-1.5 text-xs">
-          <div class="flex justify-between text-slate-500">
-            <span>Subtotal Estimado:</span>
-            <strong id="cart-drawer-subtotal" class="text-primary font-bold">$0.00 USD</strong>
-          </div>
-          <div class="flex justify-between text-slate-500">
-            <span>Modalidad:</span>
-            <span class="text-emerald-600 font-semibold">100% Presencial en Laboratorios</span>
-          </div>
-          <div class="pt-2 border-t border-slate-200 flex justify-between items-baseline">
-            <span class="font-headline font-bold text-sm text-primary">TOTAL ESTIMADO:</span>
-            <span id="cart-drawer-total" class="font-headline font-black text-xl text-secondary">$0.00 USD</span>
-          </div>
-        </div>
-
-        <div class="space-y-2">
-          <button onclick="checkoutViaWhatsApp()" class="w-full py-2.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline font-bold text-xs shadow-md flex items-center justify-center gap-2 transition-all">
-            <span class="material-symbols-outlined text-base">chat</span>
-            SOLICITAR INSCRIPCIÓN / COTIZAR WHATSAPP
-          </button>
-          
-          <button onclick="transferCartToContactForm()" class="w-full py-3 rounded-xl bg-primary hover:bg-secondary text-white font-headline font-bold text-xs flex items-center justify-center gap-2 transition-colors">
-            <span class="material-symbols-outlined text-base">mail</span>
-            ENVIAR A FORMULARIO DE CONTACTO
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <script src="cart-data.js"></script>
   <script>
     // Mostrar Panel CRUD solo si es Administrador
@@ -409,17 +287,7 @@
       window.location.href = `index.html?audience=${type}`;
     }
   </script>
-
-  <script>
-    // admin_check_script_v2
-    document.addEventListener('DOMContentLoaded', () => {
-      const isAdmin = localStorage.getItem('123_is_admin') === 'true';
-      const userNivel = Number(localStorage.getItem('123_user_nivel')) || 0;
-      if (isAdmin && userNivel === 4) {
-        document.querySelectorAll('.admin-only-link').forEach(el => el.classList.remove('hidden'));
-      }
-    });
-  </script>
+  <script src="supabase-client.js"></script>
   <script src="auth-nav.js"></script>
   <script src="components.js"></script>
 </body>
