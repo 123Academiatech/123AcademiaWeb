@@ -132,7 +132,11 @@
         window.location.href = "index.html";
       } catch (err) {
         console.error('Error durante autenticación:', err);
-        alert('Error de inicio de sesión en Supabase Auth: ' + (err.message || 'Credenciales inválidas'));
+        let errorMsg = err.message || 'Credenciales inválidas';
+        if (errorMsg === 'Failed to fetch' || errorMsg.includes('fetch')) {
+          errorMsg = 'No se pudo establecer conexión con el servidor de autenticación (Supabase). Por favor verifica tu conexión a Internet o que no haya un bloqueador de red.';
+        }
+        alert('Error de inicio de sesión: ' + errorMsg);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
