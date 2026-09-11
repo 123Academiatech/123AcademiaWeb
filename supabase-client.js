@@ -33,7 +33,9 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
         throw new Error(errData.error_description || errData.msg || 'Credenciales inválidas');
       }
       const data = await res.json();
-      localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(data));
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(data));
+      }
       
       const user = data.user || {};
       const userMeta = user.user_metadata || {};
@@ -62,12 +64,14 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
 
       const isAdvAdmin = (nivel === 4 || email === 'admin@123academiatech.com');
 
-      localStorage.setItem('123_is_admin', isAdvAdmin ? 'true' : 'false');
-      localStorage.setItem('123_user_nivel', String(nivel));
-      localStorage.setItem('123_user_email', userEmail);
-      localStorage.setItem('123_user_name', userName);
-      localStorage.setItem('123_user_rol', rolName);
-      localStorage.removeItem('123_user_avatar');
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('123_is_admin', isAdvAdmin ? 'true' : 'false');
+        localStorage.setItem('123_user_nivel', String(nivel));
+        localStorage.setItem('123_user_email', userEmail);
+        localStorage.setItem('123_user_name', userName);
+        localStorage.setItem('123_user_rol', rolName);
+        localStorage.removeItem('123_user_avatar');
+      }
 
       // Programar silent refresh tras login exitoso
       this.scheduleTokenRefresh(data);
@@ -230,60 +234,83 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
 
   async register(name, email, password, birthDate = '') {
     try {
-      // 1. Sign up user in Supabase Auth con metadatos de nombre
-      const signupRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          data: {
-            full_name: name,
-            nombre: name,
-            nivel: 1
-          }
-        })
-      });
-      
-      const signupData = await signupRes.json();
-      if (!signupRes.ok && signupData.error_description) {
-        throw new Error(signupData.error_description || signupData.msg || 'Error al registrar usuario en Supabase Auth');
+      let registeredUserId = null;
+
+      // 1. Intentar registro atómico instantáneo vía RPC (evita límite 429 de correos y confirma inmediatamente)
+      try {
+        const rpcRes = await this.rpc('register_user_direct', {
+          p_email: email,
+          p_password: password,
+          p_nombre: name,
+          p_fecha_nacimiento: birthDate || null
+        });
+        if (rpcRes && rpcRes.success) {
+          registeredUserId = rpcRes.user_id;
+        }
+      } catch (rpcErr) {
+        if (rpcErr.message && rpcErr.message.includes('ya se encuentra registrado')) {
+          throw rpcErr;
+        }
+        console.warn('[SupabaseAPI] register_user_direct RPC fallback to REST:', rpcErr);
       }
 
-      // 2. Establecer sesión inicial en localStorage (Nivel 1 Visitante)
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('123_user_email', email);
-        localStorage.setItem('123_user_name', name);
-        localStorage.setItem('123_user_nivel', '1');
-        localStorage.setItem('123_user_rol', 'Visitante');
-        localStorage.setItem('123_is_admin', 'false');
-        localStorage.removeItem('123_user_avatar');
-        if (signupData && signupData.access_token) {
-          localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(signupData));
+      // 2. Fallback REST tradicional si RPC no estuviera disponible
+      if (!registeredUserId) {
+        const signupRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            data: {
+              full_name: name,
+              nombre: name,
+              nivel: 1
+            }
+          })
+        });
+        
+        const signupData = await signupRes.json();
+        if (!signupRes.ok) {
+          throw new Error(signupData.msg || signupData.error_description || signupData.message || 'Error al registrar usuario en Supabase Auth');
+        }
+
+        const userPayload = {
+          nombre: name,
+          email: email,
+          fecha_nacimiento: birthDate || null,
+          nivel: 1,
+          activo: true,
+          avatar_url: null
+        };
+
+        if (signupData && signupData.user && signupData.user.id) {
+          userPayload.id = signupData.user.id;
+        }
+
+        try {
+          await this.insert('usuarios', userPayload);
+        } catch (e) {
+          console.warn('[SupabaseAPI] No se pudo guardar en la tabla usuarios:', e);
         }
       }
 
-      // 3. Insertar registro en tabla 'usuarios' con Nivel 1 (Visitante)
-      const userPayload = {
-        nombre: name,
-        email: email,
-        fecha_nacimiento: birthDate || null,
-        nivel: 1,
-        activo: true,
-        avatar_url: null
-      };
-
-      if (signupData && signupData.user && signupData.user.id) {
-        userPayload.id = signupData.user.id;
-      }
-
+      // 3. Autenticar inmediatamente al usuario para generar JWT de sesión
       try {
-        await this.insert('usuarios', userPayload);
-      } catch (e) {
-        console.warn('[SupabaseAPI] No se pudo guardar en la tabla usuarios:', e);
+        await this.login(email, password);
+      } catch (loginErr) {
+        console.warn('[SupabaseAPI] Auto-login pos-registro fallback a estado local:', loginErr);
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('123_user_email', email);
+          localStorage.setItem('123_user_name', name);
+          localStorage.setItem('123_user_nivel', '1');
+          localStorage.setItem('123_user_rol', 'Visitante');
+          localStorage.setItem('123_is_admin', 'false');
+          localStorage.removeItem('123_user_avatar');
+        }
       }
 
       return { success: true, name, email, nivel: 1 };
