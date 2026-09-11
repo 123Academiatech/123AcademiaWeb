@@ -1444,9 +1444,6 @@ function renderUsersCards(users) {
             Cambiar Nivel
           </button>
           <div class="flex items-center gap-1.5">
-            <button onclick="openUserModal('${u.id}')" class="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors" title="Editar en Supabase">
-              <span class="material-symbols-outlined text-lg">edit</span>
-            </button>
             <button onclick="deleteUser('${u.id}')" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors" title="Eliminar de Supabase">
               <span class="material-symbols-outlined text-lg">delete</span>
             </button>
@@ -1500,9 +1497,6 @@ function renderUsersTable(users) {
           </button>
         </td>
         <td class="py-4 px-6 text-right space-x-1.5">
-          <button onclick="openUserModal('${u.id}')" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title="Editar en Supabase">
-            <span class="material-symbols-outlined text-base">edit</span>
-          </button>
           <button onclick="deleteUser('${u.id}')" class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors" title="Eliminar de Supabase">
             <span class="material-symbols-outlined text-base">delete</span>
           </button>
