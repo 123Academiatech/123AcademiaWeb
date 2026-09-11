@@ -31,34 +31,39 @@
         <p class="text-xs text-slate-500">Regístrate para acceder a nuestros cursos e insumos de taller.</p>
       </div>
 
-      <!-- FORMULARIO DE REGISTRO -->
+      <!-- FORMULARIO DE REGISTRO CON PROTECCIÓN ANTI-BOT -->
       <form onsubmit="handleRegisterPage(event)" class="space-y-4">
+        <!-- Honeypot invisible para captura de bots automatizados -->
+        <div class="hidden" style="display: none !important; position: absolute; left: -9999px; opacity: 0;" aria-hidden="true">
+          <input type="text" id="reg-website-hp" name="website_verification_code" tabindex="-1" autocomplete="off" />
+        </div>
+
         <div>
           <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Nombre Completo</label>
-          <input required type="text" placeholder="Ej: Carlos Pérez" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          <input id="reg-nombre" required type="text" placeholder="Ej: Carlos Pérez" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
         </div>
 
         <div>
           <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Correo Electrónico</label>
-          <input required type="email" placeholder="usuario@correo.com" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          <input id="reg-email" required type="email" placeholder="usuario@correo.com" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
         </div>
 
         <div>
           <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Fecha de Nacimiento</label>
-          <input required type="date" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          <input id="reg-birthdate" required type="date" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
         </div>
 
         <div>
           <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Contraseña</label>
-          <input required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          <input id="reg-password" required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
         </div>
 
         <div>
           <label class="block text-xs font-headline font-bold text-slate-700 mb-1">Confirmar Contraseña</label>
-          <input required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
+          <input id="reg-confirm-password" required type="password" minlength="6" placeholder="••••••••" class="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:border-secondary focus:ring-secondary"/>
         </div>
 
-        <button type="submit" class="w-full py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-headline font-bold text-sm shadow-md hover:shadow-lg transition-all">
+        <button id="reg-submit-btn" type="submit" class="w-full py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-headline font-bold text-sm shadow-md hover:shadow-lg transition-all">
           CREAR CUENTA
         </button>
       </form>
@@ -77,25 +82,43 @@
   <!-- SCRIPTS -->
   <script src="supabase-client.js"></script>
   <script>
+    let _lastRegisterAttempt = 0;
+
     async function handleRegisterPage(e) {
       e.preventDefault();
-      const inputs = e.target.querySelectorAll('input');
-      const name = inputs[0].value.trim();
-      const email = inputs[1].value.trim();
-      const birthDate = inputs[2].value;
-      const password = inputs[3].value;
-      const confirmPassword = inputs[4].value;
 
-      if (password !== confirmPassword) {
-        alert('Las contraseñas no coinciden. Por favor verifica ambos campos.');
-        inputs[4].focus();
+      // 1. Detección de Bot automatizado (Honeypot Trap)
+      const honeypot = document.getElementById('reg-website-hp');
+      if (honeypot && honeypot.value.trim() !== '') {
+        console.warn('Bot submission blocked via Honeypot.');
+        // Descartar silenciosamente para desorientar al bot sin consumir recursos
         return;
       }
 
-      const submitBtn = e.target.querySelector('button[type="submit"]');
+      // 2. Cooldown de interfaz anti-ráfaga (mínimo 5s entre clics locales)
+      const now = Date.now();
+      if (now - _lastRegisterAttempt < 5000) {
+        alert('Por favor espera unos segundos antes de reenviar el formulario.');
+        return;
+      }
+      _lastRegisterAttempt = now;
+
+      const name = (document.getElementById('reg-nombre')?.value || '').trim();
+      const email = (document.getElementById('reg-email')?.value || '').trim();
+      const birthDate = document.getElementById('reg-birthdate')?.value;
+      const password = document.getElementById('reg-password')?.value;
+      const confirmPassword = document.getElementById('reg-confirm-password')?.value;
+
+      if (password !== confirmPassword) {
+        alert('Las contraseñas no coinciden. Por favor verifica ambos campos.');
+        document.getElementById('reg-confirm-password')?.focus();
+        return;
+      }
+
+      const submitBtn = document.getElementById('reg-submit-btn');
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Procesando registro...`;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Validando seguridad y creando cuenta...`;
       }
 
       try {
