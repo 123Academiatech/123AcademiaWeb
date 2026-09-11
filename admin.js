@@ -12,6 +12,45 @@ let allProducts = [];
 let allArticles = [];
 let allUsers = [];
 
+function showAdminToast(message, type = 'success') {
+  let toast = document.getElementById('admin-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'admin-toast';
+    toast.className = 'fixed bottom-6 right-6 z-[200] max-w-md py-3.5 px-5 rounded-2xl shadow-2xl border flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none font-headline font-semibold text-xs text-white';
+    document.body.appendChild(toast);
+  }
+
+  if (type === 'success') {
+    toast.className = 'fixed bottom-6 right-6 z-[200] max-w-md py-3.5 px-5 rounded-2xl shadow-2xl border flex items-center gap-3 transform translate-y-0 opacity-100 transition-all duration-300 pointer-events-auto font-headline font-semibold text-xs text-white bg-slate-900 border-emerald-500/40';
+    toast.innerHTML = `<span class="material-symbols-outlined text-emerald-400 text-xl">check_circle</span> <span>${message}</span>`;
+  } else if (type === 'error') {
+    toast.className = 'fixed bottom-6 right-6 z-[200] max-w-md py-3.5 px-5 rounded-2xl shadow-2xl border flex items-center gap-3 transform translate-y-0 opacity-100 transition-all duration-300 pointer-events-auto font-headline font-semibold text-xs text-white bg-rose-950 border-rose-500/40';
+    toast.innerHTML = `<span class="material-symbols-outlined text-rose-400 text-xl">error</span> <span>${message}</span>`;
+  } else {
+    toast.className = 'fixed bottom-6 right-6 z-[200] max-w-md py-3.5 px-5 rounded-2xl shadow-2xl border flex items-center gap-3 transform translate-y-0 opacity-100 transition-all duration-300 pointer-events-auto font-headline font-semibold text-xs text-white bg-amber-950 border-amber-500/40';
+    toast.innerHTML = `<span class="material-symbols-outlined text-amber-400 text-xl">info</span> <span>${message}</span>`;
+  }
+
+  setTimeout(() => {
+    toast.className = toast.className.replace('translate-y-0 opacity-100 pointer-events-auto', 'translate-y-20 opacity-0 pointer-events-none');
+  }, 4000);
+}
+
+function setButtonLoadingState(btnElement, isLoading, defaultText = 'Guardar') {
+  if (!btnElement) return;
+  if (isLoading) {
+    btnElement.disabled = true;
+    btnElement.dataset.originalHtml = btnElement.innerHTML;
+    btnElement.innerHTML = `<span class="inline-block animate-spin mr-2">⏳</span> Procesando...`;
+    btnElement.classList.add('opacity-75', 'cursor-not-allowed');
+  } else {
+    btnElement.disabled = false;
+    btnElement.innerHTML = btnElement.dataset.originalHtml || defaultText;
+    btnElement.classList.remove('opacity-75', 'cursor-not-allowed');
+  }
+}
+
 function toggleMobileMenu() {
   const menu = document.getElementById('mobile-menu');
   if (menu) menu.classList.toggle('hidden');
@@ -1364,6 +1403,8 @@ function renderUsersCards(users) {
     return;
   }
 
+  const defaultAvatar = typeof DEFAULT_NO_AVATAR !== 'undefined' ? DEFAULT_NO_AVATAR : 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="#94A3B8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-3.8-1.04-4.84-2.61.03-1.6 3.23-2.48 4.84-2.48s4.81.88 4.84 2.48C15.8 18.96 14.03 20 12 20z"/></svg>');
+
   container.innerHTML = users.map(u => {
     const lvl = USER_LEVELS[u.nivel] || USER_LEVELS[1];
     return `
@@ -1371,7 +1412,7 @@ function renderUsersCards(users) {
         <div class="space-y-4">
           <div class="flex items-start justify-between gap-3">
             <div class="flex items-center gap-3">
-              <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80'}" alt="${u.name}" class="w-12 h-12 rounded-2xl object-cover shadow-sm shrink-0 border border-slate-200"/>
+              <img src="${u.avatar || defaultAvatar}" alt="${u.name}" class="w-12 h-12 rounded-2xl object-cover shadow-sm shrink-0 border border-slate-200" onerror="this.src='${defaultAvatar}'"/>
               <div>
                 <h4 class="font-headline font-bold text-sm text-primary line-clamp-1">${u.name}</h4>
                 <span class="inline-flex items-center gap-1 text-[10px] font-headline font-bold py-0.5 px-2 rounded-md ${lvl.badgeClass}">
@@ -1425,12 +1466,14 @@ function renderUsersTable(users) {
     return;
   }
 
+  const defaultAvatar = typeof DEFAULT_NO_AVATAR !== 'undefined' ? DEFAULT_NO_AVATAR : 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="#94A3B8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-3.8-1.04-4.84-2.61.03-1.6 3.23-2.48 4.84-2.48s4.81.88 4.84 2.48C15.8 18.96 14.03 20 12 20z"/></svg>');
+
   tbody.innerHTML = users.map(u => {
     const lvl = USER_LEVELS[u.nivel] || USER_LEVELS[1];
     return `
       <tr class="hover:bg-slate-50/80 transition-colors">
         <td class="py-4 px-6 flex items-center gap-3.5">
-          <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80'}" alt="${u.name}" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0 border border-slate-200"/>
+          <img src="${u.avatar || defaultAvatar}" alt="${u.name}" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0 border border-slate-200" onerror="this.src='${defaultAvatar}'"/>
           <div>
             <h4 class="font-headline font-bold text-slate-800 text-sm leading-snug">${u.name}</h4>
             <span class="text-[11px] text-slate-400">ID: ${u.id.substring(0, 8)}... | ${u.created_at || 'Reciente'}</span>
