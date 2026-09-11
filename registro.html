@@ -104,7 +104,11 @@
         window.location.href = "index.html";
       } catch (err) {
         console.error('Error durante registro:', err);
-        alert('Error al crear la cuenta: ' + (err.message || 'No se pudo completar el registro'));
+        let errorMsg = err.message || 'No se pudo completar el registro';
+        if (errorMsg === 'Failed to fetch' || errorMsg.includes('fetch')) {
+          errorMsg = 'No se pudo establecer conexión con el servidor de autenticación (Supabase). Por favor verifica tu conexión a Internet o que no haya un bloqueador de red.';
+        }
+        alert('Error al crear la cuenta: ' + errorMsg);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
