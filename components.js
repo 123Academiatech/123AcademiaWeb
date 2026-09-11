@@ -274,7 +274,12 @@ const AppComponents = {
   },
 
   renderAll() {
-    const pageName = document.body.dataset.page || '';
+    if (typeof document === 'undefined' || !document.body) return;
+    const pageName = (document.body.dataset && document.body.dataset.page) || 
+      (typeof document.body.getAttribute === 'function' ? document.body.getAttribute('data-page') : '') || '';
+
+    if (typeof document.getElementById !== 'function') return;
+
     const headerContainer = document.getElementById('app-header');
     if (headerContainer) headerContainer.innerHTML = this.getHeaderHTML(pageName);
 
@@ -325,7 +330,7 @@ var GlobalModalManager = {
   },
 
   getOpenModals() {
-    if (typeof document === 'undefined') return [];
+    if (typeof document === 'undefined' || typeof document.querySelectorAll !== 'function') return [];
     const openModals = [];
     this.modalSelectors.forEach(sel => {
       document.querySelectorAll(sel).forEach(el => {
@@ -342,15 +347,25 @@ var GlobalModalManager = {
     return openModals;
   },
 
+  _isSyncing: false,
+
   syncBodyOverflow() {
-    if (typeof document === 'undefined' || !document.body) return;
-    const openModals = this.getOpenModals();
-    if (openModals.length > 0) {
-      document.body.style.overflow = 'hidden';
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.style.overflow = '';
-      document.body.classList.remove('modal-open');
+    if (typeof document === 'undefined' || !document.body || this._isSyncing) return;
+    this._isSyncing = true;
+    try {
+      const openModals = this.getOpenModals();
+      const shouldLock = openModals.length > 0;
+      const isCurrentlyLocked = document.body.style.overflow === 'hidden';
+
+      if (shouldLock && !isCurrentlyLocked) {
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('modal-open');
+      } else if (!shouldLock && isCurrentlyLocked) {
+        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
+      }
+    } finally {
+      this._isSyncing = false;
     }
   },
 
@@ -363,38 +378,47 @@ var GlobalModalManager = {
 
     if (topmost.id === 'cart-drawer' && typeof closeCartDrawer === 'function') {
       closeCartDrawer();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'card-sheet-drawer' && typeof closeCardSheet === 'function') {
       closeCardSheet();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'solicitud-detail-modal' && typeof closeSolicitudDetailModal === 'function') {
       closeSolicitudDetailModal();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'user-modal' && typeof closeUserModal === 'function') {
       closeUserModal();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'article-modal' && typeof closeArticleModal === 'function') {
       closeArticleModal();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'article-reader-modal' && typeof closeArticleReaderModal === 'function') {
       closeArticleReaderModal();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'product-modal' && typeof closeProductModal === 'function') {
       closeProductModal();
+      this.syncBodyOverflow();
       return true;
     }
     if ((topmost.id === 'course-modal' || topmost.id === 'course-detail-modal') && typeof closeCourseModal === 'function') {
       closeCourseModal();
+      this.syncBodyOverflow();
       return true;
     }
     if (topmost.id === 'contact-modal' && typeof closeContactModal === 'function') {
       closeContactModal();
+      this.syncBodyOverflow();
       return true;
     }
 
@@ -418,10 +442,14 @@ var GlobalModalManager = {
       }
     });
 
-    // Observer reactivo en document.body para sincronizar overflow
+    // Observer reactivo para sincronizar overflow evitando auto-disparos en body
     try {
-      const observer = new MutationObserver(() => {
-        this.syncBodyOverflow();
+      const observer = new MutationObserver((mutations) => {
+        if (this._isSyncing) return;
+        const hasNonBodyMutation = mutations.some(m => m.target !== document.body);
+        if (hasNonBodyMutation) {
+          this.syncBodyOverflow();
+        }
       });
 
       if (document.body) {
@@ -447,9 +475,25 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { AppComponents, GlobalModalManager };
 }
 
-if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
-  document.addEventListener('DOMContentLoaded', () => {
+function initializeAppComponents() {
+  if (typeof document === 'undefined' || !document.body) {
+    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+      document.addEventListener('DOMContentLoaded', initializeAppComponents);
+    }
+    return;
+  }
+  if (typeof AppComponents !== 'undefined' && typeof AppComponents.renderAll === 'function') {
     AppComponents.renderAll();
+  }
+  if (typeof GlobalModalManager !== 'undefined' && typeof GlobalModalManager.init === 'function') {
     GlobalModalManager.init();
-  });
+  }
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAppComponents);
+  } else {
+    initializeAppComponents();
+  }
 }
