@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS public.usuarios (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
     telefono TEXT,
     nivel INTEGER NOT NULL DEFAULT 1 CHECK (nivel IN (1, 2, 3, 4)),
     rol_nombre TEXT,
@@ -98,6 +97,32 @@ CREATE TABLE IF NOT EXISTS public.articulos (
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
+-- ------------------------------------------------------------------------------
+-- 6.1. TABLA: SOLICITUDES_CONTACTO (FORMULARIO PÚBLICO & LEADS DE COTIZACIÓN)
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.solicitudes_contacto (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nombre TEXT NOT NULL,
+    telefono TEXT,
+    curso_interes TEXT,
+    mensaje TEXT,
+    estado TEXT NOT NULL DEFAULT 'Pendiente',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+-- ------------------------------------------------------------------------------
+-- 6.2. TABLA: REGISTRO_RATE_LIMIT (AUDITORÍA & PROTECCIÓN ANTI-BOT)
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.registro_rate_limit (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ip_address TEXT NOT NULL,
+    email TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_registro_rate_limit_ip_created 
+ON public.registro_rate_limit (ip_address, created_at DESC);
+
 -- ==============================================================================
 -- 7. SEGURIDAD Y POLÍTICAS RLS (ROW LEVEL SECURITY)
 -- ==============================================================================
@@ -106,48 +131,377 @@ ALTER TABLE public.cursos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.combos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.productos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.articulos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.solicitudes_contacto ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.registro_rate_limit ENABLE ROW LEVEL SECURITY;
 
--- Políticas USUARIOS
+-- 7.1. FUNCIONES DE SEGURIDAD (SECURITY DEFINER)
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+STABLE
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.usuarios
+    WHERE (
+      id = auth.uid() 
+      OR LOWER(email) = LOWER(auth.jwt() ->> 'email')
+    )
+    AND nivel = 4
+    AND activo = true
+  );
+$$;
+
+CREATE OR REPLACE FUNCTION public.is_docente_or_admin()
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+STABLE
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.usuarios
+    WHERE (
+      id = auth.uid() 
+      OR LOWER(email) = LOWER(auth.jwt() ->> 'email')
+    )
+    AND nivel IN (3, 4)
+    AND activo = true
+  );
+$$;
+
+-- 7.2. PROCEDIMIENTO RPC PARA INCREMENTO SEGURO DE VISTAS EN ARTÍCULOS
+CREATE OR REPLACE FUNCTION public.increment_article_views(article_id UUID)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  UPDATE public.articulos
+  SET vistas = vistas + 1
+  WHERE id = article_id;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.increment_article_views(UUID) TO anon, authenticated;
+
+-- 7.3. TRIGGER: SINCRONIZACIÓN AUTOMÁTICA DE NUEVOS USUARIOS DESDE AUTH.USERS
+CREATE OR REPLACE FUNCTION public.handle_new_auth_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  INSERT INTO public.usuarios (id, nombre, email, nivel, activo)
+  VALUES (
+    NEW.id,
+    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'nombre', split_part(NEW.email, '@', 1)),
+    NEW.email,
+    COALESCE((NEW.raw_user_meta_data->>'nivel')::integer, 1),
+    true
+  )
+  ON CONFLICT (email) DO UPDATE
+  SET id = EXCLUDED.id,
+      nombre = EXCLUDED.nombre;
+  RETURN NEW;
+END;
+$$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'on_auth_user_created') THEN
+    CREATE TRIGGER on_auth_user_created
+      AFTER INSERT ON auth.users
+      FOR EACH ROW EXECUTE FUNCTION public.handle_new_auth_user();
+  END IF;
+END $$;
+
+-- 7.3.1. FUNCIONES RPC ADMINISTRATIVAS PARA SUPABASE AUTH
+CREATE OR REPLACE FUNCTION public.admin_create_user(
+  p_email TEXT,
+  p_password TEXT,
+  p_nombre TEXT,
+  p_nivel INTEGER,
+  p_telefono TEXT DEFAULT NULL
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth, extensions
+AS $$
+DECLARE
+  v_user_id UUID := gen_random_uuid();
+  v_encrypted_pw TEXT;
+  v_rol TEXT;
+BEGIN
+  IF NOT public.is_admin() THEN
+    RAISE EXCEPTION 'Acceso denegado: Se requieren permisos de Administrador para registrar usuarios';
+  END IF;
+
+  IF length(p_password) < 6 THEN
+    RAISE EXCEPTION 'La contraseña debe tener al menos 6 caracteres';
+  END IF;
+
+  v_rol := CASE p_nivel 
+    WHEN 4 THEN 'Administrador'
+    WHEN 3 THEN 'Docente'
+    WHEN 2 THEN 'Alumno'
+    ELSE 'Visitante'
+  END;
+
+  v_encrypted_pw := crypt(p_password, gen_salt('bf'));
+
+  INSERT INTO auth.users (
+    id,
+    instance_id,
+    email,
+    encrypted_password,
+    email_confirmed_at,
+    raw_app_meta_data,
+    raw_user_meta_data,
+    created_at,
+    updated_at,
+    role,
+    aud
+  ) VALUES (
+    v_user_id,
+    '00000000-0000-0000-0000-000000000000',
+    p_email,
+    v_encrypted_pw,
+    now(),
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    jsonb_build_object('nombre', p_nombre, 'full_name', p_nombre, 'nivel', p_nivel, 'rol_nombre', v_rol),
+    now(),
+    now(),
+    'authenticated',
+    'authenticated'
+  );
+
+  INSERT INTO public.usuarios (id, nombre, email, telefono, nivel, activo)
+  VALUES (
+    v_user_id,
+    p_nombre,
+    p_email,
+    p_telefono,
+    p_nivel,
+    true
+  )
+  ON CONFLICT (email) DO UPDATE SET
+    id = EXCLUDED.id,
+    nombre = EXCLUDED.nombre,
+    nivel = EXCLUDED.nivel,
+    telefono = EXCLUDED.telefono;
+
+  RETURN jsonb_build_object('id', v_user_id, 'email', p_email, 'success', true);
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.admin_create_user(TEXT, TEXT, TEXT, INTEGER, TEXT) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.admin_reset_user_password(
+  p_user_id UUID,
+  p_new_password TEXT
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth, extensions
+AS $$
+BEGIN
+  IF NOT public.is_admin() THEN
+    RAISE EXCEPTION 'Acceso denegado: Se requieren permisos de Administrador para cambiar contraseñas';
+  END IF;
+
+  IF length(p_new_password) < 6 THEN
+    RAISE EXCEPTION 'La contraseña debe tener al menos 6 caracteres';
+  END IF;
+
+  UPDATE auth.users
+  SET encrypted_password = crypt(p_new_password, gen_salt('bf')),
+      updated_at = now()
+  WHERE id = p_user_id;
+
+  RETURN TRUE;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.admin_reset_user_password(UUID, TEXT) TO authenticated;
+
+-- 7.4. POLÍTICAS USUARIOS (Protección contra fuga de datos y auto-escalada)
 DROP POLICY IF EXISTS "Public Read Usuarios" ON public.usuarios;
 DROP POLICY IF EXISTS "Public Write Usuarios" ON public.usuarios;
-CREATE POLICY "Public Read Usuarios" ON public.usuarios FOR SELECT USING (true);
-CREATE POLICY "Public Write Usuarios" ON public.usuarios FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin Write Usuarios" ON public.usuarios;
+DROP POLICY IF EXISTS "Usuarios Read Policy" ON public.usuarios;
+DROP POLICY IF EXISTS "Usuarios Insert Policy" ON public.usuarios;
+DROP POLICY IF EXISTS "Usuarios Update Policy" ON public.usuarios;
+DROP POLICY IF EXISTS "Usuarios Delete Policy" ON public.usuarios;
 
--- Políticas CURSOS
+CREATE POLICY "Usuarios Read Policy" ON public.usuarios
+  FOR SELECT
+  USING (
+    public.is_admin()
+    OR (auth.uid() = id)
+    OR (LOWER(email) = LOWER(auth.jwt() ->> 'email'))
+  );
+
+CREATE POLICY "Usuarios Insert Policy" ON public.usuarios
+  FOR INSERT
+  WITH CHECK (
+    public.is_admin()
+    OR (
+      (auth.uid() = id OR LOWER(email) = LOWER(auth.jwt() ->> 'email'))
+      AND nivel = 1
+    )
+  );
+
+CREATE POLICY "Usuarios Update Policy" ON public.usuarios
+  FOR UPDATE
+  USING (
+    public.is_admin()
+    OR (auth.uid() = id)
+    OR (LOWER(email) = LOWER(auth.jwt() ->> 'email'))
+  )
+  WITH CHECK (
+    public.is_admin()
+    OR (
+      (auth.uid() = id OR LOWER(email) = LOWER(auth.jwt() ->> 'email'))
+      AND nivel = (SELECT u.nivel FROM public.usuarios u WHERE u.id = usuarios.id)
+    )
+  );
+
+CREATE POLICY "Usuarios Delete Policy" ON public.usuarios
+  FOR DELETE
+  USING (public.is_admin());
+
+-- 7.5. POLÍTICAS CURSOS
 DROP POLICY IF EXISTS "Public Read Cursos" ON public.cursos;
 DROP POLICY IF EXISTS "Public Write Cursos" ON public.cursos;
-CREATE POLICY "Public Read Cursos" ON public.cursos FOR SELECT USING (true);
-CREATE POLICY "Public Write Cursos" ON public.cursos FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin Write Cursos" ON public.cursos;
+DROP POLICY IF EXISTS "Cursos Read Policy" ON public.cursos;
+DROP POLICY IF EXISTS "Cursos Admin Write Policy" ON public.cursos;
 
--- Políticas COMBOS
+CREATE POLICY "Cursos Read Policy" ON public.cursos
+  FOR SELECT
+  USING (status = 'active' OR public.is_admin());
+
+CREATE POLICY "Cursos Admin Write Policy" ON public.cursos
+  FOR ALL
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+-- 7.6. POLÍTICAS COMBOS
 DROP POLICY IF EXISTS "Public Read Combos" ON public.combos;
 DROP POLICY IF EXISTS "Public Write Combos" ON public.combos;
-CREATE POLICY "Public Read Combos" ON public.combos FOR SELECT USING (true);
-CREATE POLICY "Public Write Combos" ON public.combos FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin Write Combos" ON public.combos;
+DROP POLICY IF EXISTS "Combos Read Policy" ON public.combos;
+DROP POLICY IF EXISTS "Combos Admin Write Policy" ON public.combos;
 
--- Políticas PRODUCTOS
+CREATE POLICY "Combos Read Policy" ON public.combos
+  FOR SELECT
+  USING (status = 'active' OR public.is_admin());
+
+CREATE POLICY "Combos Admin Write Policy" ON public.combos
+  FOR ALL
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+-- 7.7. POLÍTICAS PRODUCTOS
 DROP POLICY IF EXISTS "Public Read Productos" ON public.productos;
 DROP POLICY IF EXISTS "Public Write Productos" ON public.productos;
-CREATE POLICY "Public Read Productos" ON public.productos FOR SELECT USING (true);
-CREATE POLICY "Public Write Productos" ON public.productos FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin Write Productos" ON public.productos;
+DROP POLICY IF EXISTS "Productos Read Policy" ON public.productos;
+DROP POLICY IF EXISTS "Productos Admin Write Policy" ON public.productos;
 
--- Políticas ARTÍCULOS
+CREATE POLICY "Productos Read Policy" ON public.productos
+  FOR SELECT
+  USING (true);
+
+CREATE POLICY "Productos Admin Write Policy" ON public.productos
+  FOR ALL
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+-- 7.8. POLÍTICAS ARTÍCULOS
 DROP POLICY IF EXISTS "Public Read Articulos" ON public.articulos;
 DROP POLICY IF EXISTS "Public Write Articulos" ON public.articulos;
-CREATE POLICY "Public Read Articulos" ON public.articulos FOR SELECT USING (true);
-CREATE POLICY "Public Write Articulos" ON public.articulos FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin Write Articulos" ON public.articulos;
+DROP POLICY IF EXISTS "Articulos Read Policy" ON public.articulos;
+DROP POLICY IF EXISTS "Articulos Write Policy" ON public.articulos;
+
+CREATE POLICY "Articulos Read Policy" ON public.articulos
+  FOR SELECT
+  USING (status = 'published' OR public.is_docente_or_admin());
+
+CREATE POLICY "Articulos Write Policy" ON public.articulos
+  FOR ALL
+  USING (public.is_docente_or_admin())
+  WITH CHECK (public.is_docente_or_admin());
+
+-- 7.9. POLÍTICAS SOLICITUDES_CONTACTO
+-- Función de validación de Rate Limiting para solicitudes de contacto (60s por teléfono)
+CREATE OR REPLACE FUNCTION public.can_insert_solicitud(p_telefono TEXT)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+STABLE
+SET search_path = public
+AS $$
+BEGIN
+  IF p_telefono IS NULL OR trim(p_telefono) = '' THEN
+    RETURN true;
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM public.solicitudes_contacto
+    WHERE telefono = trim(p_telefono)
+      AND created_at > (now() - interval '60 seconds')
+  ) THEN
+    RETURN false;
+  END IF;
+
+  RETURN true;
+END;
+$$;
+
+DROP POLICY IF EXISTS "Public Insert Solicitudes" ON public.solicitudes_contacto;
+DROP POLICY IF EXISTS "Admin Read Solicitudes" ON public.solicitudes_contacto;
+DROP POLICY IF EXISTS "Admin Update Solicitudes" ON public.solicitudes_contacto;
+DROP POLICY IF EXISTS "Admin Delete Solicitudes" ON public.solicitudes_contacto;
+
+CREATE POLICY "Public Insert Solicitudes" ON public.solicitudes_contacto
+  FOR INSERT
+  WITH CHECK (
+    length(trim(nombre)) >= 2
+    AND public.can_insert_solicitud(telefono)
+  );
+
+CREATE POLICY "Admin Read Solicitudes" ON public.solicitudes_contacto
+  FOR SELECT
+  USING (public.is_admin());
+
+CREATE POLICY "Admin Update Solicitudes" ON public.solicitudes_contacto
+  FOR UPDATE
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+CREATE POLICY "Admin Delete Solicitudes" ON public.solicitudes_contacto
+  FOR DELETE
+  USING (public.is_admin());
 
 -- ==============================================================================
 -- 8. DATOS INICIALES (SEED DATA)
 -- ==============================================================================
 
 -- 8.1. Usuarios de los 4 niveles
-INSERT INTO public.usuarios (id, nombre, email, password_hash, nivel, rol_nombre, activo, avatar_url)
+INSERT INTO public.usuarios (id, nombre, email, nivel, rol_nombre, activo, avatar_url)
 VALUES 
-    ('11111111-1111-1111-1111-111111111111', 'Admin Principal', 'admin@123academiatech.com', 'admin123', 4, 'Administrador', true, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'),
-    ('22222222-2222-2222-2222-222222222222', 'Prof. Carlos Mendoza', 'carlos.mendoza@123academiatech.com', 'docente123', 3, 'Docente', true, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'),
-    ('33333333-3333-3333-3333-333333333333', 'David Ramos', 'david.ramos@alumno.tech', 'alumno123', 2, 'Alumno', true, 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=200&q=80'),
-    ('44444444-4444-4444-4444-444444444444', 'Visitante General', 'contacto@visitante.com', 'visitante123', 1, 'Visitante', true, 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80')
+    ('11111111-1111-1111-1111-111111111111', 'Admin Principal', 'admin@123academiatech.com', 4, 'Administrador', true, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'),
+    ('22222222-2222-2222-2222-222222222222', 'Prof. Carlos Mendoza', 'carlos.mendoza@123academiatech.com', 3, 'Docente', true, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'),
+    ('33333333-3333-3333-3333-333333333333', 'David Ramos', 'david.ramos@alumno.tech', 2, 'Alumno', true, 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=200&q=80'),
+    ('44444444-4444-4444-4444-444444444444', 'Visitante General', 'contacto@visitante.com', 1, 'Visitante', true, 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80')
 ON CONFLICT (email) DO NOTHING;
 
 -- 8.2. Cursos Individuales
