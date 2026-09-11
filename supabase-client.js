@@ -253,7 +253,20 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
         throw new Error(signupData.error_description || signupData.msg || 'Error al registrar usuario en Supabase Auth');
       }
 
-      // 2. Insert record in 'usuarios' table with Nivel 1 (Visitante)
+      // 2. Establecer sesión inicial en localStorage (Nivel 1 Visitante)
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('123_user_email', email);
+        localStorage.setItem('123_user_name', name);
+        localStorage.setItem('123_user_nivel', '1');
+        localStorage.setItem('123_user_rol', 'Visitante');
+        localStorage.setItem('123_is_admin', 'false');
+        localStorage.removeItem('123_user_avatar');
+        if (signupData && signupData.access_token) {
+          localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(signupData));
+        }
+      }
+
+      // 3. Insertar registro en tabla 'usuarios' con Nivel 1 (Visitante)
       const userPayload = {
         nombre: name,
         email: email,
@@ -263,21 +276,14 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
         avatar_url: null
       };
 
+      if (signupData && signupData.user && signupData.user.id) {
+        userPayload.id = signupData.user.id;
+      }
+
       try {
         await this.insert('usuarios', userPayload);
       } catch (e) {
         console.warn('[SupabaseAPI] No se pudo guardar en la tabla usuarios:', e);
-      }
-
-      // 3. Set initial session in localStorage (Nivel 1 Visitante)
-      localStorage.setItem('123_user_email', email);
-      localStorage.setItem('123_user_name', name);
-      localStorage.setItem('123_user_nivel', '1');
-      localStorage.setItem('123_user_rol', 'Visitante');
-      localStorage.setItem('123_is_admin', 'false');
-      localStorage.removeItem('123_user_avatar');
-      if (signupData && signupData.access_token) {
-        localStorage.setItem('sb-pbswarzkotjznmasniax-auth-token', JSON.stringify(signupData));
       }
 
       return { success: true, name, email, nivel: 1 };
@@ -367,11 +373,12 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
     }
   },
 
-  async insert(table, data) {
+  async insert(table, data, options = {}) {
     try {
-      const token = this.getAuthToken();
-      const isPublicSubmission = (table === 'solicitudes_contacto');
-      const preferHeader = isPublicSubmission ? 'return=minimal' : 'return=representation';
+      const sessionObj = this.getValidSessionToken();
+      const token = sessionObj ? sessionObj.token : this.getAuthToken();
+      const isMinimal = (table === 'solicitudes_contacto') || (table === 'usuarios' && !sessionObj) || (options && options.minimal);
+      const preferHeader = isMinimal ? 'return=minimal' : 'return=representation';
       const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
         method: 'POST',
         headers: {
