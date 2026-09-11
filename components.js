@@ -293,6 +293,163 @@ const AppComponents = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  AppComponents.renderAll();
-});
+/**
+ * GlobalModalManager - Manejo Accesible de Modales y Paneles Deslizantes
+ * 1. Controla overflow: hidden en document.body cuando cualquier modal permanece abierto.
+ * 2. Listener global para la tecla Escape para cerrar el modal o drawer activo.
+ * 3. MutationObserver reactivo para sincronizar el estado sin acoplamiento invasivo.
+ */
+var GlobalModalManager = {
+  modalSelectors: [
+    '#cart-drawer',
+    '#course-modal',
+    '#course-detail-modal',
+    '#product-modal',
+    '#article-modal',
+    '#article-reader-modal',
+    '#user-modal',
+    '#solicitud-detail-modal',
+    '#contact-modal',
+    '#card-sheet-drawer',
+    '.accessible-modal'
+  ],
+
+  isModalOpen(el) {
+    if (!el) return false;
+    if (el.classList.contains('hidden')) return false;
+    if (typeof window !== 'undefined' && window.getComputedStyle) {
+      const style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden') return false;
+    }
+    return true;
+  },
+
+  getOpenModals() {
+    if (typeof document === 'undefined') return [];
+    const openModals = [];
+    this.modalSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        if (this.isModalOpen(el)) {
+          openModals.push(el);
+        }
+      });
+    });
+    document.querySelectorAll('[role="dialog"]:not(.hidden), .modal:not(.hidden)').forEach(el => {
+      if (!openModals.includes(el) && this.isModalOpen(el)) {
+        openModals.push(el);
+      }
+    });
+    return openModals;
+  },
+
+  syncBodyOverflow() {
+    if (typeof document === 'undefined' || !document.body) return;
+    const openModals = this.getOpenModals();
+    if (openModals.length > 0) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    }
+  },
+
+  closeTopmostModal() {
+    const openModals = this.getOpenModals();
+    if (openModals.length === 0) return false;
+
+    // Tomar el modal activo en primer plano
+    const topmost = openModals[openModals.length - 1];
+
+    if (topmost.id === 'cart-drawer' && typeof closeCartDrawer === 'function') {
+      closeCartDrawer();
+      return true;
+    }
+    if (topmost.id === 'card-sheet-drawer' && typeof closeCardSheet === 'function') {
+      closeCardSheet();
+      return true;
+    }
+    if (topmost.id === 'solicitud-detail-modal' && typeof closeSolicitudDetailModal === 'function') {
+      closeSolicitudDetailModal();
+      return true;
+    }
+    if (topmost.id === 'user-modal' && typeof closeUserModal === 'function') {
+      closeUserModal();
+      return true;
+    }
+    if (topmost.id === 'article-modal' && typeof closeArticleModal === 'function') {
+      closeArticleModal();
+      return true;
+    }
+    if (topmost.id === 'article-reader-modal' && typeof closeArticleReaderModal === 'function') {
+      closeArticleReaderModal();
+      return true;
+    }
+    if (topmost.id === 'product-modal' && typeof closeProductModal === 'function') {
+      closeProductModal();
+      return true;
+    }
+    if ((topmost.id === 'course-modal' || topmost.id === 'course-detail-modal') && typeof closeCourseModal === 'function') {
+      closeCourseModal();
+      return true;
+    }
+    if (topmost.id === 'contact-modal' && typeof closeContactModal === 'function') {
+      closeContactModal();
+      return true;
+    }
+
+    topmost.classList.add('hidden');
+    topmost.classList.remove('flex');
+    this.syncBodyOverflow();
+    return true;
+  },
+
+  init() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    // Listener global de la tecla Escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.keyCode === 27) {
+        const handled = this.closeTopmostModal();
+        if (handled) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+    });
+
+    // Observer reactivo en document.body para sincronizar overflow
+    try {
+      const observer = new MutationObserver(() => {
+        this.syncBodyOverflow();
+      });
+
+      if (document.body) {
+        observer.observe(document.body, {
+          attributes: true,
+          attributeFilter: ['class', 'style'],
+          subtree: true
+        });
+      }
+    } catch (e) {
+      console.warn('[GlobalModalManager] Observer no disponible:', e);
+    }
+
+    this.syncBodyOverflow();
+  }
+};
+
+if (typeof window !== 'undefined') {
+  window.GlobalModalManager = GlobalModalManager;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { AppComponents, GlobalModalManager };
+}
+
+if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+  document.addEventListener('DOMContentLoaded', () => {
+    AppComponents.renderAll();
+    GlobalModalManager.init();
+  });
+}
