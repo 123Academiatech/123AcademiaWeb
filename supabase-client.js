@@ -236,7 +236,7 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
     try {
       let registeredUserId = null;
 
-      // 1. Intentar registro atómico instantáneo vía RPC (evita límite 429 de correos y confirma inmediatamente)
+      // 1. Registro atómico instantáneo con protección Anti-Bot y Rate Limiting
       try {
         const rpcRes = await this.rpc('register_user_direct', {
           p_email: email,
@@ -248,10 +248,8 @@ var SupabaseAPI = (typeof SupabaseAPI !== 'undefined') ? SupabaseAPI : {
           registeredUserId = rpcRes.user_id;
         }
       } catch (rpcErr) {
-        if (rpcErr.message && rpcErr.message.includes('ya se encuentra registrado')) {
-          throw rpcErr;
-        }
-        console.warn('[SupabaseAPI] register_user_direct RPC fallback to REST:', rpcErr);
+        console.error('[SupabaseAPI] Error en registro RPC:', rpcErr);
+        throw rpcErr;
       }
 
       // 2. Fallback REST tradicional si RPC no estuviera disponible
